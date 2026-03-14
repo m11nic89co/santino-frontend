@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "Santino_WebSite"
+    }
+  ],
+  "settings": {
+    "git.ignoreLimitWarning": true
+  }
+}
