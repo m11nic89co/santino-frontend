@@ -1,0 +1,1 @@
+window.matchMedia("(pointer: fine) and (min-width: 901px)").matches;

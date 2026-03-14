@@ -1,0 +1,106 @@
+/* =============================================================
+   CSS ПЕРЕМЕННЫЕ - Централизованные настройки
+   ============================================================= */
+
+:root {
+  /* Основные цвета */
+  --bg: #222831;
+  --text: #eeeeee;
+  --text-muted: rgba(238, 238, 238, 0.85);
+  --accent: #00adb5;
+  --accent-rgb: 0, 173, 181;
+  
+  /* Дополнительные цвета */
+  --primary-color: #00adb5;
+  --secondary-color: #393e46;
+  --accent-color: #ff6b6b;
+  --text-color: #222831;
+  --text-light: #eeeeee;
+  --background-dark: #0b0b0b;
+  --background-light: #ffffff;
+  
+  /* Градиенты */
+  --gradient-primary: linear-gradient(135deg, #00adb5 0%, #393e46 100%);
+  --gradient-accent: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  
+  /* Размеры */
+  --container-max-width: 1200px;
+  --border-radius: 8px;
+  --border-radius-large: 16px;
+  
+  /* Тени */
+  --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  /* Переходы */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Шрифты */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-tech: 'Bebas Neue', 'Inter', sans-serif;
+  --font-fallback: 'Lobster', 'Pacifico', cursive;
+  
+  /* Z-index слои */
+  --z-background: -1;
+  --z-content: 1;
+  --z-header: 100;
+  --z-modal: 1000;
+  --z-loader: 10000;
+  --z-lightning: 9999;
+  
+  /* Анимации */
+  --animation-duration-fast: 0.2s;
+  --animation-duration-medium: 0.4s;
+  --animation-duration-slow: 0.8s;
+  --animation-easing: cubic-bezier(0.77, 0, 0.18, 1);
+  
+  /* Отступы */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  /* Брейкпоинты */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+}
+
+/* Firefox-specific fixes */
+@supports (-moz-appearance: none) {
+  :root {
+    /* Firefox-specific CSS variables fallbacks */
+    --bg: #222831;
+    --text: #eeeeee;
+    --accent: #00adb5;
+  }
+  
+  /* Fix for Firefox backdrop-filter issues */
+  .backdrop-blur {
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Статическая система фоновых элементов удалена */
+  
+  /* Fix for Firefox scrollbar styling */
+  ::-moz-scrollbar {
+    width: 8px;
+  }
+  
+  ::-moz-scrollbar-track {
+    background: var(--bg);
+  }
+  
+  ::-moz-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+  }
+}

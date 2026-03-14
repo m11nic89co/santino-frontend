@@ -1,0 +1,238 @@
+/**
+ * МОДУЛЬ ТИКЕРА
+ * Изолированные стили для тикера без конфликтов
+ */
+
+/* Основной контейнер тикера */
+.ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 0px);
+  height: 2.2em;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 5;
+}
+
+/* Изолированный контейнер для плавной анимации */
+.ticker-isolated {
+  contain: layout style paint;
+  isolation: isolate;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Трек тикера */
+.ticker {
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-main);
+  font-size: 1.08em;
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  will-change: transform;
+  animation: tickerScroll var(--ticker-duration, 90s) linear infinite;
+  animation-fill-mode: both;
+  animation-play-state: running;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.ticker-segment {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+}
+
+/* Элементы тикера */
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 3rem; /* Увеличиваем расстояние между элементами */
+  white-space: nowrap;
+}
+
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0; /* Убираем внутренние отступы */
+  background: none; /* Убираем фон */
+  border: none; /* Убираем границу */
+  border-radius: 0; /* Убираем скругление */
+  transition: none; /* Убираем переходы */
+}
+
+.logo-badge:hover {
+  background: none; /* Убираем фон при наведении */
+  border: none; /* Убираем границу при наведении */
+  transform: none; /* Убираем трансформацию */
+}
+
+.logo-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+
+.logo-badge:hover .logo-img {
+  filter: brightness(1.1);
+}
+
+.badge-label {
+  font-size: 0.85em;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+}
+
+/* Обработка отсутствующих изображений */
+.logo-missing .logo-img {
+  opacity: 0.3;
+  filter: grayscale(100%);
+}
+
+.logo-missing .badge-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Анимация прокрутки */
+@keyframes tickerScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Оптимизации для слабых устройств */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
+
+/* Мобильные оптимизации */
+@media (max-width: 768px) {
+  .ticker-wrap {
+    height: 2em;
+    padding: 0 1rem;
+  }
+  
+  .ticker {
+    font-size: 0.95em;
+  }
+  
+  .ticker-item {
+    margin-right: 3rem; /* Одинаковое расстояние на планшетах */
+  }
+  
+  .logo-badge {
+    padding: 0.25rem 0.6rem;
+    gap: 0.4rem;
+  }
+  
+  .logo-img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .badge-label {
+    font-size: 0.8em;
+  }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+  .ticker-wrap {
+    height: 1.8em;
+    padding: 0 0.5rem;
+  }
+  
+  .ticker {
+    font-size: 0.9em;
+  }
+  
+  .ticker-item {
+    margin-right: 3rem; /* Одинаковое расстояние на мобильных */
+  }
+  
+  .logo-badge {
+    padding: 0.2rem 0.5rem;
+    gap: 0.3rem;
+  }
+  
+  .logo-img {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .badge-label {
+    font-size: 0.75em;
+  }
+}
+
+/* Desktop оптимизации */
+@media (min-width: 901px) {
+  .ticker-wrap {
+    padding: 6px 16px 10px;
+  }
+}
+
+/* Высокое разрешение */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .logo-img {
+    image-rendering: -webkit-optimize-contrast; /* Edge 79+ */
+    image-rendering: pixelated; /* Fallback */
+  }
+}
+
+/* Темная тема - убираем все фоны */
+@media (prefers-color-scheme: dark) {
+  .logo-badge {
+    background: none;
+    border: none;
+  }
+  
+  .logo-badge:hover {
+    background: none;
+    border: none;
+  }
+}
+
+/* Светлая тема - убираем все фоны */
+@media (prefers-color-scheme: light) {
+  .logo-badge {
+    background: none;
+    border: none;
+  }
+  
+  .logo-badge:hover {
+    background: none;
+    border: none;
+  }
+  
+  .badge-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}

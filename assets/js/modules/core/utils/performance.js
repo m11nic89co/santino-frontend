@@ -1,0 +1,1 @@
+(function(){const o=navigator.hardwareConcurrency,r=navigator.deviceMemory;return o&&o<=4||r&&r<=4})()&&document.body.classList.add("is-low-power");

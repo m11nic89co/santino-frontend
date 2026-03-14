@@ -1,0 +1,25 @@
+# =============================================================
+# SANTINO WEBSITE - Robots.txt
+# Настройки для поисковых роботов
+# =============================================================
+
+User-agent: *
+Allow: /
+
+# Запрещаем индексацию системных файлов
+Disallow: /assets/css/modules/
+Disallow: /assets/js/modules/
+Disallow: /scripts/
+Disallow: /.htaccess
+Disallow: /_headers
+Disallow: /netlify.toml
+
+# Разрешаем индексацию основных ресурсов
+Allow: /assets/css/style.css
+Allow: /assets/css/modules/ticker.css
+Allow: /assets/js/*.js
+Allow: /assets/img/
+Allow: /assets/logos/
+
+# Карта сайта
+Sitemap: https://santino.market/sitemap.xml

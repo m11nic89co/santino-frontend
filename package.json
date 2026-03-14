@@ -1,0 +1,26 @@
+{
+  "name": "santino-website-clean",
+  "version": "1.0.0",
+  "description": "SANTINO - Премиум пластик - Чистая версия сайта завода пластиковых изделий",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 3001",
+    "serve": "python3 -m http.server 3001"
+  },
+  "keywords": [
+    "santino",
+    "plastic",
+    "manufacturing",
+    "premium",
+    "website",
+    "static",
+    "clean"
+  ],
+  "author": "SANTINO",
+  "license": "MIT",
+  "dependencies": {
+    "@svgdotjs/svg.js": "^3.2.5",
+    "gsap": "^3.13.0",
+    "swiper": "^12.0.2"
+  }
+}

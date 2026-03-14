@@ -1,0 +1,153 @@
+/* ========================================
+ GAP FALLBACK UTILITIES V2
+ Обеспечивает совместимость с браузерами,не поддерживающими CSS gap
+ Использует CSS переменные для централизованного управления
+ ======================================== */
+/* 
+ * Gap fallback для flexbox контейнеров
+ * Использует margin вместо gap для старых браузеров
+ */
+.gap-0{
+ gap:var(--gap-0);
+ margin:0;
+}
+.gap-1{
+ gap:var(--gap-1);
+ margin:calc(-1 * var(--gap-1) / 2);
+}
+.gap-2{
+ gap:var(--gap-2);
+ margin:calc(-1 * var(--gap-2) / 2);
+}
+.gap-3{
+ gap:var(--gap-3);
+ margin:calc(-1 * var(--gap-3) / 2);
+}
+.gap-4{
+ gap:var(--gap-4);
+ margin:calc(-1 * var(--gap-4) / 2);
+}
+.gap-6{
+ gap:var(--gap-6);
+ margin:calc(-1 * var(--gap-6) / 2);
+}
+.gap-8{
+ gap:var(--gap-8);
+ margin:calc(-1 * var(--gap-8) / 2);
+}
+.gap-12{
+ gap:var(--gap-12);
+ margin:calc(-1 * var(--gap-12) / 2);
+}
+.gap-0 > *{
+ margin:0;
+}
+.gap-1 > *{
+ margin:calc(var(--gap-1) / 2);
+}
+.gap-2 > *{
+ margin:calc(var(--gap-2) / 2);
+}
+.gap-3 > *{
+ margin:calc(var(--gap-3) / 2);
+}
+.gap-4 > *{
+ margin:calc(var(--gap-4) / 2);
+}
+.gap-6 > *{
+ margin:calc(var(--gap-6) / 2);
+}
+.gap-8 > *{
+ margin:calc(var(--gap-8) / 2);
+}
+.gap-12 > *{
+ margin:calc(var(--gap-12) / 2);
+}
+.gap-xs{
+ gap:var(--gap-xs);
+ margin:calc(-1 * var(--gap-xs) / 2);
+}
+.gap-xs > *{
+ margin:calc(var(--gap-xs) / 2);
+}
+.gap-sm{
+ gap:var(--gap-sm);
+ margin:calc(-1 * var(--gap-sm) / 2);
+}
+.gap-sm > *{
+ margin:calc(var(--gap-sm) / 2);
+}
+.gap-md{
+ gap:var(--gap-md);
+ margin:calc(-1 * var(--gap-md) / 2);
+}
+.gap-md > *{
+ margin:calc(var(--gap-md) / 2);
+}
+.gap-lg{
+ gap:var(--gap-lg);
+ margin:calc(-1 * var(--gap-lg) / 2);
+}
+.gap-lg > *{
+ margin:calc(var(--gap-lg) / 2);
+}
+.gap-xl{
+ gap:var(--gap-xl);
+ margin:calc(-1 * var(--gap-xl) / 2);
+}
+.gap-xl > *{
+ margin:calc(var(--gap-xl) / 2);
+}
+.gap-2xl{
+ gap:var(--gap-2xl);
+ margin:calc(-1 * var(--gap-2xl) / 2);
+}
+.gap-2xl > *{
+ margin:calc(var(--gap-2xl) / 2);
+}
+.gap-3xl{
+ gap:var(--gap-3xl);
+ margin:calc(-1 * var(--gap-3xl) / 2);
+}
+.gap-3xl > *{
+ margin:calc(var(--gap-3xl) / 2);
+}
+@media (max-width:768px){
+ .gap-responsive{
+ gap:var(--gap-4);
+ margin:-0.5rem;
+}
+ .gap-responsive > *{
+ margin:0.5rem;
+}
+}
+@media (min-width:769px){
+ .gap-responsive{
+ gap:var(--gap-responsive);
+ margin:calc(-1 * var(--gap-responsive) / 2);
+}
+ .gap-responsive > *{
+ margin:calc(var(--gap-responsive) / 2);
+}
+}
+.gap-clamp-small{
+ gap:var(--gap-clamp-small);
+ margin:calc(-1 * var(--gap-clamp-small) / 2);
+}
+.gap-clamp-small > *{
+ margin:calc(var(--gap-clamp-small) / 2);
+}
+.gap-clamp-medium{
+ gap:var(--gap-clamp-medium);
+ margin:calc(-1 * var(--gap-clamp-medium) / 2);
+}
+.gap-clamp-medium > *{
+ margin:calc(var(--gap-clamp-medium) / 2);
+}
+.gap-clamp-large{
+ gap:var(--gap-clamp-large);
+ margin:calc(-1 * var(--gap-clamp-large) / 2);
+}
+.gap-clamp-large > *{
+ margin:calc(var(--gap-clamp-large) / 2);
+}

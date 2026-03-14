@@ -1,0 +1,290 @@
+/* =============================================================
+   КОМПОНЕНТЫ - Buttons, Cards, Forms, etc.
+   ============================================================= */
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  min-width: 220px;
+  text-align: center;
+  border-radius: 0.9rem;
+  transition: all 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+  font-family: var(--font-main);
+  font-size: clamp(0.9rem, 2.8vw, 1rem);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.btn:not(.ghost) {
+  background: rgba(0, 0, 0, 0.3);
+  color: #00adb5;
+  border: 1px dashed rgba(0, 173, 181, 0.6);
+  box-shadow: 0 0 8px rgba(0, 173, 181, 0.3);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  text-shadow:
+    0 0 8px #00adb5,
+    0 0 16px #00adb5,
+    0 0 24px #00adb5;
+}
+
+.btn:not(.ghost):hover:not(.flicker):not(.neon) {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 173, 181, 0.8);
+  box-shadow: 0 0 12px rgba(0, 173, 181, 0.4);
+  transform: translateY(-1px);
+  filter: brightness(1.1) saturate(1.2);
+  text-decoration: none !important;
+  text-shadow:
+    0 0 12px #00adb5,
+    0 0 24px #00adb5,
+    0 0 36px #00adb5;
+}
+
+.btn:hover,
+.btn:focus {
+  background: #00adb5;
+  color: #222831;
+  border: 1px solid #222831;
+  box-shadow: none;
+}
+
+.btn:active {
+  box-shadow: none;
+}
+
+/* Ghost Button Variants */
+.btn.ghost {
+  background: rgba(0, 0, 0, 0.18) !important;
+  border: 1px dashed rgba(255, 255, 255, 0.28) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22) !important;
+  -webkit-backdrop-filter: saturate(120%) blur(2px) !important;
+  backdrop-filter: saturate(120%) blur(2px) !important;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 16px rgba(255, 255, 255, 0.6),
+    0 0 24px rgba(255, 255, 255, 0.4) !important;
+}
+
+.btn.ghost.neon {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px dashed rgba(255, 255, 255, 0.4) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  -webkit-backdrop-filter: saturate(130%) blur(3px) !important;
+  backdrop-filter: saturate(130%) blur(3px) !important;
+  text-shadow:
+    0 0 12px rgba(255, 255, 255, 0.9),
+    0 0 24px rgba(255, 255, 255, 0.7),
+    0 0 36px rgba(255, 255, 255, 0.5) !important;
+}
+
+.btn.ghost.flicker {
+  background: transparent !important;
+  border: 1px dashed rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 1) !important;
+  box-shadow:
+    0 0 12px 4px rgba(255, 255, 255, 0.3),
+    0 0 24px 8px rgba(255, 255, 255, 0.2) !important;
+  text-shadow:
+    0 0 18px rgba(255, 255, 255, 0.9),
+    0 0 36px rgba(255, 255, 255, 0.7) !important;
+}
+
+.btn.ghost[aria-disabled='true'] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(10%);
+}
+
+/* Neon Button */
+.btn.neon {
+  background: rgba(0, 0, 0, 0.4);
+  color: #00adb5;
+  border: 1px dashed rgba(0, 173, 181, 0.8);
+  box-shadow:
+    0 0 12px rgba(0, 173, 181, 0.6),
+    0 0 24px rgba(0, 173, 181, 0.4),
+    0 0 36px rgba(0, 173, 181, 0.2),
+    inset 0 0 12px rgba(0, 173, 181, 0.1);
+  text-shadow:
+    0 0 12px #00adb5,
+    0 0 24px #00adb5,
+    0 0 36px #00adb5;
+}
+
+/* Flicker Animation */
+.btn.flicker {
+  animation: neonTubeFlickerSharp 1.8s ease-out forwards;
+  filter: none;
+  color: #00adb5 !important;
+  background: transparent !important;
+  box-shadow:
+    0 0 12px 4px #00adb5aa,
+    0 0 24px 8px #00adb570;
+  text-shadow:
+    0 0 18px #00adb588,
+    0 0 36px #00adb566,
+    0 0 54px #00adb544;
+}
+
+@keyframes neonTubeFlickerSharp {
+  0%, 100% { opacity: 1; }
+  2% { opacity: 0.8; }
+  4% { opacity: 1; }
+  6% { opacity: 0.9; }
+  8% { opacity: 1; }
+  10% { opacity: 0.7; }
+  12% { opacity: 1; }
+  14% { opacity: 0.8; }
+  16% { opacity: 1; }
+  18% { opacity: 0.9; }
+  20% { opacity: 1; }
+  22% { opacity: 0.6; }
+  24% { opacity: 1; }
+  26% { opacity: 0.8; }
+  28% { opacity: 1; }
+  30% { opacity: 0.9; }
+  32% { opacity: 1; }
+  34% { opacity: 0.7; }
+  36% { opacity: 1; }
+  38% { opacity: 0.8; }
+  40% { opacity: 1; }
+  42% { opacity: 0.9; }
+  44% { opacity: 1; }
+  46% { opacity: 0.6; }
+  48% { opacity: 1; }
+  50% { opacity: 0.8; }
+  52% { opacity: 1; }
+  54% { opacity: 0.9; }
+  56% { opacity: 1; }
+  58% { opacity: 0.7; }
+  60% { opacity: 1; }
+  62% { opacity: 0.8; }
+  64% { opacity: 1; }
+  66% { opacity: 0.9; }
+  68% { opacity: 1; }
+  70% { opacity: 0.6; }
+  72% { opacity: 1; }
+  74% { opacity: 0.8; }
+  76% { opacity: 1; }
+  78% { opacity: 0.9; }
+  80% { opacity: 1; }
+  82% { opacity: 0.7; }
+  84% { opacity: 1; }
+  86% { opacity: 0.8; }
+  88% { opacity: 1; }
+  90% { opacity: 0.9; }
+  92% { opacity: 1; }
+  94% { opacity: 0.6; }
+  96% { opacity: 1; }
+  98% { opacity: 0.8; }
+}
+
+/* Cards */
+.card {
+  background: var(--background-light);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-small);
+  padding: 1.5rem;
+  transition: all var(--transition-medium);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-4px);
+}
+
+.card-header {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--text-color);
+  transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+.nav-link.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  background: var(--primary-color);
+  color: var(--text-light);
+}
+
+.badge-secondary {
+  background: var(--secondary-color);
+}
+
+.badge-accent {
+  background: var(--accent-color);
+}
