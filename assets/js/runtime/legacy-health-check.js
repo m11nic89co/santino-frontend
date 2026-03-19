@@ -16,9 +16,14 @@ export function initLegacyHealthChecks(context) {
         message: 'API цикла кнопки hero отсутствует',
       },
       {
-        ok: () => Boolean(document.querySelector('#section-1 #section1-carousel-root')),
+        ok: () =>
+          Boolean(
+            document.querySelector(
+              '#section-1 #s1-clean-carousel-root .s1-isolated-swiper'
+            )
+          ),
         code: 'E_SECTION1_ROOT_MISSING',
-        message: 'контейнер section1-carousel-root не найден',
+        message: 'контейнер section-1 isolated swiper не найден',
       },
       {
         ok: () => Boolean(document.querySelector('.main-swiper .swiper-pagination')),

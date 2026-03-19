@@ -11,7 +11,9 @@ test('core shell and modules load', async ({ page }) => {
   const hasMainSwiper = await page.evaluate(() => Boolean(window.swiper));
   expect(hasMainSwiper).toBeTruthy();
 
-  await expect(page.locator('#section-1 #section1-carousel-root .mySwiper')).toBeVisible({
+  await expect(
+    page.locator('#section-1 #s1-clean-carousel-root .s1-isolated-swiper')
+  ).toBeVisible({
     timeout: 10000,
   });
 

@@ -10,7 +10,7 @@ export default defineConfig({
   retries: 0,
   reporter: [['list']],
   use: {
-    baseURL: 'http://127.0.0.1:3001',
+    baseURL: 'http://127.0.0.1:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -21,8 +21,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1 --port 3001',
-    url: 'http://127.0.0.1:3001',
+    command: 'npm run dev',
+    url: 'http://127.0.0.1:5173',
     reuseExistingServer: true,
     timeout: 120_000,
   },

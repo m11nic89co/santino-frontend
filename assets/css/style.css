@@ -4886,15 +4886,6 @@ main.site-visible {
   }
 }
 
-/* Neutralize the global dark veil for Section 1 */
-.main-swiper .swiper-wrapper > #section-1.swiper-slide::before,
-.main-swiper .swiper-wrapper > #section-1.swiper-slide::after {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-  opacity: 0 !important;
-}
-
 /* Place nested carousel pagination at the bottom, centered */
 #section-1 .mySwiper .swiper-pagination,
 #section-1 .mySwiper .swiper-pagination.swiper-pagination-horizontal,
@@ -4993,7 +4984,7 @@ main.site-visible {
 
 /* Kill any residual mobile top gradient overlay for this slide */
 @media (max-width: 900px) {
-  .main-swiper #section-1.swiper-slide::after {
+  .main-swiper #section-1::after {
     content: none !important;
     background: none !important;
   }
@@ -5001,16 +4992,16 @@ main.site-visible {
 
 /* Ultra-specific mobile overrides for safety */
 @media (max-width: 900px) {
-  .main-swiper > .swiper-wrapper > #section-1.swiper-slide::after,
+  .main-swiper > .swiper-wrapper > #section-1::after,
   .main-swiper
     > .swiper-wrapper
-    > #section-1.swiper-slide.swiper-slide-active::after,
+    > #section-1.swiper-slide-active::after,
   .main-swiper
     > .swiper-wrapper
-    > #section-1.swiper-slide.swiper-slide-next::after,
+    > #section-1.swiper-slide-next::after,
   .main-swiper
     > .swiper-wrapper
-    > #section-1.swiper-slide.swiper-slide-prev::after {
+    > #section-1.swiper-slide-prev::after {
     content: none !important;
     background: none !important;
     opacity: 0 !important;
@@ -6311,34 +6302,7 @@ button,
   }
 }
 
-/* FINAL GUARD: kill all section-1 overlays and lift inner swiper above them */
-#section-1.section-content::before,
-.main-swiper > .swiper-wrapper > #section-1.swiper-slide::before,
-.main-swiper > .swiper-wrapper > #section-1.swiper-slide::after {
-  content: none !important;
-  display: none !important;
-  visibility: hidden !important;
-  background: none !important;
-  background-image: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* Kill dynamic section-1 background gradients; use solid so body gradient doesn't show through */
-#section-1.section-content,
-#section-1.section-content.color-blue,
-#section-1.section-content.color-green,
-#section-1.section-content.color-purple,
-#section-1.section-content.color-orange,
-#section-1.section-content.color-cyan {
-  background: #222831 !important;
-  background-image: none !important;
-}
-
-#section-1 .mySwiper {
-  position: relative;
-  z-index: 6;
-}
+/* (legacy) section-1 hard-guards removed in favor of isolated rebuild block at the end of file */
 
 @media (max-width: 600px) {
   .about-section .content-wrapper {
@@ -7434,3 +7398,137 @@ button,
 .scale-mark.pos-93-75 { left: 93.75%; }
 .scale-mark.pos-96-25 { left: 96.25%; }
 .scale-mark.pos-98-75 { left: 98.75%; }
+
+/* =============================================================
+   SECTION 1 - ISOLATED REBUILD (immune to global vignettes)
+   ============================================================= */
+#section-1.isolated-section {
+  background-color: #222831 !important; /* Block body show-through */
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Guarantee absolutely no pseudo-element bleed (gradients/shadows) */
+#section-1.isolated-section *,
+#section-1.isolated-section *::before,
+#section-1.isolated-section *::after {
+  background-image: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Isolated nested swiper (no native backgrounds) */
+.s1-isolated-swiper {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  position: relative;
+}
+
+/* GPU acceleration & stable 3D rendering */
+.s1-isolated-swiper .swiper-wrapper {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1) !important;
+}
+.s1-isolated-swiper .swiper-slide {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  transition-property: transform;
+}
+
+/* Give the nested swiper a concrete height */
+#s1-clean-carousel-root {
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 50);
+}
+
+/* Slide layout for the new isolated swiper */
+#section-1 .s1-isolated-swiper .swiper-wrapper {
+  align-items: center;
+}
+#section-1 .s1-isolated-swiper .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 320px;
+  height: 320px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none !important;
+}
+#section-1 .s1-isolated-swiper .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+@media (max-width: 900px) {
+  #s1-clean-carousel-root {
+    height: calc(var(--vh, 1vh) * 52);
+  }
+  #section-1 .s1-isolated-swiper .swiper-slide {
+    width: 312px;
+    height: 312px;
+  }
+}
+
+/* Protect stacking order */
+header,
+.header-left,
+.header-right,
+.main-nav-left,
+.main-nav-right {
+  z-index: 9999 !important;
+}
+
+/* --- SECTION 1: ABSOLUTE GRADIENT OVERRIDE --- */
+
+/* 1. Force solid background on the root node to block body gradient */
+section#section-1 {
+  background-color: #222831 !important;
+  background-image: none !important;
+}
+
+/* 2. Kill all pseudo-element vignettes on wrappers and slides */
+#section-1::before,
+#section-1::after,
+#section-1 .main-swiper::before,
+#section-1 .main-swiper::after,
+#section-1 .content-wrapper::before,
+#section-1 .content-wrapper::after,
+#section-1 .swiper-slide::before,
+#section-1 .swiper-slide::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 2b. Kill Swiper container pseudo overlays (e.g. .swiper.mySwiper) */
+#section-1 .swiper::before,
+#section-1 .swiper::after,
+#section-1 .mySwiper::before,
+#section-1 .mySwiper::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 3. Nuke Swiper's native 3D shadows using wildcard attribute selectors */
+#section-1 [class*="swiper-slide-shadow"] {
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
