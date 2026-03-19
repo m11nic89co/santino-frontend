@@ -2133,7 +2133,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 2005; /* keep nav/header above section overlays */
   box-sizing: border-box;
   display: flex; /* Flex layout: left nav, logo, right nav */
   justify-content: space-between;
@@ -4886,12 +4886,13 @@ main.site-visible {
   }
 }
 
-/* (Moved) Floating button handled by .collection-cta inside #section-1 */
-.main-swiper > .swiper-wrapper > #section-1.swiper-slide::before,
-.main-swiper > .swiper-wrapper > #section-1.swiper-slide::after {
+/* Neutralize the global dark veil for Section 1 */
+.main-swiper .swiper-wrapper > #section-1.swiper-slide::before,
+.main-swiper .swiper-wrapper > #section-1.swiper-slide::after {
   content: none !important;
   display: none !important;
   background: none !important;
+  opacity: 0 !important;
 }
 
 /* Place nested carousel pagination at the bottom, centered */
@@ -6315,9 +6316,25 @@ button,
 .main-swiper > .swiper-wrapper > #section-1.swiper-slide::before,
 .main-swiper > .swiper-wrapper > #section-1.swiper-slide::after {
   content: none !important;
+  display: none !important;
+  visibility: hidden !important;
   background: none !important;
+  background-image: none !important;
   opacity: 0 !important;
+  pointer-events: none !important;
 }
+
+/* Kill dynamic section-1 background gradients; use solid so body gradient doesn't show through */
+#section-1.section-content,
+#section-1.section-content.color-blue,
+#section-1.section-content.color-green,
+#section-1.section-content.color-purple,
+#section-1.section-content.color-orange,
+#section-1.section-content.color-cyan {
+  background: #222831 !important;
+  background-image: none !important;
+}
+
 #section-1 .mySwiper {
   position: relative;
   z-index: 6;
