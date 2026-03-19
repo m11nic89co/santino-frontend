@@ -1,0 +1,142 @@
+/*
+ * Ticker visual clone (legacy-first).
+ * Copied from legacy vendors/ticker.css (critical parts).
+ */
+.ticker-wrap {
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 0px);
+  height: 2.2em;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: var(--z-ticker);
+}
+
+.ticker-isolated {
+  contain: layout style paint;
+  isolation: isolate;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.ticker {
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-family-base);
+  font-size: 1.08em;
+  color: var(--color-text);
+  letter-spacing: 0.04em;
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  will-change: transform;
+  animation: tickerScroll var(--ticker-duration, 90s) linear infinite;
+  animation-fill-mode: both;
+  animation-play-state: running;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.ticker-wrap.ticker-paused .ticker-track,
+html.reduced-motion .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-segment {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 3rem;
+  white-space: nowrap;
+}
+
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+
+.logo-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+.logo-badge:hover .logo-img {
+  filter: brightness(1.1);
+}
+
+.badge-label {
+  font-size: 0.85em;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+}
+
+@keyframes tickerScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .ticker-wrap {
+    height: 2em;
+    padding: 0 1rem;
+  }
+  .ticker {
+    font-size: 0.95em;
+  }
+  .ticker-item {
+    margin-right: 3rem;
+  }
+  .logo-img {
+    width: 20px;
+    height: 20px;
+  }
+  .badge-label {
+    font-size: 0.8em;
+  }
+}
+@media (max-width: 480px) {
+  .ticker-wrap {
+    height: 1.8em;
+    padding: 0 0.5rem;
+  }
+  .ticker {
+    font-size: 0.9em;
+  }
+  .logo-img {
+    width: 18px;
+    height: 18px;
+  }
+  .badge-label {
+    font-size: 0.75em;
+  }
+}

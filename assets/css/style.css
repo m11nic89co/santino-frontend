@@ -164,15 +164,14 @@ body {
   color: #969696 !important;
 }
 
-/* Создаем фон только для текстового контента */
+/* Glassmorphism: центральный текстовый бокс */
 .hero-text-container {
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
   padding: 2.5rem 3rem !important;
   border-radius: 16px !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  backdrop-filter: blur(10px) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
   margin: 0 auto 2rem !important;
   position: relative !important;
   z-index: 10 !important;
@@ -593,6 +592,7 @@ body::before {
     display: none !important;
   }
 }
+
 
 /* Ensure content in the contract section sits above the grid overlay */
 /* Place content slightly below the grid so the overlay is visible; interactions still pass through */
@@ -2444,6 +2444,13 @@ header {
   box-shadow: 0 0 4px rgba(0, 173, 181, 0.25);
 }
 
+/* В левом вертикальном меню выравниваем текст по одной линии:
+   отключаем разделительные точки, чтобы левый край пунктов совпадал. */
+.header-left .main-nav a + a::before {
+  display: none;
+  content: none;
+}
+
 /* When either neighbor is active, make the dot a touch brighter */
 .main-nav a.active + a::before,
 .main-nav a + a.active::before {
@@ -2480,53 +2487,43 @@ header {
   cursor: pointer;
 }
 
-/* Hamburger lines: vessel shape — wider on top, narrower on bottom */
-.hamburger-menu span {
-  display: block;
-  height: 2px; /* thinner lines */
-  background: var(--text-muted);
-  border-radius: 1px;
-  transition:
-    transform 300ms cubic-bezier(0.22, 0.9, 0.24, 1),
-    opacity 180ms ease,
-    width 220ms ease;
-  box-shadow: 0 0 6px rgba(0, 173, 181, 0.04);
-  margin-left: auto;
-  margin-right: auto;
+/* Hamburger: pot silhouette (3 lines, wider top → narrower bottom) */
+.hamburger-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 24px;
+  height: 16px;
 }
-
-/* progressive widths for 4 lines (vessel/tapered look) */
-.hamburger-menu span:nth-child(1) {
+.hamburger-lines .line {
+  display: block;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.hamburger-lines .line-1 {
   width: 100%;
 }
-.hamburger-menu span:nth-child(2) {
-  width: 90%;
+.hamburger-lines .line-2 {
+  width: 75%;
 }
-.hamburger-menu span:nth-child(3) {
-  width: 80%;
-}
-.hamburger-menu span:nth-child(4) {
-  width: 70%;
+.hamburger-lines .line-3 {
+  width: 50%;
 }
 
-.hamburger-menu span + span {
-  margin-top: 4px;
+/* Active: lines form X */
+.hamburger-menu.is-active .line-1 {
+  width: 100%;
+  transform: translateY(7px) rotate(45deg);
 }
-
-/* Active state for 4 lines: cross the middle two, slide the outer two away */
-.hamburger-menu.is-active span:nth-child(1) {
+.hamburger-menu.is-active .line-2 {
   opacity: 0;
-  transform: translateY(-5px) scaleX(0);
 }
-.hamburger-menu.is-active span:nth-child(4) {
-  opacity: 0;
-  transform: translateY(5px) scaleX(0);
-}
-.hamburger-menu.is-active span:nth-child(2) {
-  transform: translateY(5px) rotate(45deg);
-}
-.hamburger-menu.is-active span:nth-child(3) {
-  transform: translateY(-5px) rotate(-45deg);
+.hamburger-menu.is-active .line-3 {
+  width: 100%;
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Focus-visible for keyboard users */
@@ -2901,32 +2898,10 @@ body.mobile-mode .mobile-nav {
       inset -4px -4px 10px rgba(255, 255, 255, 0.05);
   }
 
-  /* Icon: minimal 3-line burger (mobile) - precise transforms so burger reliably becomes a cross */
+  /* Hamburger FAB: center icon (pot silhouette from .hamburger-lines) */
   .hamburger-menu .hamburger-lines {
-    display: block;
-    width: 32px;
-    height: 20px;
     position: relative;
     z-index: 3;
-  }
-  .hamburger-menu .hamburger-lines span {
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    height: 2px;
-    width: 32px;
-    background: var(--text);
-    border-radius: 1px;
-    transition:
-      transform 220ms cubic-bezier(0.22, 0.9, 0.24, 1),
-      opacity 160ms ease;
-    transform-origin: center;
-  }
-  /* position the three visible lines neatly: 1 - top, 2 - center, 3 - bottom; hide the 4th used on desktop */
-  .hamburger-menu .hamburger-lines span:nth-child(1) {
-    top: 3px;
   }
 
   /* Low-power overrides for small mobile devices: strip expensive effects */
@@ -2943,40 +2918,12 @@ body.mobile-mode .mobile-nav {
     *[style],
     .mobile-nav a,
     .mobile-social .social-link,
-    .hamburger-menu .hamburger-lines span {
+    .hamburger-menu .hamburger-lines .line {
       will-change: auto !important;
     }
-    /* Reduce FAB animation frequency and remove subtle 3D perspective on weaker devices */
     .hamburger-menu {
       animation: none !important;
-      perspective: none !important;
     }
-  }
-  .hamburger-menu .hamburger-lines span:nth-child(2) {
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .hamburger-menu .hamburger-lines span:nth-child(3) {
-    bottom: 3px;
-  }
-  .hamburger-menu .hamburger-lines span:nth-child(4) {
-    display: none;
-  }
-
-  /* Active state → cross: rotate top and bottom into an X, hide middle line */
-  .hamburger-menu.is-active .hamburger-lines span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .hamburger-menu.is-active .hamburger-lines span:nth-child(4) {
-    transform: translateY(5px) rotate(-45deg);
-  }
-  .hamburger-menu.is-active .hamburger-lines span:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0.01);
-  }
-  .hamburger-menu.is-active .hamburger-lines span:nth-child(3) {
-    opacity: 0;
-    transform: scaleX(0.01);
   }
 
   /* Hide caption for clean look */
@@ -3021,7 +2968,7 @@ body.mobile-mode .mobile-nav {
       opacity: 0 !important;
     }
     .hamburger-menu,
-    .hamburger-menu .hamburger-lines span {
+    .hamburger-menu .hamburger-lines .line {
       transition: none !important;
     }
   }
@@ -3537,6 +3484,7 @@ main.site-visible {
 
 /* Пульсирующая стрелочка вниз */
 .scroll-indicator {
+  display: none !important;
   position: absolute;
   bottom: 120px;
   left: 50%;
@@ -4608,6 +4556,7 @@ main.site-visible {
 
 /* Swiper coverflow demo styles (scoped to section-1 to avoid global conflicts) */
 #section-1 {
+  position: relative;
   display: grid !important;
   place-items: center !important;
   min-height: 100dvh;
@@ -4629,7 +4578,8 @@ main.site-visible {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: clamp(16px, 4vw, 36px);
+  gap: 24px;
+  flex-wrap: wrap;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -4667,7 +4617,7 @@ main.site-visible {
   align-items: center;
   justify-items: center;
   gap: 6px;
-  padding: 10px 12px;
+  padding: 10px 24px;
   border-radius: 14px;
   background: linear-gradient(
     160deg,
@@ -4676,8 +4626,9 @@ main.site-visible {
   );
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
-  width: var(--stat-size, 138px);
-  height: var(--stat-size, 138px);
+  width: max-content;
+  min-width: 180px;
+  min-height: var(--stat-size, 138px);
   box-sizing: border-box;
 }
 #section-1 .section1-stats .stat-number {
@@ -4703,9 +4654,22 @@ main.site-visible {
   line-height: 1.1;
   display: grid;
   justify-items: center;
+  text-align: center;
 }
 #section-1 .section1-stats .stat-label span {
   display: block;
+}
+
+/* Desktop: adaptive stat cards, no font-size reduction */
+@media (min-width: 901px) {
+  #section-1 .section1-stats {
+    gap: 24px;
+  }
+
+  #section-1 .section1-stats .stat {
+    padding: 10px 24px;
+    min-height: 108px;
+  }
 }
 
 /* flip-like digit (stacked 0..9 sliding) */
@@ -4767,28 +4731,23 @@ main.site-visible {
   width: 0.4em;
 }
 
-@media (max-width: 900px) {
-  #section-1 .section1-stats {
-    flex-wrap: wrap;
-    gap: 12px;
-    padding-top: 4px;
-    margin-bottom: 8px;
-  }
-  #section-1 .section1-stats .stat {
-    padding: 6px 8px;
-    border-radius: 10px;
-  }
+/* Slider wrappers: fully transparent, no dark bleed */
+#section-1 .mySwiper,
+#section-1 #section1-carousel-root {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 #section-1 .mySwiper {
   width: 100%;
   max-width: 1200px;
-  height: 42vh;
-  height: calc(var(--vh, 1vh) * 42);
+  height: 50vh;
+  height: calc(var(--vh, 1vh) * 50);
   padding: 0;
   display: flex;
   align-items: center;
   position: relative;
   margin: 0 auto;
+  overflow: visible; /* чтобы тени и анимации слайдов не подрезались */
   transform: none;
 }
 #section-1 .mySwiper .swiper-wrapper {
@@ -4841,38 +4800,6 @@ main.site-visible {
   border-radius: inherit;
 }
 
-/* Включим фоновые элементы для section-1 (коллекция) */
-#section-1::after {
-  content: '' !important;
-  display: block !important;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 173, 181, 0.08) 0 1px,
-      transparent 1px 12px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 173, 181, 0.07) 0 1px,
-      transparent 1px 12px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 173, 181, 0.12) 0 2px,
-      transparent 2px 60px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 173, 181, 0.1) 0 2px,
-      transparent 2px 60px
-    ) !important;
-  opacity: 0.04 !important;
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
 /* Desktop: prevent overlap with fixed header by padding the slide */
 @media (min-width: 901px) {
   #section-1 {
@@ -4896,30 +4823,42 @@ main.site-visible {
   }
   #section-1 .section1-stats {
     top: calc(var(--header-h, 80px) + 56px) !important;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 100%;
-    padding-left: 12px;
-    padding-right: 12px;
-    display: flex;
+    display: flex !important;
     flex-wrap: nowrap !important;
-    gap: 8px;
-    justify-content: center;
+    justify-content: center !important;
+    align-items: center;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none;
     z-index: 1002 !important;
     position: absolute;
   }
   #section-1 .section1-stats .stat {
-    width: var(--stat-size) !important;
-    height: var(--stat-size) !important;
-    max-width: none;
-    min-width: 0;
-  }
-  #section-1 .section1-stats .stat-number {
-    font-size: clamp(2rem, 9.2vw, 2.8rem);
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    padding: 12px 4px !important;
+    min-height: 80px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box !important;
   }
   #section-1 .section1-stats .stat-label {
-    font-size: clamp(0.58rem, 2vw, 0.78rem);
+    font-size: 10px !important;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+  #section-1 .section1-stats .stat-number {
+    font-size: 28px !important;
   }
 
   /* Стабильное позиционирование кнопки "Вся коллекция" на мобильных */
@@ -4959,24 +4898,12 @@ main.site-visible {
 #section-1 .mySwiper .swiper-pagination,
 #section-1 .mySwiper .swiper-pagination.swiper-pagination-horizontal,
 #section-1 .mySwiper .swiper-pagination.swiper-pagination-vertical {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 2px !important; /* inside the carousel at the bottom, flush to slides */
-  top: auto !important;
-  transform: none !important;
-  width: 100% !important;
-  z-index: 20;
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 8px;
+  display: none !important; /* скрываем пагинацию для секции коллекции */
 }
 
 @media (max-width: 1100px) {
   #section-1 .mySwiper {
-    height: calc(var(--vh, 1vh) * 39);
+    height: calc(var(--vh, 1vh) * 44);
   }
   #section-1 .mySwiper .swiper-slide {
     width: 280px;
@@ -4987,7 +4914,7 @@ main.site-visible {
 @media (max-width: 720px) {
   /* Increase card size by ~30% on mobile for better touch targets */
   #section-1 .mySwiper {
-    height: calc(var(--vh, 1vh) * 48);
+    height: calc(var(--vh, 1vh) * 52);
     padding-bottom: 0;
   }
   #section-1 .mySwiper .swiper-slide {
@@ -5037,26 +4964,8 @@ main.site-visible {
   background: none !important;
 }
 
-/* Hard mask: flatten background inside the carousel so no outer gradients bleed through */
 #section-1 .mySwiper {
   position: relative;
-}
-#section-1 .mySwiper::before {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-}
-/* Local isolation layer: sits beneath slides/pagination to erase outer gradients */
-#section-1 .mySwiper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 55; /* above global .swiper::before/::after (49), below wrapper/slides (60) */
-  pointer-events: none;
-  /* Use fully transparent background to keep the carousel visually transparent
-		 while providing an isolation layer for blending. If any blend modes are active
-		 outside, this layer blocks them from affecting the inner area. */
-  background: transparent;
 }
 #section-1 .mySwiper .swiper-wrapper,
 #section-1 .mySwiper .swiper-pagination,
@@ -6398,15 +6307,6 @@ button,
   .about-story .story-block {
     margin-bottom: 1.05rem;
     padding: 0;
-  }
-}
-
-/* Mobile-only: force remove any gradient overlays in section-1 */
-@media (max-width: 900px) {
-  .main-swiper #section-1::before,
-  .main-swiper #section-1::after {
-    content: none !important;
-    background: none !important;
   }
 }
 

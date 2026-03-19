@@ -8,6 +8,7 @@
   width: 100%;
   overflow: hidden;
   margin: 0;
+  padding-bottom: 16px;
   position: fixed;
   left: 0;
   right: 0;
@@ -77,10 +78,12 @@
   background: none; /* Убираем фон */
   border: none; /* Убираем границу */
   border-radius: 0; /* Убираем скругление */
-  transition: none; /* Убираем переходы */
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
 }
 
 .logo-badge:hover {
+  opacity: 1;
   background: none; /* Убираем фон при наведении */
   border: none; /* Убираем границу при наведении */
   transform: none; /* Убираем трансформацию */

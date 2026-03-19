@@ -4,8 +4,26 @@
   "description": "SANTINO - Премиум пластик - Чистая версия сайта завода пластиковых изделий",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "start": "python3 -m http.server 3001",
-    "serve": "python3 -m http.server 3001"
+    "serve": "python3 -m http.server 3001",
+    "lint": "eslint \"assets/js/**/*.{js,mjs}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "format:check": "prettier --check \"eslint.config.js\" \"playwright.config.js\" \"tests/**/*.js\" \"assets/js/main.js\" \"assets/js/head/*.js\" \"assets/css/head-*.css\" \"assets/css/main.css\" \"assets/css/layers/*.css\" \"index.html\" \"assets/js/runtime/*.js\" \"assets/js/modules/core/viewport-utils.js\" \"assets/js/modules/core/utils/performance.js\" \"assets/js/modules/ui/animations/*.js\" \"assets/js/modules/ui/interactions/*.js\" \"assets/js/modules/ui/carousel/uii-carousel.js\" \"assets/js/modules/business/contracts/collection-cta-position.js\" \"docs/architecture/**/*.md\" \"docs/GLOBALS.md\" \"package.json\" \"vite.config.js\"",
+    "format:write": "prettier --write \"eslint.config.js\" \"playwright.config.js\" \"tests/**/*.js\" \"assets/js/main.js\" \"assets/js/head/*.js\" \"assets/css/head-*.css\" \"assets/css/main.css\" \"assets/css/layers/*.css\" \"index.html\" \"assets/js/runtime/*.js\" \"assets/js/modules/core/viewport-utils.js\" \"assets/js/modules/core/utils/performance.js\" \"assets/js/modules/ui/animations/*.js\" \"assets/js/modules/ui/interactions/*.js\" \"assets/js/modules/ui/carousel/uii-carousel.js\" \"assets/js/modules/business/contracts/collection-cta-position.js\" \"docs/architecture/**/*.md\" \"docs/GLOBALS.md\" \"package.json\" \"vite.config.js\"",
+    "test:smoke": "playwright test --config=playwright.config.js --project=chromium"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.58.2",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "terser": "^5.36.0",
+    "vite": "^5.4.11"
   },
   "keywords": [
     "santino",

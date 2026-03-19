@@ -25,7 +25,7 @@ Thumbs.db
 *.log
 .cache/
 
-# Optional backups (uncomment if you don't want to track)
-# backups/
-# *.backup
-# *.bak
+# Backups
+*.backup
+*.backup-*
+*.bak

@@ -1,0 +1,10 @@
+/* Fallback color-scheme for browsers that need explicit declaration */
+:root {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+  }
+}

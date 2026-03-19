@@ -1,20 +1,18 @@
 /* =============================================================
-   SANTINO WEBSITE - MAIN CSS FILE
-   Импортирует все CSS модули в правильном порядке
+   SANTINO WEBSITE - LAYERED CSS ENTRY (MP-10 scaffold)
    ============================================================= */
 
-/* Импорт модулей в правильном порядке */
-@import url('./base/variables.css');
-@import url('./base/base.css');
-@import url('./components/components.css');
-@import url('./layout/layout.css');
-@import url('./utilities/animations.css');
-@import url('./utilities/responsive.css');
+@layer base, components, layout, utilities;
 
-/* =============================================================
-   ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ СУЩЕСТВУЮЩЕГО КОДА
-   (Временно, пока не перенесем все стили в модули)
-   ============================================================= */
+@import url('./base/variables.css') layer(base);
+@import url('./base/base.css') layer(base);
+@import url('./components/components.css') layer(components);
+@import url('./layout/layout.css') layer(layout);
+@import url('./utilities/animations.css') layer(utilities);
+@import url('./utilities/responsive.css') layer(utilities);
 
-/* Здесь будут находиться стили, которые еще не перенесены в модули */
-/* После полного переноса этот файл будет содержать только импорты */
+/*
+ * NOTE:
+ * Runtime пока использует `style.css` как legacy source-of-truth.
+ * Этот файл фиксирует слойную архитектуру для дальнейшей миграции.
+ */

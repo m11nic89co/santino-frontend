@@ -82,7 +82,6 @@
 
 .hero-desc {
   font-size: 1.6rem;
-  margin-bottom: 1.2rem;
   color: #969696;
   font-weight: 300;
   text-align: center;
@@ -91,7 +90,8 @@
   border-radius: 0 !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-  margin: 0 !important;
+  max-width: 620px;
+  margin: 0.75rem auto 1.5rem !important;
 }
 
 .hero-subtle {

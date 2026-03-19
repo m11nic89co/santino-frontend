@@ -1,1 +1,46 @@
-function activateLightning(){const e=document.querySelector(".lightning-effect")||document.getElementById("paparazzi-flash");e?("paparazzi-flash"===e.id?(e.classList.add("lightning-series"),e.style.display="block"):e.classList.add("active"),setTimeout(()=>console.log("⚡ Первая вспышка (сильная)"),200),setTimeout(()=>console.log("⚡ Вторая вспышка (средняя)"),1e3),setTimeout(()=>console.log("⚡ Третья вспышка (слабая)"),1800),setTimeout(()=>console.log("⚡ Четвертая вспышка (средняя)"),2700),setTimeout(()=>console.log("⚡ Пятая вспышка (слабая)"),3500),setTimeout(()=>console.log("⚡ Шестая вспышка (очень слабая)"),4400),setTimeout(()=>console.log("⚡ Седьмая вспышка (едва заметная)"),5400),setTimeout(()=>console.log("⚡ Восьмая вспышка (последняя)"),6700),setTimeout(()=>{"paparazzi-flash"===e.id?(e.classList.remove("lightning-series"),e.style.display="none"):e.classList.remove("active")},9e3)):console.error("❌ Элемент молнии не найден!")}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",()=>{window.addEventListener("load",()=>{setTimeout(activateLightning,1e3)})}):setTimeout(activateLightning,1e3),window.activateLightning=activateLightning;
+/**
+ * Эффект молний (hero / paparazzi-flash). P1.2 — ESM. Устанавливает window.activateLightning.
+ */
+export function initLightningEffect() {
+  const reducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    document.documentElement.classList.contains('reduced-motion');
+
+  if (reducedMotion) {
+    window.activateLightning = function () {};
+    return;
+  }
+
+  function activateLightning() {
+    const el =
+      document.querySelector('.lightning-effect') || document.getElementById('paparazzi-flash');
+    if (!el) {
+      console.error('❌ Элемент молнии не найден!');
+      return;
+    }
+    if (el.id === 'paparazzi-flash') {
+      el.classList.add('lightning-series');
+      el.style.display = 'block';
+    } else {
+      el.classList.add('active');
+    }
+    setTimeout(function () {
+      if (el.id === 'paparazzi-flash') {
+        el.classList.remove('lightning-series');
+        el.style.display = 'none';
+      } else {
+        el.classList.remove('active');
+      }
+    }, 9000);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      window.addEventListener('load', function () {
+        setTimeout(activateLightning, 1000);
+      });
+    });
+  } else {
+    setTimeout(activateLightning, 1000);
+  }
+  window.activateLightning = activateLightning;
+}

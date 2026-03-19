@@ -1,1 +1,95 @@
-!function(){const e=document.getElementById("uii-carousel-ring");if(!e)return;const t=Array.from(e.querySelectorAll(".uii-item")),n=360/(t.length||1);let i=0,o=!0,s=performance.now();let r=!1,a=0,d=0;function c(e){r=!0,a=e,d=i,o=!1}function u(t){if(!r)return;i=(d+.25*(t-a))%360,e.style.transform=`translateZ(-140px) rotateY(${i}deg)`}function m(){r=!1,o=!0}function l(){var i;i=function(){const t=e.clientWidth||window.innerWidth;return Math.max(180,Math.min(520,Math.floor(.42*t)))}(),t.forEach((e,t)=>{const o=t*n;e.style.transform=`rotateY(${o}deg) translateZ(${i}px)`})}e.addEventListener("mouseenter",function(){o=!0},{passive:!0}),e.addEventListener("mouseleave",function(){o=!0},{passive:!0}),e.addEventListener("mousedown",e=>{c(e.clientX)}),window.addEventListener("mousemove",e=>{u(e.clientX)}),window.addEventListener("mouseup",m),e.addEventListener("touchstart",e=>{const t=e.touches[0];t&&c(t.clientX)},{passive:!0}),window.addEventListener("touchmove",e=>{const t=e.touches[0];t&&u(t.clientX)},{passive:!0}),window.addEventListener("touchend",m,{passive:!0}),document.addEventListener("visibilitychange",()=>{document.hidden||(o=!0)}),l(),window.addEventListener("resize",l,{passive:!0}),requestAnimationFrame(function t(n){const r=Math.min(32,n-s);s=n,o&&(i=(i+.02*r)%360),e.style.transform=`translateZ(-140px) rotateY(${i}deg)`,requestAnimationFrame(t)})}();
+/**
+ * Кольцевая карусель UII (3D rotate). P1.2 — ESM. Без глобалов.
+ */
+export function initUiiCarousel() {
+  const el = document.getElementById('uii-carousel-ring');
+  if (!el) return;
+  const reducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    document.documentElement.classList.contains('reduced-motion');
+
+  const items = Array.from(el.querySelectorAll('.uii-item'));
+  const angleStep = 360 / (items.length || 1);
+  let currentAngle = 0;
+  let autoRotate = !reducedMotion;
+  let lastTime = performance.now();
+  let dragging = false;
+  let dragStartX = 0;
+  let dragStartAngle = 0;
+
+  function startDrag(clientX) {
+    dragging = true;
+    dragStartX = clientX;
+    dragStartAngle = currentAngle;
+    autoRotate = false;
+  }
+  function onMove(clientX) {
+    if (!dragging) return;
+    currentAngle = (dragStartAngle + 0.25 * (clientX - dragStartX)) % 360;
+    el.style.transform = `translateZ(-140px) rotateY(${currentAngle}deg)`;
+  }
+  function endDrag() {
+    dragging = false;
+    autoRotate = !reducedMotion;
+  }
+  function layout() {
+    const radius = (function () {
+      const w = el.clientWidth || window.innerWidth;
+      return Math.max(180, Math.min(520, Math.floor(0.42 * w)));
+    })();
+    items.forEach((item, idx) => {
+      const deg = idx * angleStep;
+      item.style.transform = `rotateY(${deg}deg) translateZ(${radius}px)`;
+    });
+  }
+
+  el.addEventListener(
+    'mouseenter',
+    () => {
+      autoRotate = !reducedMotion;
+    },
+    { passive: true }
+  );
+  el.addEventListener(
+    'mouseleave',
+    () => {
+      autoRotate = !reducedMotion;
+    },
+    { passive: true }
+  );
+  el.addEventListener('mousedown', (e) => startDrag(e.clientX));
+  window.addEventListener('mousemove', (e) => onMove(e.clientX));
+  window.addEventListener('mouseup', endDrag);
+  el.addEventListener(
+    'touchstart',
+    (e) => {
+      const t = e.touches[0];
+      if (t) startDrag(t.clientX);
+    },
+    { passive: true }
+  );
+  window.addEventListener(
+    'touchmove',
+    (e) => {
+      const t = e.touches[0];
+      if (t) onMove(t.clientX);
+    },
+    { passive: true }
+  );
+  window.addEventListener('touchend', endDrag, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) autoRotate = !reducedMotion;
+  });
+  layout();
+  window.addEventListener('resize', layout, { passive: true });
+  el.style.transform = `translateZ(-140px) rotateY(${currentAngle}deg)`;
+
+  function tick(now) {
+    const dt = Math.min(32, now - lastTime);
+    lastTime = now;
+    if (autoRotate) currentAngle = (currentAngle + 0.02 * dt) % 360;
+    el.style.transform = `translateZ(-140px) rotateY(${currentAngle}deg)`;
+    if (!reducedMotion) requestAnimationFrame(tick);
+  }
+  if (!reducedMotion) requestAnimationFrame(tick);
+}

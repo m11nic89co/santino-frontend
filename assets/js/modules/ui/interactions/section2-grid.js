@@ -1,1 +1,51 @@
-!function(){function e(e){e.style.opacity="0.18"}function t(e){e.style.opacity="0"}function n(){var n=document.getElementById("section-2");if(n){"static"===window.getComputedStyle(n).position&&(n.style.position="relative");var i,a=n.querySelector(".section2-grid-overlay"),r=a||((i=document.createElement("div")).className="section2-grid-overlay",i.setAttribute("aria-hidden","true"),i.style.position="absolute",i.style.left="0",i.style.top="0",i.style.right="0",i.style.bottom="0",i.style.pointerEvents="none",i.style.zIndex="80",i.style.backgroundImage=["repeating-linear-gradient(0deg, rgba(0,173,181,0.12) 0 1px, transparent 1px 12px)","repeating-linear-gradient(90deg, rgba(0,173,181,0.11) 0 1px, transparent 1px 12px)","repeating-linear-gradient(0deg, rgba(0,173,181,0.22) 0 2px, transparent 2px 60px)","repeating-linear-gradient(90deg, rgba(0,173,181,0.18) 0 2px, transparent 2px 60px)"].join(", "),i.style.mixBlendMode="screen",i.style.filter="contrast(115%) saturate(110%)",i.style.opacity="0",i.style.transition="opacity 360ms cubic-bezier(.22,.9,.24,1)",i);a||n.appendChild(r),new MutationObserver(function(i){i.forEach(function(i){"class"===i.attributeName&&(n.classList.contains("swiper-slide-active")?e(r):t(r))})}).observe(n,{attributes:!0}),n.classList.contains("swiper-slide-active")&&e(r),window.__section2Grid={grid:r,show:function(){e(r)},hide:function(){t(r)}}}}"loading"===document.readyState?document.addEventListener("DOMContentLoaded",n):n()}();
+/**
+ * Сетка оверлея секции 2, видимость по swiper-slide-active. P1.2 — ESM. Устанавливает window.__section2Grid.
+ */
+export function initSection2Grid() {
+  function show(el) {
+    el.style.opacity = '0.18';
+  }
+  function hide(el) {
+    el.style.opacity = '0';
+  }
+  function run() {
+    var section = document.getElementById('section-2');
+    if (!section) return;
+    if (window.getComputedStyle(section).position === 'static') section.style.position = 'relative';
+    var overlay = section.querySelector('.section2-grid-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'section2-grid-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.style.cssText =
+        'position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:80;opacity:0;transition:opacity 360ms cubic-bezier(.22,.9,.24,1)';
+      overlay.style.backgroundImage = [
+        'repeating-linear-gradient(0deg, rgba(0,173,181,0.12) 0 1px, transparent 1px 12px)',
+        'repeating-linear-gradient(90deg, rgba(0,173,181,0.11) 0 1px, transparent 1px 12px)',
+        'repeating-linear-gradient(0deg, rgba(0,173,181,0.22) 0 2px, transparent 2px 60px)',
+        'repeating-linear-gradient(90deg, rgba(0,173,181,0.18) 0 2px, transparent 2px 60px)',
+      ].join(', ');
+      overlay.style.mixBlendMode = 'screen';
+      overlay.style.filter = 'contrast(115%) saturate(110%)';
+      section.appendChild(overlay);
+    }
+    new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.attributeName === 'class')
+          section.classList.contains('swiper-slide-active') ? show(overlay) : hide(overlay);
+      });
+    }).observe(section, { attributes: true });
+    if (section.classList.contains('swiper-slide-active')) show(overlay);
+    window.__section2Grid = {
+      grid: overlay,
+      show: function () {
+        show(overlay);
+      },
+      hide: function () {
+        hide(overlay);
+      },
+    };
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+}

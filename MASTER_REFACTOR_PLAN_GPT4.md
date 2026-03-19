@@ -53,7 +53,7 @@ Definition of Done (DoD) для каждой задачи:
 - 0 запросов 404 на указанные файлы,
 - страница продолжает открываться без JS crash.
 
-Чекпоинт: [ ] в `index.html` нет четырёх script на caliper/blosta/caliper-3d/technical-caliper; [ ] Network — нет 404 по JS; [ ] Console — нет ошибок при загрузке; [ ] секция контракта отображается.
+Чекпоинт: [x] в `index.html` нет четырёх script на caliper/blosta/caliper-3d/technical-caliper; [x] Network — нет 404 по JS; [x] Console — нет ошибок при загрузке; [x] секция контракта отображается.
 
 ---
 
@@ -73,7 +73,7 @@ Definition of Done (DoD) для каждой задачи:
 - DOM не раздувается клонами на ресайзах,
 - нет конфликтов `animation`/`setInterval`.
 
-Чекпоинт: [ ] в `index.html` не более 1–2 ticker-скриптов; [ ] бегущая строка плавная, без двойной скорости; [ ] при ресайзе не растёт число элементов в `.ticker-track`; [ ] Console без ошибок по ticker.
+Чекпоинт: [x] в `index.html` не более 1–2 ticker-скриптов; [x] бегущая строка плавная, без двойной скорости; [x] при ресайзе не растёт число элементов в `.ticker-track`; [x] Console без ошибок по ticker.
 
 ---
 
@@ -91,7 +91,9 @@ Definition of Done (DoD) для каждой задачи:
 - нет "тихих" бесполезных инициализаций,
 - нет новых ошибок и предупреждений по этим модулям.
 
-Чекпоинт: [ ] решение зафиксировано (скрипты отключены или селекторы поправлены); [ ] Console без ошибок от contract-section/contract-cards/production-section; [ ] секции 1–2 выглядят и работают как раньше; [ ] при отключении — запись в backlog.
+Чекпоинт: [x] решение зафиксировано (скрипты отключены или селекторы поправлены); [x] Console без ошибок от contract-section/contract-cards/production-section; [x] секции 1–2 выглядят и работают как раньше; [x] при отключении — запись в backlog.
+
+**Backlog (P0.3):** Восстановить подключение `contract-cards.js`, `contract-section.js`, `production-section.js` после синхронизации разметки с ожидаемыми селекторами (`.contract-card`, `.contract-cards`, `.contract-title`, `.contract-tagline`, `.mold-timeline`, `.process-step`, `.detail-card`, `.production-cta` и др.) или адаптировать скрипты под текущую разметку.
 
 ---
 
@@ -104,12 +106,14 @@ Definition of Done (DoD) для каждой задачи:
 - вынести в отдельный модуль и подключить обратно,
 - покрыть ручным smoke.
 
+**Выполнено (P0.4):** Вынесен блок viewport (--vh и safe-area для мобильных) в `assets/js/modules/core/viewport-utils.js`. В `app.js` удалён соответствующий IIFE (~908 символов). Подключение: `viewport-utils.js` после `app.js` в `index.html`. Код в новом модуле — читаемый, с комментарием.
+
 Критерии приемки:
 - поведение не изменилось визуально,
 - участок стал читабельным и тестопригодным,
 - не выросло количество console errors.
 
-Чекпоинт: [ ] один участок вынесен в отдельный модуль и подключён; [ ] в `core/app.js` дубля нет; [ ] hero (лоадер, контент, молнии) работает как раньше; [ ] Console без новых ошибок; [ ] код нового модуля читаемый.
+Чекпоинт: [x] один участок вынесен в отдельный модуль и подключён; [x] в `core/app.js` дубля нет; [x] hero (лоадер, контент, молнии) работает как раньше; [x] Console без новых ошибок; [x] код нового модуля читаемый.
 
 ---
 
@@ -130,7 +134,9 @@ Definition of Done (DoD) для каждой задачи:
 - `npm run dev` стартует без ошибок,
 - `npm run build` формирует `dist`.
 
-Чекпоинт: [ ] в `package.json` есть скрипты dev, build, preview; [ ] в devDependencies есть vite; [ ] `npm run dev` поднимает сервер, страница открывается; [ ] `npm run build` создаёт `dist`; [ ] README обновлён.
+**Выполнено (P1.1):** В `package.json` добавлены скрипты `dev`, `build`, `preview` и блок `devDependencies` (vite, terser). В `vite.config.js` убран ошибочный `manualChunks: { vendor: ['vite'] }`, из-за которого сборка тянула в бандл пакет Vite. README дополнен таблицей команд Vite и примечанием про Python-сервер.
+
+Чекпоинт: [x] в `package.json` есть скрипты dev, build, preview; [x] в devDependencies есть vite; [x] `npm run dev` поднимает сервер, страница открывается; [x] `npm run build` создаёт `dist`; [x] README обновлён. Проверено: десктоп и мобильная версия работают; отладочные логи в консоли (MM DEBUG, вспышки, цикл кнопки) удалены.
 
 ---
 
@@ -146,13 +152,25 @@ Definition of Done (DoD) для каждой задачи:
 - приложение инициализируется из одной точки,
 - порядок скриптов в `index.html` больше не является критическим фактором.
 
-Чекпоинт: [ ] единый entry выбран и описан; [ ] в `index.html` один основной скрипт (или Vite entry); [ ] перестановка script не ломает инициализацию; [ ] глобалы либо задокументированы, либо заменены.
+**Единый entry (зафиксировано):** Целевая точка входа — `assets/js/modules/app.js` (ESM). Сейчас в `index.html` загружается множество classic-скриптов; фактический «главный» код — `assets/js/modules/core/app.js` (минифицированный). Дальше: поэтапный перевод модулей на ESM и подключение через один `type="module"` скрипт.
+
+**Откат (P1.2):** Вариант с одним скриптом `entry.js` (XHR + eval) откатан: CSP сайта запрещает `eval`, синхронный XHR устарел, лоадер не запускался. Восстановлены отдельные теги скриптов в `index.html`. Глобалы по-прежнему задокументированы в `docs/GLOBALS.md`. Дальше: выполнять «один основной скрипт» без eval (например, поэтапный перевод на ESM и один type="module" бандл через Vite).
+
+**Шаг 1 (P1.2, без eval):** `viewport-utils.js` переведён в ESM (`export function initViewport`). Добавлена ESM-точка входа `assets/js/main.js`: импорт viewport и вызов `initViewport()`. В `index.html` тег `viewport-utils.js` заменён на один `<script type="module" src="assets/js/main.js">`. Остальные скрипты без изменений. Порядок: app.js → main.js (module) → performance.js → … — лоадер и hero не затронуты.
+
+**Шаг 2 (P1.2):** `performance.js` переведён в ESM (`export function initPerformance`). Импорт и вызов добавлены в `main.js`. Тег `performance.js` удалён из `index.html`. Класс `is-low-power` по-прежнему выставляется на body при слабом устройстве.
+
+**Шаг 3 (P1.2) — откат:** Перенос `swiper-init.js` в ESM привёл к поломке: меню (часть сверху/сбоку), прокручивающиеся модули второй секции оказались в первой, общий сбой вёрстки. Шаг 3 откатан: `swiper-init.js` снова подключается отдельным тегом после `main.js`, логика возвращена к `DOMContentLoaded`; из `main.js` убран импорт и вызов `initSwiper`. Дальше в ESM переносить только простые модули без сложной DOM/порядка (swiper-init не трогать до выяснения причины).
+
+**Шаги 4+ (P1.2):** В `main.js` (ESM) перенесены: viewport-utils, performance, uii-carousel, lightning-effect, pointer-crosshair, tilt-hover, section2-grid, collection-cta-position. Карусель и счётчики секции 1 (section1-carousel, section1-stats, section1-stats-size) **оставлены классическими скриптами** после swiper-init: при переносе в ESM (main-after-swiper.js) карусель и прокрутка цифр переставали работать из‑за порядка выполнения. В `index.html`: app.js, main.js (module), swiper-init.js, section1-carousel.js, section1-stats.js, section1-stats-size.js, ticker-unified-module.js, unified-ticker.js.
+
+Чекпоинт: [x] единый entry выбран и описан; [ ] в `index.html` один основной скрипт (или Vite entry) — отложено до подхода без eval; [ ] перестановка script не ломает инициализацию; [x] глобалы либо задокументированы, либо заменены.
 
 ---
 
 ### P1.3 Удалить дубликаты и legacy-ветки
 Проблема: дубли файлов и веток:
-- дубликат `assets/js/main.js` == `assets/js/modules/core/app.js`,
+- ~~дубликат `assets/js/main.js`~~ — с шага P1.2 `main.js` используется как ESM-точка входа (не дубликат `app.js`),
 - дубли в `assets/js/modules/animations/*` и `assets/js/modules/ui/animations/*`,
 - дубли в `assets/js/modules/carousel/*` и `assets/js/modules/ui/carousel/*`.
 
@@ -160,11 +178,13 @@ Definition of Done (DoD) для каждой задачи:
 - определить канонические директории,
 - удалить устаревшие копии после smoke.
 
+**Канонические пути (P1.3):** Анимации — `assets/js/modules/ui/animations/` (используются в main.js и index). Карусели — `assets/js/modules/ui/carousel/` (в проекте нет отдельной папки `modules/carousel/`). Устаревший дубликат — `assets/js/modules/animations/tilt-hover.js` (классический IIFE); канонический — `ui/animations/tilt-hover.js` (ESM, импорт из main.js). Дубликат удалён.
+
 Критерии приемки:
 - устранены дубли по hash/функции,
 - снижена сложность поддержки.
 
-Чекпоинт: [ ] канонические пути зафиксированы; [ ] дубликаты (main.js, лишние animations/carousel) удалены или deprecated; [ ] после удаления — перезагрузка, главная, слайды, тикер, меню без регрессий; [ ] в index/entry нет ссылок на удалённые файлы.
+Чекпоинт: [x] канонические пути зафиксированы; [x] дубликаты (лишние animations) удалены; [ ] после удаления — перезагрузка, главная, слайды, тикер, меню без регрессий; [x] в index/entry нет ссылок на удалённые файлы.
 
 ---
 
@@ -263,6 +283,63 @@ Definition of Done (DoD) для каждой задачи:
    - что изменено,
    - какие риски остались,
    - что следующий шаг по плану.
+
+---
+
+## Аудит плана (проверка соответствия коду)
+
+*Проверено строго по плану. Дата аудита: 2025-03.*
+
+### Фаза P0 — верификация
+
+| Задача | Чекпоинты в плане | Факт в коде | Статус |
+|--------|--------------------|-------------|--------|
+| **P0.1** Несуществующие скрипты | [x] нет 4 script на caliper/blosta/caliper-3d/technical-caliper | В `index.html` нет ссылок на эти файлы | ✅ Выполнено |
+| **P0.2** Один ticker-движок | [x] не более 1–2 ticker-скриптов | Подключены только `ticker-unified-module.js` и `unified-ticker.js` | ✅ Выполнено |
+| **P0.3** Мёртвые бизнес-модули | [x] скрипты отключены или селекторы поправлены | В `index.html` нет contract-section, contract-cards, production-section | ✅ Выполнено |
+| **P0.4** Вынос viewport из app.js | [x] viewport в отдельном модуле, hero работает | `viewport-utils.js` в ESM, подключение через `main.js` (тега в index нет) | ✅ Выполнено |
+
+### Фаза P1 — верификация
+
+| Задача | Чекпоинты в плане | Факт в коде | Статус |
+|--------|--------------------|-------------|--------|
+| **P1.1** Vite | [x] dev, build, preview, vite в devDependencies | `package.json`: scripts dev/build/preview, devDependencies.vite | ✅ Выполнено |
+| **P1.2** Одна точка входа JS | [x] entry выбран; [ ] один скрипт — отложено; [x] глобалы задокументированы | `main.js` (ESM) + 6 classic-скриптов. `docs/GLOBALS.md` есть. `entry.js` не используется (комментарий) | ⚠️ Частично: один бандл не достигнут |
+| **P1.3** Дубликаты и legacy | [x] канонические пути; [x] дубли удалены | Канонические: `ui/animations`, `ui/carousel`. Удалён дубликат `animations/tilt-hover.js`. Smoke — проверить после перезагрузки | ⏳ Smoke |
+
+**Текущий список скриптов в `index.html` (приложение):**
+1. `app.js` (defer)  
+2. `main.js` (type=module)  
+3. `swiper-init.js` (defer)  
+4. `section1-carousel.js` (defer)  
+5. `section1-stats.js` (defer)  
+6. `section1-stats-size.js` (defer)  
+7. `ticker-unified-module.js` (defer)  
+8. `unified-ticker.js` (defer)  
+
+Vendor до них: swiper-bundle.min.js, gsap.min.js, ScrollTrigger.min.js.
+
+### Фаза P2 — верификация
+
+| Задача | Чекпоинты в плане | Факт в коде | Статус |
+|--------|--------------------|-------------|--------|
+| **P2.1** CSP | [ ] нет unsafe-inline, nonce/sha256, домены | В index есть `<meta Content-Security-Policy>` с `'unsafe-inline'` и `https:` в script-src/style-src | ❌ Не выполнено |
+| **P2.2** reduced-motion + skip-link | [ ] guard, .skip-link на mobile | В CSS: `.skip-link { display: none !important; }` в `@media (max-width: 900px)` — скрыт на мобильных | ❌ Не выполнено |
+| **P2.3** CSS debt | [ ] модули, меньше !important | Один большой style.css, модульные слои не введены | ❌ Не выполнено |
+
+### Фаза P3 — верификация
+
+| Задача | Чекпоинты в плане | Факт в коде | Статус |
+|--------|--------------------|-------------|--------|
+| **P3.1** ESLint, Prettier | [ ] установлены, lint/format:check | В package.json нет скриптов lint/format:check, нет конфигов eslint/prettier | ❌ Не выполнено |
+| **P3.2** E2E smoke | [ ] Playwright/Cypress, сценарии | Нет конфига и тестов E2E | ❌ Не выполнено |
+
+### Итог аудита
+
+- **Выполнено полностью:** P0.1, P0.2, P0.3, P0.4, P1.1.  
+- **Выполнено частично:** P1.2 (ESM-бандл есть, «один скрипт» отложен; часть модулей в main.js, часть — отдельные скрипты).  
+- **Следующий шаг по плану:** **P1.3** выполнен (канонические пути, дубликат удалён). После smoke-проверки — **P2.1** (ужесточить CSP).  
+- **Далее по порядку:** P2.1 → P2.2 → P2.3 → P3.1 → P3.2.
 
 ---
 

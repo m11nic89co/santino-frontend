@@ -54,19 +54,13 @@ santino-clean-version/
 │   ├── js/                # JavaScript
 │   │   ├── main.js        # Главный JS файл
 │   │   └── modules/       # Модульная структура
-│   │       ├── animations/    # Анимации
-│   │       ├── blueprints/    # Система чертежей
-│   │       │   ├── BlueprintsManager.js
-│   │       │   └── items/     # Отдельные чертежи
-│   │       │       ├── CylindricalPot.js
-│   │       │       ├── SquarePot.js
-│   │       │       ├── RoundPot.js
-│   │       │       ├── TaperedPot.js
-│   │       │       └── TallPot.js
+│   │       ├── blueprints/    # Система чертежей (items/*)
 │   │       ├── business/      # Бизнес-логика
-│   │       ├── carousel/      # Карусели
 │   │       ├── core/          # Ядро приложения
 │   │       ├── ui/            # UI компоненты
+│   │       │   ├── animations/
+│   │       │   ├── carousel/
+│   │       │   └── interactions/
 │   │       └── utils/         # Утилиты
 │   ├── img/               # Изображения
 │   └── vendor/            # Локальные библиотеки
@@ -77,7 +71,7 @@ santino-clean-version/
 ## 🚀 Установка и запуск
 
 ### Предварительные требования
-- Node.js (версия 16 или выше)
+- Node.js (версия 20.19+ рекомендуется)
 - npm или yarn
 
 ### Установка зависимостей
@@ -85,15 +79,25 @@ santino-clean-version/
 npm install
 ```
 
-### Запуск в режиме разработки
-```bash
-npm run dev
-```
+### Команды Vite (рекомендуется)
+| Команда | Описание |
+|---------|----------|
+| `npm run dev` | Dev-сервер с HMR на порту 3001 |
+| `npm run build` | Сборка в папку `dist/` |
+| `npm run preview` | Просмотр собранного `dist/` локально |
+| `npm run lint` | ESLint-проверка поддерживаемого JS-слоя |
+| `npm run format:check` | Проверка форматирования Prettier |
+| `npm run test:smoke` | Smoke E2E (Playwright, Chromium) |
 
-### Сборка для продакшена
-```bash
-npm run build
-```
+### Quality Gate (локально перед merge)
+1. `npm run lint`
+2. `npm run format:check`
+3. `npm run test:smoke`
+
+Все три шага должны быть зелёными.
+
+### Альтернативный запуск (Python)
+Для статической раздачи без Vite: `npm run start` или `npm run serve` (порт 3001).
 
 ## 📱 Адаптивность
 

@@ -1,1 +1,38 @@
-!function(){if(window.matchMedia("(pointer: fine)").matches){"loading"===document.readyState?document.addEventListener("DOMContentLoaded",t):t()}function e(e){var t;function n(){t=e.getBoundingClientRect()}n(),window.addEventListener("resize",n),e.addEventListener("mousemove",function(n){var i=n.clientX-t.left,o=n.clientY-t.top,d=t.width/2,a=t.height/2,r=(i-d)/d,c=(8*((o-a)/a)).toFixed(2),s=(8*-r).toFixed(2);e.style.transform="perspective(600px) rotateX("+c+"deg) rotateY("+s+"deg) translateZ(0)"}),e.addEventListener("mouseenter",n),e.addEventListener("mouseleave",function(){e.style.transform=""})}function t(){document.querySelectorAll(".tilt").forEach(e)}}();
+/**
+ * 3D tilt при наведении на .tilt. P1.2 — ESM. Без глобалов.
+ */
+export function initTiltHover() {
+  const reducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    document.documentElement.classList.contains('reduced-motion');
+  if (reducedMotion) return;
+
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  function setup(el) {
+    var rect;
+    function updateRect() {
+      rect = el.getBoundingClientRect();
+    }
+    updateRect();
+    window.addEventListener('resize', updateRect);
+    el.addEventListener('mousemove', function (ev) {
+      var x = ev.clientX - rect.left,
+        y = ev.clientY - rect.top;
+      var w2 = rect.width / 2,
+        h2 = rect.height / 2;
+      var rx = (((y - h2) / h2) * 8).toFixed(2);
+      var ry = ((8 * -(x - w2)) / w2).toFixed(2);
+      el.style.transform =
+        'perspective(600px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateZ(0)';
+    });
+    el.addEventListener('mouseenter', updateRect);
+    el.addEventListener('mouseleave', function () {
+      el.style.transform = '';
+    });
+  }
+  function run() {
+    document.querySelectorAll('.tilt').forEach(setup);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+  else run();
+}

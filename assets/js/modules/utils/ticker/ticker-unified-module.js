@@ -1,1 +1,174 @@
-class TickerModule{constructor(){this.isInitialized=!1,this.observers=new Map,this.animationFrame=null,this.duration=90,this.isLowPower=this.detectLowPower()}detectLowPower(){const e=navigator.connection||navigator.mozConnection||navigator.webkitConnection,t=e&&("slow-2g"===e.effectiveType||"2g"===e.effectiveType),i=navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=2,n=window.matchMedia("(prefers-reduced-motion: reduce)").matches;return t||i||n}initLazy(){if(this.isInitialized)return;const e=document.getElementById("ticker-track");if(!e)return;const t=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&!this.isInitialized&&this.init()})},{rootMargin:"50px",threshold:.1});t.observe(e),this.observers.set("main",t)}init(){if(this.isInitialized)return;const e=document.getElementById("ticker-track"),t=document.getElementById("ticker-segment");e&&t?(this.disableOtherTickerScripts(),this.setupInfiniteLoop(e,t),this.setupAnimation(e),this.setupPerformanceOptimizations(e),this.isInitialized=!0):console.warn("🎯 TickerModule: Элементы тикера не найдены")}disableOtherTickerScripts(){["unified-ticker.js","ticker-speed.js","ticker-normalize-heights.js"].forEach(e=>{document.querySelectorAll(`script[src*="${e}"]`).forEach(e=>{e.remove()})})}setupInfiniteLoop(e,t){const i=Array.from(t.children).map(e=>e.cloneNode(!0));t.innerHTML="",i.forEach(e=>t.appendChild(e.cloneNode(!0)));const n=e.parentElement;if(n){const e=getComputedStyle(t),r=parseFloat(e.gap||e.columnGap||"0")||0;let o=0;for(;t.getBoundingClientRect().width<n.getBoundingClientRect().width+r+1&&o<30;)i.forEach(e=>t.appendChild(e.cloneNode(!0))),o++}Array.from(e.querySelectorAll(".ticker-segment")).forEach((e,t)=>{t>0&&e.remove()}),e.appendChild(t.cloneNode(!0))}setupAnimation(e){e.style.setProperty("--ticker-duration",`${this.duration}s`),e.style.animation=`tickerScroll ${this.duration}s linear infinite`,e.style.animationPlayState="running"}setupPerformanceOptimizations(e){e.style.transform="translateZ(0)",e.style.backfaceVisibility="hidden",e.style.perspective="1000px",e.style.willChange="transform",this.isLowPower&&(e.style.animationDuration=1.5*this.duration+"s"),this.setupImageOptimizations(e)}setupImageOptimizations(e){e.querySelectorAll("img").forEach(e=>{"loading"in e&&(e.loading="lazy"),e.addEventListener("error",()=>{e.closest(".logo-badge")?.classList.add("logo-missing")},{once:!0})})}pause(){const e=document.getElementById("ticker-track");e&&(e.style.animationPlayState="paused")}resume(){const e=document.getElementById("ticker-track");e&&(e.style.animationPlayState="running")}setSpeed(e){this.duration=e;const t=document.getElementById("ticker-track");t&&(t.style.setProperty("--ticker-duration",`${e}s`),t.style.animation=`tickerScroll ${e}s linear infinite`)}destroy(){this.observers.forEach(e=>e.disconnect()),this.observers.clear(),this.animationFrame&&cancelAnimationFrame(this.animationFrame),this.isInitialized=!1}}window.TickerModule=new TickerModule,document.addEventListener("DOMContentLoaded",()=>{window.TickerModule.initLazy()}),"loading"===document.readyState||window.TickerModule.initLazy();
+class TickerModule {
+  constructor() {
+    this.isInitialized = false;
+    this.observers = new Map();
+    this.duration = 60;
+    this.isLowPower = this.detectLowPower();
+  }
+
+  detectLowPower() {
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const slowNetwork = conn && (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g');
+    const weakCpu = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return slowNetwork || weakCpu || reducedMotion;
+  }
+
+  initLazy() {
+    if (this.isInitialized) return;
+    const track = document.getElementById('ticker-track');
+    if (!track) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !this.isInitialized) this.init();
+        });
+      },
+      { rootMargin: '50px', threshold: 0.1 }
+    );
+
+    observer.observe(track);
+    this.observers.set('main', observer);
+  }
+
+  init() {
+    if (this.isInitialized) return;
+
+    const track = document.getElementById('ticker-track');
+    const segment = document.getElementById('ticker-segment');
+    if (!track || !segment) {
+      console.warn('TickerModule: элементы основного тикера не найдены');
+      return;
+    }
+
+    this.disableOtherTickerScripts();
+    this.setupInfiniteLoop(track, segment);
+    this.setupMainTickerAnimation(track);
+    this.setupFeaturesTickersAnimation();
+    this.setupPerformanceOptimizations(track);
+
+    this.isInitialized = true;
+  }
+
+  disableOtherTickerScripts() {
+    ['unified-ticker.js', 'ticker-speed.js', 'ticker-normalize-heights.js'].forEach((name) => {
+      document.querySelectorAll(`script[src*="${name}"]`).forEach((el) => el.remove());
+    });
+  }
+
+  setupInfiniteLoop(track, segment) {
+    const original = Array.from(segment.children).map((el) => el.cloneNode(true));
+
+    segment.innerHTML = '';
+    original.forEach((el) => segment.appendChild(el.cloneNode(true)));
+
+    const parent = track.parentElement;
+    if (parent) {
+      const style = getComputedStyle(segment);
+      const gap = parseFloat(style.gap || style.columnGap || '0') || 0;
+      let guard = 0;
+      while (segment.getBoundingClientRect().width < parent.getBoundingClientRect().width + gap + 1 && guard < 30) {
+        original.forEach((el) => segment.appendChild(el.cloneNode(true)));
+        guard += 1;
+      }
+    }
+
+    Array.from(track.querySelectorAll('.ticker-segment')).forEach((el, idx) => {
+      if (idx > 0) el.remove();
+    });
+
+    track.appendChild(segment.cloneNode(true));
+  }
+
+  setupMainTickerAnimation(track) {
+    const effectiveDuration = this.isLowPower ? this.duration * 1.5 : this.duration;
+    document.documentElement.style.setProperty('--ticker-duration', `${effectiveDuration}s`);
+    track.style.setProperty('--ticker-duration', `${effectiveDuration}s`);
+    track.style.animation = `tickerScroll ${effectiveDuration}s linear infinite`;
+    track.style.animationPlayState = 'running';
+  }
+
+  setupFeaturesTickersAnimation() {
+    // Для инфо-линий в секции "Контрактное литьё" делаем скорость ближе к hero-такеру
+    // и гарантируем, что не будет "пустого" участка после последнего пункта.
+    const baseDuration = this.isLowPower ? this.duration : this.duration * 0.5; // в 2 раза быстрее, чем main ticker
+
+    document.querySelectorAll('.features-ticker-track').forEach((track) => {
+      // Однократно дублируем содержимое сегмента, чтобы линия не обрывалась
+      const segment = track.querySelector('.features-ticker-segment');
+      if (segment && !track.dataset.tickerCloned) {
+        const html = segment.innerHTML;
+        segment.insertAdjacentHTML('beforeend', html);
+        track.dataset.tickerCloned = '1';
+      }
+
+      const reverse = track.closest('.features-ticker-mobile-second');
+      const animationName = reverse ? 'featuresTickerScrollReverse' : 'featuresTickerScroll';
+      track.style.animation = `${animationName} ${baseDuration}s linear infinite`;
+      track.style.animationPlayState = 'running';
+    });
+  }
+
+  setupPerformanceOptimizations(track) {
+    track.style.transform = 'translateZ(0)';
+    track.style.backfaceVisibility = 'hidden';
+    track.style.perspective = '1000px';
+    track.style.willChange = 'transform';
+    this.setupImageOptimizations(track);
+  }
+
+  setupImageOptimizations(track) {
+    track.querySelectorAll('img').forEach((img) => {
+      if ('loading' in img) img.loading = 'lazy';
+      img.addEventListener(
+        'error',
+        () => {
+          const badge = img.closest('.logo-badge');
+          if (badge) badge.classList.add('logo-missing');
+        },
+        { once: true }
+      );
+    });
+  }
+
+  pause() {
+    const mainTrack = document.getElementById('ticker-track');
+    if (mainTrack) mainTrack.style.animationPlayState = 'paused';
+    document.querySelectorAll('.features-ticker-track').forEach((track) => {
+      track.style.animationPlayState = 'paused';
+    });
+  }
+
+  resume() {
+    const mainTrack = document.getElementById('ticker-track');
+    if (mainTrack) mainTrack.style.animationPlayState = 'running';
+    document.querySelectorAll('.features-ticker-track').forEach((track) => {
+      track.style.animationPlayState = 'running';
+    });
+  }
+
+  setSpeed(duration) {
+    this.duration = duration;
+
+    const mainTrack = document.getElementById('ticker-track');
+    if (mainTrack) this.setupMainTickerAnimation(mainTrack);
+    this.setupFeaturesTickersAnimation();
+  }
+
+  destroy() {
+    this.observers.forEach((observer) => observer.disconnect());
+    this.observers.clear();
+    this.isInitialized = false;
+  }
+}
+
+window.TickerModule = new TickerModule();
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.TickerModule.initLazy();
+});
+
+if (document.readyState !== 'loading') {
+  window.TickerModule.initLazy();
+}
