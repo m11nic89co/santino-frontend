@@ -51,7 +51,13 @@ class TickerModule {
     this.isInitialized = true;
   }
 
+  // Post-consolidation defensive cleanup: historical references (P0 debt #043 cleanup)
+  // These scripts should never load post-migration but defensive removal kept for safety
   disableOtherTickerScripts() {
+    // Historical ticker modules (no longer exist post-consolidation):
+    // - unified-ticker.js (never existed, defensive reference only)
+    // - ticker-speed.js (merged into this module)
+    // - ticker-normalize-heights.js (merged into this module)
     ['unified-ticker.js', 'ticker-speed.js', 'ticker-normalize-heights.js'].forEach((name) => {
       document.querySelectorAll(`script[src*="${name}"]`).forEach((el) => el.remove());
     });
