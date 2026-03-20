@@ -17,8 +17,7 @@
    - `.scroll-indicator`
    - `.ticker-track`
    - `.features-ticker-track`
-   - `.caliper-animation`
-   - `.sparks-overlay`
+    - `.sparks-overlay`
 
 ## Цель результата
 

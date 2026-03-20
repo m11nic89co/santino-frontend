@@ -100,11 +100,6 @@ swiperInit -->|CustomEvent swiperSlideChange| section1Stats
 
 ### Оставшиеся потенциально неиспользуемые JS
 
-- `assets/js/modules/blueprints/items/CylindricalPot.js`
-- `assets/js/modules/blueprints/items/RoundPot.js`
-- `assets/js/modules/blueprints/items/SquarePot.js`
-- `assets/js/modules/blueprints/items/TallPot.js`
-- `assets/js/modules/blueprints/items/TaperedPot.js`
 - `assets/js/modules/business/contracts/contract-cards.js`
 - `assets/js/modules/business/contracts/contract-pointer.js`
 - `assets/js/modules/business/contracts/contract-section.js`
@@ -116,7 +111,6 @@ swiperInit -->|CustomEvent swiperSlideChange| section1Stats
 
 1. `core/app.js` и `swiper-init.js` остаются монолитным legacy-контуром.
 2. CSP для `style-src` оставляет `'unsafe-inline'` из-за активного использования `element.style` в legacy.
-3. Полная декомпозиция blueprint-подсистемы не выполнена (orphan-файлы в `blueprints/items`).
 
 ## 7) Канонические пути
 

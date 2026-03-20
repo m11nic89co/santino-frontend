@@ -12,7 +12,6 @@ assets/js/modules/utils/ticker/*
 assets/js/modules/carousel/*
 assets/js/modules/animations/*
 assets/js/modules/business/contracts/contract-cards.js
-assets/js/modules/business/contracts/contract-pointer.js
 assets/js/modules/business/contracts/contract-section.js
 assets/js/modules/business/production-section.js
 assets/js/modules/core/utils/performance-monitor.js
