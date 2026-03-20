@@ -1495,6 +1495,87 @@ body::before {
   }
 }
 
+/* Section 3 Contacts */
+#section-3 {
+  background: #222831;
+  color: #eeeeee;
+}
+
+#section-3 .content-wrapper {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: calc(var(--header-h, 80px) + 36px) 24px 72px;
+  box-sizing: border-box;
+}
+
+.contacts-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .contacts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contacts-info h2,
+.contacts-map-panel h3 {
+  color: #00adb5;
+  font-family: var(--font-tech, 'Inter', sans-serif);
+  margin-bottom: 0.75rem;
+}
+
+.contacts-info p,
+.contacts-info ul,
+.contacts-info li {
+  color: #c9d6df;
+  line-height: 1.6;
+}
+
+.contacts-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.contacts-info a {
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+.glass-panel {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 31, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  padding: 24px;
+  min-height: 280px;
+}
+
+.map-placeholder {
+  width: 100%;
+  min-height: 180px;
+  border-radius: 12px;
+  background: linear-gradient(130deg, rgba(0, 173, 181, 0.2), rgba(33, 37, 41, 0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: center;
+  padding: 1.2rem;
+}
+
+
 /* mobile hero portal removed — portal CSS reverted */
 /* restore original visibility rules below */
 /* Contract hero display styles removed */
