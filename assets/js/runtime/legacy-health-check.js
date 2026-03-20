@@ -19,7 +19,7 @@ export function initLegacyHealthChecks(context) {
         ok: () =>
           Boolean(
             document.querySelector(
-              '#section-1 #s1-clean-carousel-root .s1-isolated-swiper'
+              '#section-1 #section1-carousel-root .mySwiper[data-initialized="true"]',
             )
           ),
         code: 'E_SECTION1_ROOT_MISSING',

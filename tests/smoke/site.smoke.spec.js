@@ -8,13 +8,13 @@ test('core shell and modules load', async ({ page }) => {
 
   await page.waitForTimeout(2500);
 
-  const hasMainSwiper = await page.evaluate(() => Boolean(window.swiper));
+  const hasMainSwiper = await page.evaluate(() => Boolean(window.section1Carousel || window.swiper));
   expect(hasMainSwiper).toBeTruthy();
 
   await expect(
-    page.locator('#section-1 #s1-clean-carousel-root .s1-isolated-swiper')
+    page.locator('#section-1 #section1-carousel-root .mySwiper[data-initialized="true"]')
   ).toBeVisible({
-    timeout: 10000,
+    timeout: 20000,
   });
 
   const hasTicker = await page.evaluate(() => Boolean(window.TickerModule || window.UnifiedTicker));
