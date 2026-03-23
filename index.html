@@ -50,6 +50,11 @@
     <noscript> </noscript>
 
     <script src="assets/js/head/theme-color-meta.js"></script>
+    <!-- Vendor libs loaded synchronously so window.gsap / window.Swiper are
+         available before any ES-module (main.js bundle) executes -->
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/gsap/gsap.min.js"></script>
+    <script src="assets/vendor/gsap/ScrollTrigger.min.js"></script>
     <script type="module" crossorigin src="/santino-frontend/assets/index-B_tcjD2l.js"></script>
     <link rel="stylesheet" crossorigin href="/santino-frontend/assets/index-DxHP-bvY.css">
   </head>
@@ -579,12 +584,6 @@
         <div class="swiper-pagination"></div>
       </div>
     </main>
-    <link rel="preload" href="/santino-frontend/assets/swiper-bundle.min-tKwjaHkv.js" as="script" />
-    <script src="assets/vendor/swiper/swiper-bundle.min.js" defer></script>
-    <link rel="preload" href="/santino-frontend/assets/gsap.min-kK4G2Duq.js" as="script" />
-    <script src="assets/vendor/gsap/gsap.min.js" defer></script>
-    <link rel="preload" href="/santino-frontend/assets/ScrollTrigger.min-Dq53sEkR.js" as="script" />
-    <script src="assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
     <!-- ========================================
 	     SANTINO - Модули (P1.2 откат: без eval/CSP; порядок важен)
 	     ======================================== -->
