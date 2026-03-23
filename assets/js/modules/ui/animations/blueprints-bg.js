@@ -8,9 +8,10 @@ const gsap = typeof window !== 'undefined' ? window.gsap : null;
 const BLUEPRINT_COUNT = 20;
 const BASE_PATH = (() => {
   try {
-    const url = new URL(import.meta.url);
-    const base = url.pathname.replace(/\/assets\/js\/.*$/, '/');
-    return base + 'assets/img/blueprints/hero-';
+    const origin = window.location.origin;
+    // pathname = "/santino-frontend/" on GH Pages, "/" locally
+    const pathname = window.location.pathname.replace(/\/[^/]*\.[^/]*$/, '/').replace(/\/?$/, '/');
+    return origin + pathname + 'assets/img/blueprints/hero-';
   } catch {
     return 'assets/img/blueprints/hero-';
   }
