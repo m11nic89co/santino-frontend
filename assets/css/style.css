@@ -61,8 +61,8 @@
 #section-3 .contacts-static-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100%;
   overflow: hidden;
 }
 
@@ -100,10 +100,11 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 #section-3 .contacts-static-card p {
@@ -134,13 +135,15 @@
 @media (max-width: 768px) {
   #section-3 .contacts-static-section,
   #section-3 .contacts-static-content {
-    min-height: 100svh;
+    height: 100%;
+    min-height: 100%;
+    overflow-y: auto;
   }
 
   #section-3 .contacts-static-content {
     align-items: flex-start;
     padding-top: calc(var(--header-height, 72px) + 14px);
-    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   }
 
   #section-3 .contacts-static-card {
@@ -178,7 +181,7 @@
 @media (max-width: 480px) {
   #section-3 .contacts-static-content {
     padding-top: calc(var(--header-height, 68px) + 10px);
-    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   }
 
   #section-3 .contacts-static-card {
