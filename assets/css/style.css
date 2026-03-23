@@ -612,6 +612,76 @@ body::before {
   opacity: 0 !important;
   visibility: hidden !important;
 }
+
+/* ------------------------------------------------------------------
+   Mobile overlap hotfix for Contract (#section-2) and Contacts (#section-3)
+   Keeps layout stable inside swiper slides without affecting desktop.
+------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  #section-2,
+  #section-3 {
+    overflow: hidden;
+  }
+
+  /* Contract: remove rigid heights that cause block collisions */
+  #section-2.contract-section .content-wrapper {
+    padding: calc(var(--header-h, 120px) + 8px) 14px 20px;
+    overflow: visible;
+  }
+
+  #section-2 .contract-content {
+    min-height: 0;
+    padding: 0.75rem 0 0;
+    justify-content: flex-start;
+    gap: 0.55rem;
+  }
+
+  #section-2 .contract-content [data-module='mold-reveal'] {
+    position: relative;
+    inset: auto;
+    min-height: 300px;
+    width: 100%;
+    margin-top: 0.35rem;
+  }
+
+  /* Contacts: cancel legacy centering/min-height conflicts */
+  #section-3 .contacts-static-section,
+  #section-3 .contacts-static-content {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  #section-3 .contacts-static-content {
+    display: block;
+    padding-top: calc(var(--header-h, 72px) + 12px);
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #section-3 .contacts-static-card {
+    max-width: min(760px, calc(100% - 16px));
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  #section-2.contract-section .content-wrapper {
+    padding: calc(var(--header-h, 72px) + 10px) 10px 16px;
+  }
+
+  #section-2 .contract-content [data-module='mold-reveal'] {
+    min-height: 250px;
+  }
+
+  #section-3 .contacts-static-content {
+    padding-top: calc(var(--header-h, 68px) + 8px);
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  #section-3 .contacts-static-card {
+    max-width: calc(100% - 12px);
+  }
+}
 /* Stronger hero grid for better visibility */
 /* Show hero grid overlay only when the hero slide is active; further reduced strength */
 .swiper-slide-active.hero-section::after {
