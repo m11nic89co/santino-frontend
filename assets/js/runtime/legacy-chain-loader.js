@@ -2,14 +2,29 @@
  * MP-12: Single app entry legacy loader.
  * Загружает критичный legacy-контур в фиксированном порядке из main.js.
  */
-const LEGACY_CHAIN = [
+function resolveChainPaths(paths) {
+  // Derive base path from the current script location so paths work
+  // both on localhost (/) and on GitHub Pages (/santino-frontend/).
+  const base = (() => {
+    try {
+      const url = new URL(import.meta.url);
+      // strip everything after the last "/" that is inside /santino-frontend/
+      return url.pathname.replace(/\/assets\/js\/runtime\/legacy-chain-loader\.js$/, '/');
+    } catch {
+      return '/';
+    }
+  })();
+  return paths.map((p) => base + p);
+}
+
+const LEGACY_CHAIN = resolveChainPaths([
   'assets/js/modules/core/app.js',
   'assets/js/modules/ui/carousel/swiper-init.js',
   'assets/js/modules/ui/carousel/section1-carousel.js',
   'assets/js/modules/business/stats/section1-stats.js',
   'assets/js/modules/business/stats/section1-stats-size.js',
   'assets/js/modules/utils/ticker/ticker-unified-module.js',
-];
+]);
 
 let started = false;
 
