@@ -6,7 +6,15 @@
 const gsap = typeof window !== 'undefined' ? window.gsap : null;
 
 const BLUEPRINT_COUNT = 20;
-const BASE_PATH = 'assets/img/blueprints/hero-';
+const BASE_PATH = (() => {
+  try {
+    const url = new URL(import.meta.url);
+    const base = url.pathname.replace(/\/assets\/js\/.*$/, '/');
+    return base + 'assets/img/blueprints/hero-';
+  } catch {
+    return 'assets/img/blueprints/hero-';
+  }
+})();
 const MIN_ON_SCREEN = 8;
 const MAX_ON_SCREEN = 10;
 const SINK_EASE = 'power2.in';
