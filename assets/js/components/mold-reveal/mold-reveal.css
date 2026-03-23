@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+#section-2,
+#section-2 .content-wrapper,
+#section-2 .contract-content,
+#section-2 .modular-component-root {
+  overflow: visible !important;
+}
+
+#section-2 .kinetic-blueprint-stand {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  box-sizing: border-box;
+  padding: 2.25rem 1.5rem 2.4rem;
+  background: radial-gradient(circle at 50% 38%, #2a353b 0%, #1b252a 42%, #12181c 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#section-2 .kinetic-blueprint-stand .ghost-layer {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 1;
+  opacity: 0.1;
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+
+#section-2 .kinetic-blueprint-stand .hud-left,
+#section-2 .kinetic-blueprint-stand .hud-right {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(140, 206, 210, 0.95);
+  text-shadow: 0 0 4px rgba(140, 206, 210, 0.2);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+}
+
+#section-2 .kinetic-blueprint-stand .hud-left {
+  left: 20%;
+}
+
+#section-2 .kinetic-blueprint-stand .hud-right {
+  left: 80%;
+}
+
+#section-2 .kinetic-blueprint-stand .reveal-stage {
+  position: relative;
+  width: min(560px, 92vw);
+  max-width: 100%;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.52));
+  z-index: 1;
+  opacity: 1;
+  pointer-events: none;
+}
+
+#section-2 .kinetic-blueprint-stand .reveal-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  pointer-events: none;
+}
+
+#section-2 .kinetic-blueprint-stand .pedestal-line {
+  stroke: rgba(190, 210, 218, 0.28);
+  stroke-width: 0.6;
+}
+
+#section-2 .kinetic-blueprint-stand .scanner-line {
+  stroke: rgba(135, 230, 240, 0.32);
+  stroke-width: 0.7;
+  filter: drop-shadow(0 0 2px rgba(130, 230, 255, 0.2));
+}
+
+#section-2 .kinetic-blueprint-stand .mold-status-label {
+  margin: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(228, 236, 239, 0.92);
+  text-shadow: 0 0 4px rgba(240, 248, 250, 0.16);
+  z-index: 1;
+  pointer-events: none;
+}
+
+#section-2 .kinetic-blueprint-stand .cta-calculate {
+  margin-top: 0.35rem;
+  z-index: 50;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 640px) {
+  #section-2 .kinetic-blueprint-stand {
+    min-height: 580px;
+    padding: 2rem 1rem 2.1rem;
+  }
+
+  #section-2 .kinetic-blueprint-stand .hud-left,
+  #section-2 .kinetic-blueprint-stand .hud-right {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+  }
+
+  #section-2 .kinetic-blueprint-stand .hud-left {
+    left: 24%;
+  }
+
+  #section-2 .kinetic-blueprint-stand .hud-right {
+    left: 76%;
+  }
+}

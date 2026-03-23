@@ -22,6 +22,8 @@ import { initCollectionCtaPosition } from './modules/business/contracts/collecti
 
 const context = createRuntimeContext();
 
+window.TickerModule = window.TickerModule || { status: 'visual_placeholder_active' };
+
 const modules = [
   { name: 'viewport', init: initViewport },
   { name: 'reduced-motion-guard', init: initReducedMotionGuard },
@@ -40,3 +42,53 @@ const modules = [
 
 const runtime = createBootstrap({ modules, context });
 runtime.start();
+
+document.addEventListener('legacyChainReady', () => {
+  const ST = window.ScrollTrigger;
+  if (!ST || !window.swiper || typeof window.swiper.on !== 'function') return;
+  window.swiper.on('slideChangeTransitionEnd', () => {
+    ST.refresh();
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('[Bootstrapper] DOM loaded, scanning for modules...');
+  const moldRevealNode = document.querySelector('[data-module="mold-reveal"]');
+
+  if (moldRevealNode) {
+    console.log('[Bootstrapper] Found mold-reveal anchor. Attempting import...');
+    import('./components/mold-reveal/MoldReveal.js')
+      .then((module) => {
+        console.log('[Bootstrapper] Module imported successfully. Mounting...');
+        const moldModule = module.default(moldRevealNode);
+        console.log('[Bootstrapper] Mount complete.');
+
+        function section2SlideIndex() {
+          const el = document.getElementById('section-2');
+          if (!el || !el.parentElement) return 2;
+          return [...el.parentElement.children].indexOf(el);
+        }
+
+        let moldSwiperAttached = false;
+        function attachMoldSwiperControl() {
+          if (moldSwiperAttached) return;
+          if (!window.swiper || typeof window.swiper.on !== 'function') {
+            setTimeout(attachMoldSwiperControl, 50);
+            return;
+          }
+          moldSwiperAttached = true;
+          const idx = section2SlideIndex();
+          window.swiper.on('slideChange', () => {
+            const isSection2 = window.swiper.activeIndex === idx;
+            if (isSection2) moldModule.play();
+            else moldModule.pause();
+          });
+          if (window.swiper.activeIndex === idx) moldModule.play();
+        }
+        attachMoldSwiperControl();
+      })
+      .catch((err) => console.error('[Bootstrapper] Failed to load MoldReveal module:', err));
+  } else {
+    console.log('[Bootstrapper] mold-reveal anchor NOT FOUND in DOM.');
+  }
+});
