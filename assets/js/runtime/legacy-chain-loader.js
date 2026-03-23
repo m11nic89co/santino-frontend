@@ -2,29 +2,26 @@
  * MP-12: Single app entry legacy loader.
  * Загружает критичный legacy-контур в фиксированном порядке из main.js.
  */
-function resolveChainPaths(paths) {
-  // Derive base path from the current script location so paths work
-  // both on localhost (/) and on GitHub Pages (/santino-frontend/).
-  const base = (() => {
-    try {
-      const url = new URL(import.meta.url);
-      // strip everything after the last "/" that is inside /santino-frontend/
-      return url.pathname.replace(/\/assets\/js\/runtime\/legacy-chain-loader\.js$/, '/');
-    } catch {
-      return '/';
-    }
-  })();
-  return paths.map((p) => base + p);
-}
+// Resolve base path from the page URL so paths work on any hosting prefix
+// (e.g. "/" locally, "/santino-frontend/" on GitHub Pages).
+const _base = (() => {
+  try {
+    const p = window.location.pathname;
+    // Strip everything after the last "/index.html" or trailing slash
+    return p.replace(/\/index\.html$/, '/').replace(/([^/])$/, '$1/');
+  } catch {
+    return '/';
+  }
+})();
 
-const LEGACY_CHAIN = resolveChainPaths([
+const LEGACY_CHAIN = [
   'assets/js/modules/core/app.js',
   'assets/js/modules/ui/carousel/swiper-init.js',
   'assets/js/modules/ui/carousel/section1-carousel.js',
   'assets/js/modules/business/stats/section1-stats.js',
   'assets/js/modules/business/stats/section1-stats-size.js',
   'assets/js/modules/utils/ticker/ticker-unified-module.js',
-]);
+].map((p) => _base + p);
 
 let started = false;
 

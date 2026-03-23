@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import { copyFileSync, mkdirSync, readdirSync, statSync } from 'fs';
+import { copyFileSync, mkdirSync, readdirSync, statSync, existsSync } from 'fs';
 
 function copyDirPlugin(src, dest) {
   return {
-    name: 'copy-legacy-scripts',
+    name: `copy-dir:${src}`,
     closeBundle() {
+      if (!existsSync(src)) return;
       function copy(s, d) {
         mkdirSync(d, { recursive: true });
         for (const entry of readdirSync(s)) {
@@ -37,7 +38,9 @@ export default defineConfig({
     devSourcemap: false,
   },
   plugins: [
-    copyDirPlugin('assets/js', 'dist/assets/js'),
+    copyDirPlugin('assets/js',     'dist/assets/js'),
     copyDirPlugin('assets/vendor', 'dist/assets/vendor'),
+    copyDirPlugin('assets/img',    'dist/assets/img'),
+    copyDirPlugin('assets/logos',  'dist/assets/logos'),
   ],
 });
