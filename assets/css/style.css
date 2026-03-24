@@ -7591,3 +7591,234 @@ section#section-1 {
     min-height: 40px;
   }
 }
+
+/* ------------------------------------------------------------------
+   Hero mobile layout stabilization (all small screens, incl. short heights)
+------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  body.mobile-mode {
+    --hero-ticker-h: clamp(42px, 7.2vh, 54px);
+    --hero-subtle-h: 28px;
+  }
+
+  body.mobile-mode #section-0.hero-section {
+    justify-content: flex-start;
+    padding-top: calc(var(--header-h, 80px) + 8px);
+    padding-bottom: calc(
+      var(--hero-ticker-h) + var(--hero-subtle-h) + 30px + env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  body.mobile-mode #section-0 .hero-core {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    gap: clamp(0.45rem, 1.3vh, 0.8rem);
+  }
+
+  body.mobile-mode #section-0 .hero-text-container {
+    width: min(100%, 540px);
+    margin: 0 auto;
+  }
+
+  body.mobile-mode #section-0 .hero-title {
+    margin: 0 0 clamp(0.5rem, 1.4vh, 0.85rem) !important;
+    font-size: clamp(1.9rem, 7.1vw, 2.45rem);
+    line-height: 1.08;
+    padding: clamp(0.62rem, 1.9vh, 0.95rem) clamp(0.72rem, 3.2vw, 1.2rem);
+  }
+
+  body.mobile-mode #section-0 .hero-desc {
+    margin: 0 0 clamp(0.55rem, 1.6vh, 0.9rem);
+    font-size: clamp(1.02rem, 4.6vw, 1.34rem) !important;
+    line-height: 1.24;
+  }
+
+  body.mobile-mode #section-0 .hero-btn-container {
+    margin: 0;
+  }
+
+  body.mobile-mode #section-0 .hero-btn-container .btn.ghost {
+    min-height: 42px;
+    padding: 0.6rem 1rem;
+    font-size: clamp(0.94rem, 3.6vw, 1.05rem);
+  }
+
+  body.mobile-mode #section-0 > .hero-subtle {
+    bottom: calc(var(--hero-ticker-h) + 10px + env(safe-area-inset-bottom, 0px));
+    font-size: clamp(0.92rem, 3.5vw, 1rem);
+    line-height: 1.2;
+  }
+
+  body.mobile-mode #section-0 > .ticker-wrap {
+    height: var(--hero-ticker-h);
+    padding: 6px 0 calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Short-height phones (e.g. iPhone 8 / SE landscape-safe tuning) */
+@media (max-width: 900px) and (max-height: 740px) {
+  body.mobile-mode #section-0.hero-section {
+    padding-top: calc(var(--header-h, 74px) + 4px);
+    padding-bottom: calc(
+      var(--hero-ticker-h) + var(--hero-subtle-h) + 16px + env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  body.mobile-mode #section-0 .hero-title {
+    font-size: clamp(1.58rem, 6.3vw, 2rem);
+    line-height: 1.06;
+    padding: 0.52rem 0.68rem;
+  }
+
+  body.mobile-mode #section-0 .hero-desc {
+    font-size: clamp(0.9rem, 3.9vw, 1.1rem) !important;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  body.mobile-mode #section-0 .hero-btn-container .btn.ghost {
+    min-height: 38px;
+    padding: 0.5rem 0.88rem;
+    font-size: clamp(0.88rem, 3.3vw, 0.98rem);
+  }
+
+  body.mobile-mode #section-0 > .hero-subtle {
+    font-size: clamp(0.82rem, 3.1vw, 0.9rem);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Global mobile section stabilization (all slides)
+------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  body.mobile-mode {
+    --mobile-header-gap: calc(var(--header-h, 80px) + 8px);
+    --mobile-bottom-safe: calc(12px + env(safe-area-inset-bottom, 0px));
+    --section1-stats-h: clamp(84px, 14vh, 112px);
+    --section1-cta-h: clamp(44px, 8vh, 58px);
+    --section2-ticker-h: clamp(44px, 8vh, 60px);
+    --section2-ticker2-h: clamp(34px, 6.5vh, 48px);
+  }
+
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-1.swiper-slide,
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-2.swiper-slide,
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-3.swiper-slide,
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-4.swiper-slide {
+    overflow: hidden;
+  }
+
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-1 .content-wrapper,
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-2 .content-wrapper,
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-3 .content-wrapper,
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-4 .content-wrapper {
+    box-sizing: border-box;
+    overflow-y: auto;
+    min-height: calc(100dvh - var(--header-h, 64px));
+  }
+
+  /* Section 1 (collection): reserve top for stats and bottom for CTA */
+  body.mobile-mode .main-swiper > .swiper-wrapper > #section-1 {
+    padding-top: var(--mobile-header-gap) !important;
+    padding-bottom: calc(var(--section1-cta-h) + var(--mobile-bottom-safe) + 10px) !important;
+  }
+
+  body.mobile-mode #section-1 .section1-stats {
+    top: calc(var(--header-h, 80px) + 10px) !important;
+    gap: clamp(6px, 2vw, 10px) !important;
+    padding-inline: 10px !important;
+    z-index: 11 !important;
+  }
+
+  body.mobile-mode #section-1 .section1-stats .stat {
+    min-height: clamp(66px, 11vh, 86px) !important;
+    padding: 8px 4px !important;
+  }
+
+  body.mobile-mode #section-1 .collection-cta {
+    bottom: calc(var(--mobile-bottom-safe) + 2px) !important;
+    z-index: 12 !important;
+  }
+
+  body.mobile-mode #section-1 .mySwiper {
+    height: min(52vh, calc(100dvh - var(--header-h, 64px) - var(--section1-stats-h) - var(--section1-cta-h) - 40px));
+  }
+
+  /* Section 2 (contract): reserve space for two bottom feature tickers */
+  body.mobile-mode #section-2.contract-section .content-wrapper {
+    padding-top: var(--mobile-header-gap) !important;
+    padding-bottom: calc(
+      var(--section2-ticker-h) + var(--section2-ticker2-h) + var(--mobile-bottom-safe) + 14px
+    ) !important;
+    overflow-y: auto !important;
+  }
+
+  body.mobile-mode #section-2 .features-ticker-wrap {
+    bottom: env(safe-area-inset-bottom, 0px);
+    z-index: 10;
+  }
+
+  body.mobile-mode #section-2 .features-ticker-mobile-second {
+    bottom: calc(var(--section2-ticker-h) + env(safe-area-inset-bottom, 0px) - 2px);
+    z-index: 10;
+  }
+
+  /* Section 3/4: unify top/bottom safe spacing and scrolling */
+  body.mobile-mode #section-3 .contacts-static-content,
+  body.mobile-mode #section-4 .content-wrapper {
+    padding-top: var(--mobile-header-gap) !important;
+    padding-bottom: calc(var(--mobile-bottom-safe) + 14px) !important;
+    overflow-y: auto !important;
+    min-height: calc(100dvh - var(--header-h, 64px)) !important;
+  }
+}
+
+/* Short-height phones: reduce overlays and typography pressure */
+@media (max-width: 900px) and (max-height: 740px) {
+  body.mobile-mode #section-1 .section1-stats {
+    top: calc(var(--header-h, 72px) + 6px) !important;
+  }
+
+  body.mobile-mode #section-1 .section1-stats .stat-label {
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+  }
+
+  body.mobile-mode #section-1 .section1-stats .stat-number {
+    font-size: 22px !important;
+  }
+
+  body.mobile-mode #section-1 .mySwiper .swiper-slide {
+    width: min(68vw, 248px);
+    height: min(68vw, 248px);
+  }
+
+  body.mobile-mode #section-1 .collection-cta .btn {
+    font-size: 0.88rem;
+    min-height: 38px;
+    padding: 0.46rem 0.8rem;
+  }
+
+  body.mobile-mode #section-2 .features-ticker-mobile-second {
+    display: none;
+  }
+
+  body.mobile-mode #section-2.contract-section .content-wrapper {
+    padding-bottom: calc(var(--section2-ticker-h) + var(--mobile-bottom-safe) + 8px) !important;
+  }
+
+  body.mobile-mode #section-2 .contract-main-title {
+    font-size: clamp(1.42rem, 5.8vw, 1.92rem);
+    line-height: 1.04;
+  }
+
+  body.mobile-mode #section-2 .contract-description {
+    font-size: clamp(0.86rem, 3.6vw, 1rem);
+    line-height: 1.28;
+  }
+
+  body.mobile-mode #section-3 .contacts-static-card p,
+  body.mobile-mode #section-4 .about-story {
+    line-height: 1.35 !important;
+  }
+}
