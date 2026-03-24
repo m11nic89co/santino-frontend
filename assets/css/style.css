@@ -7657,6 +7657,13 @@ section#section-1 {
   }
 }
 
+/* Normal-height mobile screens: lower hero info card a bit */
+@media (max-width: 900px) and (min-height: 741px) {
+  #section-0.hero-section {
+    padding-top: calc(var(--header-h, 80px) + 24px) !important;
+  }
+}
+
 @media (max-width: 900px) and (max-height: 740px) {
   #section-0.hero-section {
     padding-top: calc(var(--header-h, 72px) + 4px) !important;
