@@ -7591,3 +7591,90 @@ section#section-1 {
     min-height: 40px;
   }
 }
+
+/* =====================================================================
+   STEP 1 (mobile): section-0 hero only
+   Scoped fix without touching other sections
+===================================================================== */
+@media (max-width: 900px) {
+  .main-swiper > .swiper-wrapper > #section-0.swiper-slide {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #section-0.hero-section {
+    justify-content: flex-start !important;
+    min-height: calc(100svh - var(--header-h, 64px)) !important;
+    min-height: calc(100dvh - var(--header-h, 64px)) !important;
+    padding-top: calc(var(--header-h, 80px) + 8px) !important;
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #section-0 .hero-core {
+    width: 100%;
+    max-width: 620px;
+    gap: 0.5rem;
+  }
+
+  #section-0 .hero-title {
+    margin: 0 0 0.7rem !important;
+    font-size: clamp(1.82rem, 6.8vw, 2.35rem);
+    line-height: 1.08;
+    padding: 0.66rem 0.86rem;
+  }
+
+  #section-0 .hero-desc {
+    margin: 0 0 0.58rem;
+    font-size: clamp(0.96rem, 4.2vw, 1.2rem) !important;
+    line-height: 1.22;
+  }
+
+  #section-0 .hero-btn-container {
+    margin: 0.25rem 0 0;
+    min-height: 0;
+  }
+
+  #section-0 > .ticker-wrap {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    bottom: env(safe-area-inset-bottom, 0px) !important;
+    height: 2.2em;
+    padding: 6px 0 8px;
+    z-index: 7;
+  }
+
+  #section-0 > .hero-subtle {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    bottom: calc(2.2em + 8px + env(safe-area-inset-bottom, 0px)) !important;
+    margin: 0;
+    padding: 0 12px;
+    z-index: 8;
+    font-size: clamp(0.86rem, 3.2vw, 0.96rem);
+    line-height: 1.16;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 740px) {
+  #section-0.hero-section {
+    padding-top: calc(var(--header-h, 72px) + 4px) !important;
+    padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #section-0 .hero-title {
+    font-size: clamp(1.5rem, 5.9vw, 1.88rem);
+    line-height: 1.06;
+    padding: 0.5rem 0.66rem;
+  }
+
+  #section-0 .hero-desc {
+    font-size: clamp(0.86rem, 3.5vw, 1rem) !important;
+    line-height: 1.18;
+  }
+
+  #section-0 > .hero-subtle {
+    font-size: clamp(0.76rem, 2.8vw, 0.86rem);
+  }
+}
