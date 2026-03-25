@@ -19,6 +19,7 @@ import { initTiltHover } from './modules/ui/animations/tilt-hover.js';
 import { initBlueprintsBg } from './modules/ui/animations/blueprints-bg.js';
 import { initSection2Grid } from './modules/ui/interactions/section2-grid.js';
 import { initCollectionCtaPosition } from './modules/business/contracts/collection-cta-position.js';
+import { initAboutStory } from './modules/business/about-story/about-story-module.js';
 
 const context = createRuntimeContext();
 
@@ -37,6 +38,7 @@ const modules = [
   { name: 'blueprints-bg', init: initBlueprintsBg },
   { name: 'section2-grid', init: initSection2Grid },
   { name: 'collection-cta-position', init: initCollectionCtaPosition },
+  { name: 'about-story', init: initAboutStory },
   { name: 'legacy-health-check', init: initLegacyHealthChecks },
 ];
 

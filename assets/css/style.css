@@ -43,6 +43,104 @@
 }
 /* (Old keyframes aboutCreditsRise removed – logic handled in JS) */
 
+/* =============================================================
+   About "stories" mode (Section 4)
+   ============================================================= */
+#section-4.about-story-active .about-credits-viewport .about-credits-track {
+  /* Отключаем вертикальный marquee, чтобы “кадры” не уезжали */
+  animation: none !important;
+  transform: none !important;
+}
+
+#section-4.about-story-active .about-credits-track {
+  height: 100%;
+}
+
+/* JS помечает второй (дублирующий) блок — чтобы он не мешал кадрам */
+#section-4.about-story-active .about-credits-block.about-story-duplicate {
+  display: none !important;
+}
+
+/* В сторис режиме один <p> = один кадр, позиционируем кадры поверх друг друга */
+#section-4.about-story-active .about-credits-block {
+  position: relative;
+  height: 100%;
+}
+
+#section-4.about-story-active .about-credits-block .about-story-frame {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  /* Центрируем кадр по вертикали и оставляем небольшой сдвиг для входа */
+  transform: translateY(calc(-50% + 10px));
+  transition: opacity 260ms ease, transform 260ms ease;
+  pointer-events: none;
+}
+
+#section-4.about-story-active .about-credits-block .about-story-frame.is-active {
+  opacity: 1;
+  transform: translateY(-50%);
+  pointer-events: auto;
+}
+
+/* На последнем кадре (когда показываем CTA) чуть поднимаем текст */
+#section-4.about-story-active.about-story-last .about-credits-block .about-story-frame.is-active {
+  transform: translateY(calc(-50% - 26px));
+}
+
+/* CTA buttons shown only on the last story frame */
+#section-4.about-story-active .about-story-ctas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 240ms ease, transform 240ms ease;
+  z-index: 10;
+}
+
+#section-4.about-story-active .about-story-ctas.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  #section-4.about-story-active .about-story-ctas {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    padding: 0 14px;
+    gap: 10px;
+  }
+
+  #section-4.about-story-active .about-story-ctas .btn.ghost {
+    max-width: 340px;
+  }
+
+  #section-4.about-story-active.about-story-last .about-credits-block .about-story-frame.is-active {
+    transform: translateY(calc(-50% - 20px));
+  }
+}
+
+#section-4.about-story-active .about-story-ctas .btn.ghost {
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+
 /* Static compact contacts block in section-3 */
 #section-3 .contacts-static-card {
   max-width: 800px;
