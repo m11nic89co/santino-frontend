@@ -1,5 +1,6 @@
 export function initMobileMenuContacts(context) {
   const PHONE = '+79685452136';
+  const WA_PHONE = '+79533314229';
   const EMAIL = 'office@santino.com.ru';
   const SUBJECT = 'Сообщение с сайта santino.com.ru';
 
@@ -21,7 +22,7 @@ export function initMobileMenuContacts(context) {
     const subject = encodeURIComponent(SUBJECT);
     emailLink.setAttribute('href', `mailto:${EMAIL}?subject=${subject}`);
 
-    const waDigits = PHONE.replace(/[^0-9]/g, '');
+    const waDigits = WA_PHONE.replace(/[^0-9]/g, '');
     waLink.setAttribute('href', `https://wa.me/${waDigits}`);
     waLink.setAttribute('target', '_blank');
     waLink.setAttribute('rel', 'noopener');
