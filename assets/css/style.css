@@ -7660,7 +7660,7 @@ section#section-1 {
 /* Normal-height mobile screens: lower hero info card a bit */
 @media (max-width: 900px) and (min-height: 741px) {
   #section-0.hero-section {
-    padding-top: calc(var(--header-h, 80px) + 24px) !important;
+    padding-top: calc(var(--header-h, 80px) + 29px) !important;
   }
 }
 
