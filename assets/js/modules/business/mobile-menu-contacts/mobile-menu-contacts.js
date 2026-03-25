@@ -56,22 +56,37 @@ export function initMobileMenuContacts(context) {
 
         // Provide quick visual feedback and close menu first.
         tapFx(a);
-        closeMenuIfOpen();
+        // Prevent legacy from swallowing the gesture.
+        e.preventDefault();
 
-        const href = a.getAttribute('href') || '';
-        if (!href) return;
+        const isEmail = a.classList && a.classList.contains('social-email');
+        const isPhone = a.classList && a.classList.contains('social-phone');
+        const isWa = a.classList && a.classList.contains('social-wa');
+
+        // Build targets from source-of-truth constants (do NOT trust DOM; it can be re-rendered).
+        const subject = encodeURIComponent(SUBJECT);
+        const waDigits = WA_PHONE.replace(/[^0-9]/g, '');
+        const mailtoHref = `mailto:${EMAIL}?subject=${subject}`;
+        const telHref = `tel:${PHONE}`;
+        const waHref = `https://wa.me/${waDigits}`;
+
+        // Close menu (will re-render DOM in legacy).
+        closeMenuIfOpen();
 
         // Ensure navigation happens even if legacy handlers interfere.
         // Use synchronous navigation to keep the user gesture.
-        if (href.startsWith('https://wa.me/')) {
-          e.preventDefault();
-          window.open(href, '_blank', 'noopener');
+        if (isWa) {
+          window.open(waHref, '_blank', 'noopener');
           return;
         }
 
-        if (href.startsWith('tel:') || href.startsWith('mailto:')) {
-          e.preventDefault();
-          window.location.href = href;
+        if (isEmail) {
+          window.location.href = mailtoHref;
+          return;
+        }
+
+        if (isPhone) {
+          window.location.href = telHref;
         }
       },
       { capture: true }
