@@ -624,16 +624,17 @@ body {
   backface-visibility: hidden;
 }
 
-/* Секция 2: скругление + клип для glass; секция 4 — без overflow (нужен scroll на мобилке, см. .about-section) */
-#section-2.contract-section .content-wrapper {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.35);
-}
+/* Мобилка: общий вид «стекла» для 2 и 4 (на десктопе — единый блок ниже) */
+@media (max-width: 900px) {
+  #section-2.contract-section .content-wrapper,
+  #section-4 .content-wrapper {
+    border-radius: 16px;
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.35);
+  }
 
-#section-4 .content-wrapper {
-  border-radius: 16px;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.35);
+  #section-2.contract-section .content-wrapper {
+    overflow: hidden;
+  }
 }
 
 /* Секция 2 на мобилках: чуть мягче blur и слабее «жидкий» блик (стабильность) */
@@ -6393,6 +6394,39 @@ button,
 @media (min-width: 1200px) {
   .about-section .content-wrapper {
     max-width: 980px;
+  }
+}
+
+/* Desktop: одинаковые liquid-glass «окна» — Контракт (#2) и О нас (#4) */
+@media (min-width: 901px) {
+  #section-2.contract-section .content-wrapper,
+  #section-4.about-section .content-wrapper {
+    max-width: 1100px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: calc(var(--header-h, 120px) - 4px) 40px 56px;
+    border-radius: 18px;
+    box-shadow:
+      0 18px 52px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.042);
+    -webkit-backdrop-filter: blur(14px) saturate(1.12);
+    backdrop-filter: blur(14px) saturate(1.12);
+  }
+
+  #section-2.contract-section .content-wrapper {
+    overflow: hidden;
+  }
+
+  #section-4.about-section .content-wrapper {
+    min-height: calc(100vh - var(--header-h, 84px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
 
