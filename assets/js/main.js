@@ -20,6 +20,8 @@ import { initBlueprintsBg } from './modules/ui/animations/blueprints-bg.js';
 import { initSection2Grid } from './modules/ui/interactions/section2-grid.js';
 import { initCollectionCtaPosition } from './modules/business/contracts/collection-cta-position.js';
 import { initAboutStory } from './modules/business/about-story/about-story-module.js';
+import { initMobileMenuContacts } from './modules/business/mobile-menu-contacts/mobile-menu-contacts.js';
+import { initHeroCtaLinks } from './modules/business/hero-cta-links/hero-cta-links.js';
 
 const context = createRuntimeContext();
 
@@ -39,6 +41,8 @@ const modules = [
   { name: 'section2-grid', init: initSection2Grid },
   { name: 'collection-cta-position', init: initCollectionCtaPosition },
   { name: 'about-story', init: initAboutStory },
+  { name: 'mobile-menu-contacts', init: initMobileMenuContacts },
+  { name: 'hero-cta-links', init: initHeroCtaLinks },
   { name: 'legacy-health-check', init: initLegacyHealthChecks },
 ];
 
