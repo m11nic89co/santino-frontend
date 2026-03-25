@@ -170,12 +170,12 @@
   margin: 0 auto;
   color: #fff;
   text-align: left;
-  background: rgba(255, 255, 255, 0.02) !important;
+  background: rgba(12, 12, 14, 0.72) !important;
   padding: 2.5rem 3rem !important;
   border-radius: 16px !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: none !important;
 }
 
@@ -592,22 +592,49 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   Mobile stability: Swiper transforms + backdrop-filter can flicker on iOS/Android.
-   Disable heavy "liquid glass" layers specifically for Contract section on mobile.
+   Liquid glass OFF: Контракт (#2), Контакты (#3), О нас (#4)
+   (остальные секции и hero сохраняют эффект)
 -------------------------------------------------------------------- */
-@media (max-width: 900px) {
-  #section-2.contract-section .content-wrapper {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
+#section-2.contract-section .content-wrapper,
+#section-3 .content-wrapper,
+#section-4 .content-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  overflow: visible !important;
+}
 
-  #section-2.contract-section .content-wrapper::before,
-  #section-2.contract-section .content-wrapper::after,
-  #section-2.contract-section .btn::before,
-  #section-2.contract-section .btn::after {
-    content: none !important;
-    animation: none !important;
-  }
+#section-2.contract-section .content-wrapper::before,
+#section-2.contract-section .content-wrapper::after,
+#section-3 .content-wrapper::before,
+#section-3 .content-wrapper::after,
+#section-3 .contacts-static-card::before,
+#section-3 .contacts-static-card::after,
+#section-4 .content-wrapper::before,
+#section-4 .content-wrapper::after {
+  content: none !important;
+  display: none !important;
+  animation: none !important;
+}
+
+#section-2 .btn::before,
+#section-2 .btn::after,
+#section-3 .btn::before,
+#section-3 .btn::after,
+#section-4 .btn::before,
+#section-4 .btn::after {
+  content: none !important;
+  animation: none !important;
+}
+
+#section-2 .btn,
+#section-3 .btn,
+#section-4 .btn {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  overflow: visible !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
