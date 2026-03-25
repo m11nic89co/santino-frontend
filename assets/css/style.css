@@ -1011,6 +1011,13 @@ body::before {
   overflow: hidden;
 }
 
+/* Desktop: не заходить под фиксированную шапку — прямоугольный фон mold-reveal не должен визуально наезжать на лого */
+@media (min-width: 901px) {
+  #section-2.contract-section .content-wrapper {
+    padding-top: calc(var(--header-h, 120px) + 16px);
+  }
+}
+
 /* Contract content styling */
 .contract-content {
   text-align: center;
