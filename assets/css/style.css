@@ -2969,6 +2969,53 @@ body.fab-dimmed .hamburger-menu {
   opacity: 1;
 }
 
+/* Interactive glow layer (all sections) */
+.main-swiper .swiper-slide.interactive-glow {
+  --glow-x: 50%;
+  --glow-y: 45%;
+  --glow-alpha: 0;
+}
+
+.main-swiper .swiper-slide .interactive-glow-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* below content wrappers (z:4), aligned with existing vignette */
+  pointer-events: none;
+  opacity: var(--glow-alpha);
+  transition: opacity 220ms ease;
+  background:
+    radial-gradient(
+      circle at var(--glow-x) var(--glow-y),
+      rgba(0, 173, 181, 0.18) 0%,
+      rgba(0, 173, 181, 0.1) 22%,
+      rgba(0, 0, 0, 0) 60%
+    );
+  mix-blend-mode: screen;
+}
+
+.main-swiper .swiper-slide.interactive-glow.interactive-glow-idle .interactive-glow-layer {
+  animation: interactiveGlowBreathe 3200ms ease-in-out infinite;
+}
+
+@keyframes interactiveGlowBreathe {
+  0%,
+  100% {
+    filter: saturate(1) blur(0px);
+    transform: scale(1);
+  }
+  50% {
+    filter: saturate(1.15) blur(0.2px);
+    transform: scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-swiper .swiper-slide .interactive-glow-layer {
+    transition: none;
+    animation: none !important;
+  }
+}
+
 .swiper-pagination .swiper-pagination-bullet-active {
   background: rgba(var(--accent-rgb), 0.7) !important;
   transform: scale(1.2);

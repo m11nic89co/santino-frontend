@@ -15,6 +15,7 @@ import { initPerformance } from './modules/core/utils/performance.js';
 import { initUiiCarousel } from './modules/ui/carousel/uii-carousel.js';
 import { initLightningEffect } from './modules/ui/animations/lightning-effect.js';
 import { initPointerCrosshair } from './modules/ui/animations/pointer-crosshair.js';
+import { initInteractiveGlow } from './modules/ui/animations/interactive-glow.js';
 import { initTiltHover } from './modules/ui/animations/tilt-hover.js';
 import { initBlueprintsBg } from './modules/ui/animations/blueprints-bg.js';
 import { initSection2Grid } from './modules/ui/interactions/section2-grid.js';
@@ -37,6 +38,7 @@ const modules = [
   { name: 'uii-carousel', init: initUiiCarousel },
   { name: 'lightning-effect', init: initLightningEffect },
   { name: 'pointer-crosshair', init: initPointerCrosshair },
+  { name: 'interactive-glow', init: initInteractiveGlow },
   { name: 'tilt-hover', init: initTiltHover },
   { name: 'blueprints-bg', init: initBlueprintsBg },
   { name: 'section2-grid', init: initSection2Grid },
