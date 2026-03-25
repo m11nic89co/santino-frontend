@@ -1,21 +1,12 @@
 /**
- * Blueprints background — "sinking blueprints" for Hero (#section-0).
+ * Blueprints background — "sinking blueprints" (Hero #section-0 + Contract #section-2).
  * Matryoshka: outerWrapper = parallax (x,y only); innerWrapper = timeline (scale, opacity, filter).
  * Fetches SVG, removes <rect class="bg">, caches; spawn → hold → sink.
+ * Section 2 uses the same hero-* assets; pool pauses when the slide is not active.
  */
 const gsap = typeof window !== 'undefined' ? window.gsap : null;
 
 const BLUEPRINT_COUNT = 20;
-const BASE_PATH = (() => {
-  try {
-    const origin = window.location.origin;
-    // pathname = "/santino-frontend/" on GH Pages, "/" locally
-    const pathname = window.location.pathname.replace(/\/[^/]*\.[^/]*$/, '/').replace(/\/?$/, '/');
-    return origin + pathname + 'assets/img/blueprints/hero-';
-  } catch {
-    return 'assets/img/blueprints/hero-';
-  }
-})();
 const MIN_ON_SCREEN = 8;
 const MAX_ON_SCREEN = 10;
 const SINK_EASE = 'power2.in';
@@ -28,18 +19,31 @@ const PARALLAX_EASE = 'power2.out';
 const DRAW_SVG_DURATION = 1.2;
 const DRAW_SVG_EASE = 'power2.inOut';
 
-/** Cache: index -> cleaned SVG string */
+/** Cache: index -> cleaned SVG string (shared across sections) */
 const svgCache = new Map();
 
+function getBlueprintBasePath() {
+  try {
+    const origin = window.location.origin;
+    const pathname = window.location.pathname.replace(/\/[^/]*\.[^/]*$/, '/').replace(/\/?$/, '/');
+    return origin + pathname + 'assets/img/blueprints/hero-';
+  } catch {
+    return 'assets/img/blueprints/hero-';
+  }
+}
+
 function getBlueprintPaths() {
+  const base = getBlueprintBasePath();
   return Array.from({ length: BLUEPRINT_COUNT }, (_, i) =>
-    `${BASE_PATH}${String(i + 1).padStart(2, '0')}.svg`
+    `${base}${String(i + 1).padStart(2, '0')}.svg`
   );
 }
 
 function sanitizeSvgText(rawText) {
   return rawText
     .replace(/<!--[\s\S]*?-->/g, '')
+    // Strip illegal XML control chars (SVG text from network)
+    // eslint-disable-next-line no-control-regex
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
 }
 
@@ -95,11 +99,18 @@ function getNextFromBag(ctx) {
   return ctx.blueprintBag.pop();
 }
 
-function ensureContainer(section) {
-  let container = document.getElementById('blueprints-bg-container');
-  if (container) return container;
+function ensureContainer(section, containerId) {
+  let container = document.getElementById(containerId);
+  if (container && container.parentNode === section) return container;
+  if (container && container.parentNode) {
+    try {
+      container.parentNode.removeChild(container);
+    } catch {
+      /* ignore */
+    }
+  }
   container = document.createElement('div');
-  container.id = 'blueprints-bg-container';
+  container.id = containerId;
   container.setAttribute('aria-hidden', 'true');
   container.style.cssText =
     'position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden;';
@@ -110,7 +121,7 @@ function ensureContainer(section) {
 }
 
 /**
- * Parallax: single mousemove on #section-0, normalized -1..1, raf loop updates all wrappers via gsap.to(x, y).
+ * Parallax: mousemove on section, normalized -1..1, raf loop updates all wrappers via gsap.to(x, y).
  */
 function setupParallax(section, ctx) {
   let mouseX = 0;
@@ -176,9 +187,10 @@ function runBlueprint(container, paths, activeSet, ctx) {
       if (!ctx.running || !container.parentNode) return;
 
       const isMobile = window.innerWidth <= 768;
-      const depthFactor = gsap && gsap.utils && typeof gsap.utils.random === 'function'
-        ? gsap.utils.random(0.2, 1)
-        : random(0.2, 1);
+      const depthFactor =
+        gsap && gsap.utils && typeof gsap.utils.random === 'function'
+          ? gsap.utils.random(0.2, 1)
+          : random(0.2, 1);
 
       const outerWrapper = document.createElement('div');
       outerWrapper.dataset.blueprintIndex = String(index);
@@ -194,8 +206,12 @@ function runBlueprint(container, paths, activeSet, ctx) {
       ].join('');
 
       const sizeVmin = isMobile
-        ? (gsap && gsap.utils && typeof gsap.utils.random === 'function' ? gsap.utils.random(47, 98) : random(47, 98))
-        : (gsap && gsap.utils && typeof gsap.utils.random === 'function' ? gsap.utils.random(29, 61) : random(29, 61));
+        ? gsap && gsap.utils && typeof gsap.utils.random === 'function'
+          ? gsap.utils.random(47, 98)
+          : random(47, 98)
+        : gsap && gsap.utils && typeof gsap.utils.random === 'function'
+          ? gsap.utils.random(29, 61)
+          : random(29, 61);
       const leftPct = isMobile ? random(0, 85) : random(20, 80);
       const topPct = random(5, 95);
       outerWrapper.style.width = 'min(' + sizeVmin + 'vw,' + sizeVmin * 10 + 'px)';
@@ -249,21 +265,30 @@ function runBlueprint(container, paths, activeSet, ctx) {
 
       const appearTimeline = gsap.timeline();
       if (drawTargets.length > 0) {
-        appearTimeline.to(drawTargets, {
-          strokeDashoffset: 0,
-          duration: DRAW_SVG_DURATION,
-          ease: DRAW_SVG_EASE,
-        }, 0);
+        appearTimeline.to(
+          drawTargets,
+          {
+            strokeDashoffset: 0,
+            duration: DRAW_SVG_DURATION,
+            ease: DRAW_SVG_EASE,
+          },
+          0
+        );
       }
-      appearTimeline.to(innerWrapper, {
-        opacity: baseOpacity,
-        scale: 1,
-        duration: DRAW_SVG_DURATION,
-        ease: 'power2.out',
-        overwrite: true,
-      }, 0);
+      appearTimeline.to(
+        innerWrapper,
+        {
+          opacity: baseOpacity,
+          scale: 1,
+          duration: DRAW_SVG_DURATION,
+          ease: 'power2.out',
+          overwrite: true,
+        },
+        0
+      );
 
       const sinkTimeline = gsap.delayedCall(holdDuration + sinkDelay, () => {
+        if (!ctx.running) return;
         gsap.to(innerWrapper, {
           scale: SCALE_SINK,
           opacity: 0,
@@ -321,27 +346,75 @@ function startPool(ctx) {
   gsap.delayedCall(n * 0.2 + 0.5, () => scheduleNext(ctx));
 }
 
-export function initBlueprintsBg(context) {
-  if (!gsap) {
-    if (typeof console !== 'undefined') console.warn('[blueprints-bg] GSAP not found.');
-    return;
+function deactivateBlueprintCtx(ctx) {
+  if (!ctx || !ctx.running) return;
+  ctx.running = false;
+  if (ctx.nextTween) {
+    ctx.nextTween.kill();
+    ctx.nextTween = null;
+  }
+  ctx.cleanups.forEach((fn) => {
+    try {
+      fn();
+    } catch {
+      /* ignore */
+    }
+  });
+  ctx.cleanups.length = 0;
+  ctx.parallaxWrappers.length = 0;
+  ctx.activeSet.clear();
+  ctx.activeCount = 0;
+  if (ctx.container) ctx.container.replaceChildren();
+}
+
+function activateBlueprintCtx(ctx) {
+  if (!ctx || ctx.running) return;
+  ctx.running = true;
+  refillBlueprintBag(ctx.blueprintBag);
+  startPool(ctx);
+}
+
+function section2SlideIndex() {
+  const el = document.getElementById('section-2');
+  if (!el || !el.parentElement) return 2;
+  return [...el.parentElement.children].indexOf(el);
+}
+
+function bindSection2SwiperVisibility(ctx) {
+  let swiperBound = false;
+
+  function sync() {
+    const sw = window.swiper;
+    if (!sw || !ctx.container || !ctx.container.isConnected) return;
+    const on = sw.activeIndex === section2SlideIndex();
+    if (on) activateBlueprintCtx(ctx);
+    else deactivateBlueprintCtx(ctx);
   }
 
-  const reducedMotion =
-    (typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
-    (typeof document !== 'undefined' &&
-      document.documentElement &&
-      document.documentElement.classList.contains('reduced-motion'));
+  function tryBind() {
+    if (swiperBound) return;
+    if (!window.swiper || typeof window.swiper.on !== 'function') {
+      requestAnimationFrame(tryBind);
+      return;
+    }
+    swiperBound = true;
+    window.swiper.on('slideChange', sync);
+    sync();
+  }
 
-  if (reducedMotion) return;
+  document.addEventListener('legacyChainReady', tryBind, { once: true });
+  tryBind();
+}
 
-  const section = document.getElementById('section-0');
-  if (!section) return;
-
+/**
+ * @param {unknown} context
+ * @param {HTMLElement} section
+ * @param {string} containerId
+ * @param {{ pauseWhenSlideInactive?: boolean }} [opts]
+ */
+function mountBlueprintLayer(context, section, containerId, opts) {
   const paths = getBlueprintPaths();
-  const container = ensureContainer(section);
+  const container = ensureContainer(section, containerId);
   const activeSet = new Set();
   const ctx = {
     container,
@@ -365,11 +438,15 @@ export function initBlueprintsBg(context) {
       ctx.nextTween = null;
     }
     ctx.cleanups.forEach((fn) => {
-      try { fn(); } catch (_) {}
+      try {
+        fn();
+      } catch {
+        /* ignore */
+      }
     });
     ctx.cleanups.length = 0;
     ctx.parallaxWrappers.length = 0;
-    const c = document.getElementById('blueprints-bg-container');
+    const c = document.getElementById(containerId);
     if (c && c.parentNode) c.parentNode.removeChild(c);
   }
 
@@ -377,11 +454,47 @@ export function initBlueprintsBg(context) {
     context.addCleanup(cleanup);
   }
 
+  const start = () => {
+    if (opts && opts.pauseWhenSlideInactive) {
+      ctx.running = false;
+      bindSection2SwiperVisibility(ctx);
+    } else {
+      startPool(ctx);
+    }
+  };
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => startPool(ctx), { once: true });
+    document.addEventListener('DOMContentLoaded', start, { once: true });
   } else {
-    startPool(ctx);
+    start();
   }
 
   return cleanup;
+}
+
+export function initBlueprintsBg(context) {
+  if (!gsap) {
+    if (typeof console !== 'undefined') console.warn('[blueprints-bg] GSAP not found.');
+    return;
+  }
+
+  const reducedMotion =
+    (typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
+    (typeof document !== 'undefined' &&
+      document.documentElement &&
+      document.documentElement.classList.contains('reduced-motion'));
+
+  if (reducedMotion) return;
+
+  const section0 = document.getElementById('section-0');
+  if (section0) {
+    mountBlueprintLayer(context, section0, 'blueprints-bg-container', { pauseWhenSlideInactive: false });
+  }
+
+  const section2 = document.getElementById('section-2');
+  if (section2) {
+    mountBlueprintLayer(context, section2, 'blueprints-bg-section-2', { pauseWhenSlideInactive: true });
+  }
 }
