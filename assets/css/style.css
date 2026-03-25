@@ -46,6 +46,17 @@
 /* =============================================================
    About "stories" mode (Section 4)
    ============================================================= */
+#section-4.about-story-active .content-wrapper {
+  /* Story is a full-screen experience; avoid nested scroll on mobile. */
+  overflow: hidden;
+}
+
+#section-4.about-story-active .about-credits-viewport {
+  /* Override legacy fixed height (320px) to use the slide height. */
+  height: auto;
+  min-height: min(560px, calc(100dvh - var(--header-h, 84px)));
+}
+
 #section-4.about-story-active .about-credits-viewport .about-credits-track {
   /* Отключаем вертикальный marquee, чтобы “кадры” не уезжали */
   animation: none !important;
@@ -74,7 +85,12 @@
   right: 0;
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 16px;
+  box-sizing: border-box;
+  max-width: 44ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
   opacity: 0;
   /* Центрируем кадр по вертикали и оставляем небольшой сдвиг для входа */
   transform: translateY(calc(-50% + 10px));
@@ -114,6 +130,18 @@
 }
 
 @media (max-width: 900px) {
+  #section-4.about-story-active .about-credits-viewport {
+    /* Use the visible viewport; keep safe areas for iOS. */
+    min-height: calc(100dvh - var(--header-h, 64px) - env(safe-area-inset-bottom, 0px));
+  }
+
+  #section-4.about-story-active .about-credits-block .about-story-frame {
+    padding: 0 14px;
+    max-width: 40ch;
+    font-size: clamp(16px, 4.2vw, 18px);
+    line-height: 1.72;
+  }
+
   #section-4.about-story-active .about-story-ctas {
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     padding: 0 14px;
