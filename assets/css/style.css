@@ -6248,6 +6248,25 @@ button,
   flex-wrap: wrap;
 }
 
+.requisites-modal__toast {
+  margin-right: auto;
+  align-self: center;
+  font-family: var(--font-tech);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  min-height: 1em;
+}
+
+.requisites-modal__toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .requisites-modal__btn.btn.ghost {
   min-width: 160px;
 }
@@ -6265,6 +6284,13 @@ button,
 
   .requisites-modal__actions {
     justify-content: center;
+  }
+
+  .requisites-modal__toast {
+    width: 100%;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 2px;
   }
 
   .requisites-modal__btn.btn.ghost {

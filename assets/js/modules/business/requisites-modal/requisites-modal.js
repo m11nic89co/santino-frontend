@@ -24,6 +24,7 @@ export function initRequisitesModal(context) {
 
   let modalEl = null;
   let lastFocus = null;
+  let toastTimer = null;
 
   function ensureModal() {
     if (modalEl && document.body.contains(modalEl)) return modalEl;
@@ -37,6 +38,7 @@ export function initRequisitesModal(context) {
         <div class="requisites-modal__title">Реквизиты</div>
         <pre class="requisites-modal__content" id="requisites-content"></pre>
         <div class="requisites-modal__actions">
+          <div class="requisites-modal__toast" aria-live="polite" aria-atomic="true"></div>
           <button type="button" class="btn ghost requisites-modal__btn" data-close="1">Закрыть</button>
           <button type="button" class="btn ghost requisites-modal__btn" data-copy="1">Скопировать</button>
         </div>
@@ -49,6 +51,21 @@ export function initRequisitesModal(context) {
     document.body.appendChild(wrap);
     modalEl = wrap;
     return wrap;
+  }
+
+  function showToast(text) {
+    if (!modalEl) return;
+    const toast = modalEl.querySelector('.requisites-modal__toast');
+    if (!toast) return;
+
+    toast.textContent = text;
+    toast.classList.add('is-visible');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('is-visible');
+      toast.textContent = '';
+      toastTimer = null;
+    }, 1400);
   }
 
   async function copyToClipboard(text) {
@@ -125,7 +142,9 @@ export function initRequisitesModal(context) {
     const copyBtn = target && target.closest ? target.closest('[data-copy="1"]') : null;
     if (copyBtn) {
       e.preventDefault();
-      void copyToClipboard(REQUISITES_TEXT);
+      void copyToClipboard(REQUISITES_TEXT).then((ok) => {
+        if (ok) showToast('Скопировано');
+      });
     }
   }
 
@@ -134,6 +153,7 @@ export function initRequisitesModal(context) {
   context.addCleanup(() => {
     document.removeEventListener('click', onClick);
     document.removeEventListener('keydown', onKeyDown);
+    if (toastTimer) clearTimeout(toastTimer);
     if (modalEl && modalEl.remove) modalEl.remove();
     modalEl = null;
   });
