@@ -157,7 +157,7 @@
   --collection-bg-mobile: var(--collection-bg-desktop);
   /* Эталон .btn.ghost — секция 1 «Вся коллекция» (форма, обводка, типографика) */
   --btn-ghost-bg: rgba(255, 255, 255, 0.04);
-  --btn-ghost-border: 2px dashed rgba(255, 255, 255, 0.6);
+  --btn-ghost-border: 1px dashed rgba(255, 255, 255, 0.6);
   --btn-ghost-color: rgba(255, 255, 255, 0.92);
   --btn-ghost-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
   --btn-ghost-radius: 12px;
@@ -3376,7 +3376,7 @@ main.site-visible {
 .btn.ghost:focus-visible {
   background: rgba(255, 255, 255, 0.1) !important;
   color: rgba(255, 255, 255, 0.96) !important;
-  border: 2px dashed rgba(255, 255, 255, 0.9) !important;
+  border: 1px dashed rgba(255, 255, 255, 0.9) !important;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.34) !important;
   transform: translateY(-2px);
 }
