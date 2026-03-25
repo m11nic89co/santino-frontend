@@ -6166,6 +6166,14 @@ button,
   }
 }
 
+/* Hide section number indicator on mobile (requested) */
+@media (max-width: 900px) {
+  .section-number-indicator,
+  #section-number {
+    display: none !important;
+  }
+}
+
 /* Hide section number when mobile menu is open */
 .mobile-nav.is-open ~ .section-number-indicator {
   display: none;
