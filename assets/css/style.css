@@ -591,6 +591,25 @@ body {
   }
 }
 
+/* ------------------------------------------------------------------
+   Mobile stability: Swiper transforms + backdrop-filter can flicker on iOS/Android.
+   Disable heavy "liquid glass" layers specifically for Contract section on mobile.
+-------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  #section-2.contract-section .content-wrapper {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  #section-2.contract-section .content-wrapper::before,
+  #section-2.contract-section .content-wrapper::after,
+  #section-2.contract-section .btn::before,
+  #section-2.contract-section .btn::after {
+    content: none !important;
+    animation: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-text-container::after {
     animation: none;
