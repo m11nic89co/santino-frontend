@@ -170,16 +170,13 @@
   margin: 0 auto;
   color: #fff;
   text-align: left;
-  /* База для liquid glass: лёгкая заливка + blur задаётся глобальным .contacts-static-card и блоком ниже */
-  background: rgba(255, 255, 255, 0.045) !important;
+  background: rgba(12, 12, 14, 0.72) !important;
   padding: 2.5rem 3rem !important;
   border-radius: 16px !important;
-  -webkit-backdrop-filter: blur(14px) saturate(1.12) !important;
-  backdrop-filter: blur(14px) saturate(1.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
 }
 
 #section-3 .contacts-static-section {
@@ -595,70 +592,54 @@ body {
 }
 
 /* ------------------------------------------------------------------
-   Liquid glass — секции 2–4 (Контракт, Контакты, О нас)
-   Стабильный композитинг + один «стеклянный» слой там, где нужно.
+   Liquid glass OFF: Контракт (#2), Контакты (#3), О нас (#4)
+   (остальные секции и hero сохраняют эффект)
 -------------------------------------------------------------------- */
-
-/* Контакты: стекло только на карточке, обёртка без второго glass (избегаем двойного blur) */
-#section-3 .content-wrapper.contacts-static-content {
+#section-2.contract-section .content-wrapper,
+#section-3 .content-wrapper,
+#section-4 .content-wrapper {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
+  overflow: visible !important;
 }
 
-#section-3 .content-wrapper.contacts-static-content::before,
-#section-3 .content-wrapper.contacts-static-content::after {
+#section-2.contract-section .content-wrapper::before,
+#section-2.contract-section .content-wrapper::after,
+#section-3 .content-wrapper::before,
+#section-3 .content-wrapper::after,
+#section-3 .contacts-static-card::before,
+#section-3 .contacts-static-card::after,
+#section-4 .content-wrapper::before,
+#section-4 .content-wrapper::after {
   content: none !important;
   display: none !important;
+  animation: none !important;
 }
 
-/* Слой стабильности: уменьшает мерцание на iOS при Swiper + backdrop-filter */
-#section-2.contract-section .content-wrapper,
-#section-3 .contacts-static-card,
-#section-4 .content-wrapper {
-  isolation: isolate;
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+#section-2 .btn::before,
+#section-2 .btn::after,
+#section-3 .btn::before,
+#section-3 .btn::after,
+#section-4 .btn::before,
+#section-4 .btn::after {
+  content: none !important;
+  animation: none !important;
 }
 
-/* Секция 2: скругление + клип для glass; секция 4 — без overflow (нужен scroll на мобилке, см. .about-section) */
-#section-2.contract-section .content-wrapper {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.35);
-}
-
-#section-4 .content-wrapper {
-  border-radius: 16px;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.35);
-}
-
-/* Секция 2 на мобилках: чуть мягче blur и слабее «жидкий» блик (стабильность) */
-@media (max-width: 900px) {
-  #section-2.contract-section .content-wrapper {
-    -webkit-backdrop-filter: blur(10px) saturate(1.05) !important;
-    backdrop-filter: blur(10px) saturate(1.05) !important;
-  }
-
-  #section-2.contract-section .content-wrapper::after {
-    opacity: 0.1 !important;
-    mix-blend-mode: normal !important;
-    animation-duration: 16s !important;
-  }
+#section-2 .btn,
+#section-3 .btn,
+#section-4 .btn {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  overflow: visible !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-text-container::after {
     animation: none;
-  }
-
-  #section-2.contract-section .content-wrapper::after,
-  #section-3 .contacts-static-card::after,
-  #section-4 .content-wrapper::after {
-    animation: none !important;
   }
 }
 
