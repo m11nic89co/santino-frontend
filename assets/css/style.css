@@ -662,6 +662,11 @@ body::before {
    Mobile overlap hotfix for Contract (#section-2) and Contacts (#section-3)
    Keeps layout stable inside swiper slides without affecting desktop.
 ------------------------------------------------------------------- */
+/* Отступы от краёв экрана до прямоугольного фона mold-reveal (kinetic-blueprint-stand) */
+#section-2.contract-section {
+  --contract-rect-inset: clamp(12px, 2.4vw, 32px);
+}
+
 @media (max-width: 900px) {
   #section-2,
   #section-3 {
@@ -670,7 +675,8 @@ body::before {
 
   /* Contract: remove rigid heights that cause block collisions */
   #section-2.contract-section .content-wrapper {
-    padding: calc(var(--header-h, 120px) + 8px) 14px 20px;
+    padding: calc(var(--header-h, 120px) + 8px + var(--contract-rect-inset)) max(14px, var(--contract-rect-inset))
+      calc(20px + var(--contract-rect-inset));
     overflow: visible;
   }
 
@@ -789,7 +795,8 @@ body::before {
 
 @media (max-width: 480px) {
   #section-2.contract-section .content-wrapper {
-    padding: calc(var(--header-h, 72px) + 10px) 10px 16px;
+    padding: calc(var(--header-h, 72px) + 10px + var(--contract-rect-inset)) max(10px, var(--contract-rect-inset))
+      calc(16px + var(--contract-rect-inset));
   }
 
   #section-2 .contract-content [data-module='mold-reveal'] {
@@ -1004,17 +1011,20 @@ body::before {
 #section-2.contract-section .content-wrapper {
   max-width: 1100px;
   margin: 0 auto;
-  padding: calc(var(--header-h, 120px) - 8px) 24px 72px;
+  padding: calc(var(--header-h, 120px) - 8px) max(24px, var(--contract-rect-inset)) 72px;
   box-sizing: border-box;
   position: relative;
   z-index: 10;
   overflow: hidden;
 }
 
-/* Desktop: не заходить под фиксированную шапку — прямоугольный фон mold-reveal не должен визуально наезжать на лого */
+/* Desktop: под шапкой и снизу — одинаковый зазор от края экрана до контента с прямоугольником */
 @media (min-width: 901px) {
   #section-2.contract-section .content-wrapper {
-    padding-top: calc(var(--header-h, 120px) + 16px);
+    padding-top: calc(var(--header-h, 120px) + var(--contract-rect-inset));
+    padding-left: var(--contract-rect-inset);
+    padding-right: var(--contract-rect-inset);
+    padding-bottom: calc(72px + var(--contract-rect-inset));
   }
 }
 
@@ -1307,7 +1317,8 @@ body::before {
 
   /* Mobile: контент секции 2 по центру слайда (между шапкой и тикерами) */
   #section-2.contract-section .content-wrapper {
-    padding: calc(var(--header-h, 64px) - 8px) 16px 48px !important;
+    padding: calc(var(--header-h, 64px) - 8px + var(--contract-rect-inset)) max(16px, var(--contract-rect-inset))
+      calc(48px + var(--contract-rect-inset)) !important;
     box-sizing: border-box;
     min-height: calc(100dvh - var(--header-h, 64px));
     display: flex;
@@ -7994,10 +8005,10 @@ section#section-1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: calc(var(--header-h, 64px) + 8px) !important;
-    padding-right: max(12px, env(safe-area-inset-right, 0px)) !important;
-    padding-left: max(12px, env(safe-area-inset-left, 0px)) !important;
-    padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-top: calc(var(--header-h, 64px) + 8px + var(--contract-rect-inset)) !important;
+    padding-right: max(12px, env(safe-area-inset-right, 0px), var(--contract-rect-inset)) !important;
+    padding-left: max(12px, env(safe-area-inset-left, 0px), var(--contract-rect-inset)) !important;
+    padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px) + var(--contract-rect-inset)) !important;
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -8081,8 +8092,8 @@ section#section-1 {
 
 @media (max-width: 900px) and (max-height: 740px) {
   #section-2.contract-section .content-wrapper {
-    padding-top: calc(var(--header-h, 64px) + 4px) !important;
-    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-top: calc(var(--header-h, 64px) + 4px + var(--contract-rect-inset)) !important;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px) + var(--contract-rect-inset)) !important;
   }
 
   #section-2 .contract-content {
