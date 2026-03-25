@@ -3,6 +3,8 @@ export function initMobileMenuContacts(context) {
   const EMAIL = 'office@santino.com.ru';
   const SUBJECT = 'Сообщение с сайта santino.com.ru';
 
+  let observer = null;
+
   function applyLinks() {
     const root = document.querySelector('.mobile-nav');
     if (!root) return false;
@@ -26,15 +28,35 @@ export function initMobileMenuContacts(context) {
     return true;
   }
 
-  function schedule() {
-    if (applyLinks()) return;
-    const t1 = setTimeout(applyLinks, 150);
-    const t2 = setTimeout(applyLinks, 600);
-    const t3 = setTimeout(applyLinks, 1500);
+  function ensureObserver() {
+    if (observer) return;
+
+    observer = new MutationObserver(() => {
+      // Re-apply whenever menu DOM changes (it is rebuilt by legacy script on resize too).
+      applyLinks();
+    });
+
+    const target = document.body || document.documentElement;
+    if (target) observer.observe(target, { childList: true, subtree: true });
+
     context.addCleanup(() => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      if (observer) observer.disconnect();
+      observer = null;
+    });
+  }
+
+  function schedule() {
+    // Try immediately; if menu isn't ready yet, observer will catch it later.
+    applyLinks();
+    ensureObserver();
+
+    // Also re-apply on viewport changes (legacy rebuilds menu on resize/orientationchange).
+    const onResize = () => applyLinks();
+    window.addEventListener('resize', onResize, { passive: true });
+    window.addEventListener('orientationchange', onResize, { passive: true });
+    context.addCleanup(() => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
     });
   }
 
