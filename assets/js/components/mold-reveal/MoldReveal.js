@@ -31,7 +31,8 @@ function applyPot(root) {
 }
 
 const TEMPLATE = `
-<div class="mold-reveal-app kinetic-blueprint-stand">
+<div class="mold-reveal-app">
+  <div class="kinetic-blueprint-stand">
   <div class="ghost-layer">
     <div class="hud-left">ДОПУСКИ: 0.01мм</div>
     <div class="hud-right">ВРЕМЯ СМЫКАНИЯ: 12 СЕК</div>
@@ -90,6 +91,7 @@ const TEMPLATE = `
     </div>
     <p class="mold-status-label" aria-live="polite">СБРОС</p>
   </div>
+  </div>
   <a class="btn ghost cta-calculate" href="https://santino.market" target="_blank" rel="noopener noreferrer">Рассчитать выпуск</a>
 </div>
 `;
@@ -98,18 +100,18 @@ function setStatus(el, text) {
   if (el) el.textContent = text;
 }
 
-function buildTimeline(app) {
-  const bp = app.querySelector('.stage-blueprint');
-  const sk = app.querySelector('.stage-sketch');
-  const sr = app.querySelector('.stage-series');
-  const scanner = app.querySelector('.scanner-group');
-  const scannerLine = app.querySelector('.scanner-line');
-  const scannerMask = app.querySelector('.scanner-mask');
-  const flash = app.querySelector('.flash-group');
-  const status = app.querySelector('.mold-status-label');
-  const hudLeft = app.querySelector('.hud-left');
-  const hudRight = app.querySelector('.hud-right');
-  const cta = app.querySelector('.cta-calculate');
+function buildTimeline(root) {
+  const bp = root.querySelector('.stage-blueprint');
+  const sk = root.querySelector('.stage-sketch');
+  const sr = root.querySelector('.stage-series');
+  const scanner = root.querySelector('.scanner-group');
+  const scannerLine = root.querySelector('.scanner-line');
+  const scannerMask = root.querySelector('.scanner-mask');
+  const flash = root.querySelector('.flash-group');
+  const status = root.querySelector('.mold-status-label');
+  const hudLeft = root.querySelector('.hud-left');
+  const hudRight = root.querySelector('.hud-right');
+  const cta = root.querySelector('.cta-calculate');
 
   if (!bp || !sk || !sr || !scanner || !scannerLine || !scannerMask || !flash) return null;
 
@@ -164,13 +166,14 @@ export default function mountMoldReveal(anchor) {
   anchor.dataset.moldRevealInit = '1';
   anchor.innerHTML = TEMPLATE.trim();
 
-  const app = anchor.querySelector('.kinetic-blueprint-stand');
-  if (!app) return { play: () => {}, pause: () => {} };
+  const appRoot = anchor.querySelector('.mold-reveal-app');
+  const stand = anchor.querySelector('.kinetic-blueprint-stand');
+  if (!appRoot || !stand) return { play: () => {}, pause: () => {} };
 
-  applyPot(app);
-  const tl = buildTimeline(app);
+  applyPot(stand);
+  const tl = buildTimeline(appRoot);
   /** @type {HTMLElement & { __timeline?: import('gsap').Timeline | null }} */
-  (app).__timeline = tl;
+  (appRoot).__timeline = tl;
 
   return {
     play: () => {
@@ -184,8 +187,9 @@ export default function mountMoldReveal(anchor) {
 
 export function destroyMoldReveal(anchor) {
   if (!anchor) return;
-  const app = anchor.querySelector('.kinetic-blueprint-stand');
-  const tl = app && /** @type {HTMLElement & { __timeline?: import('gsap').Timeline }} */ (app).__timeline;
+  const appRoot = anchor.querySelector('.mold-reveal-app');
+  const tl =
+    appRoot && /** @type {HTMLElement & { __timeline?: import('gsap').Timeline }} */ (appRoot).__timeline;
   if (tl) tl.kill();
   anchor.dataset.moldRevealInit = '0';
   anchor.innerHTML = '';
