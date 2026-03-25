@@ -92,7 +92,7 @@ const TEMPLATE = `
     <p class="mold-status-label" aria-live="polite">СБРОС</p>
   </div>
   </div>
-  <a class="btn ghost cta-calculate" href="https://santino.market" target="_blank" rel="noopener noreferrer">Рассчитать выпуск</a>
+  <a class="btn ghost cta-calculate" href="https://santino.market/#section5e17a03b7a5c0-8" target="_blank" rel="noopener noreferrer">Рассчитать выпуск</a>
 </div>
 `;
 
