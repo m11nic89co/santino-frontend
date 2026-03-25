@@ -22,6 +22,7 @@ import { initCollectionCtaPosition } from './modules/business/contracts/collecti
 import { initAboutStory } from './modules/business/about-story/about-story-module.js';
 import { initMobileMenuContacts } from './modules/business/mobile-menu-contacts/mobile-menu-contacts.js';
 import { initHeroCtaLinks } from './modules/business/hero-cta-links/hero-cta-links.js';
+import { initRequisitesModal } from './modules/business/requisites-modal/requisites-modal.js';
 
 const context = createRuntimeContext();
 
@@ -43,6 +44,7 @@ const modules = [
   { name: 'about-story', init: initAboutStory },
   { name: 'mobile-menu-contacts', init: initMobileMenuContacts },
   { name: 'hero-cta-links', init: initHeroCtaLinks },
+  { name: 'requisites-modal', init: initRequisitesModal },
   { name: 'legacy-health-check', init: initLegacyHealthChecks },
 ];
 
