@@ -4,6 +4,7 @@ export function initMobileMenuContacts(context) {
   const SUBJECT = 'Сообщение с сайта santino.com.ru';
 
   let observer = null;
+  let tapBound = false;
 
   function applyLinks() {
     const root = document.querySelector('.mobile-nav');
@@ -28,6 +29,54 @@ export function initMobileMenuContacts(context) {
     return true;
   }
 
+  function bindTapToNavigate() {
+    if (tapBound) return;
+    tapBound = true;
+
+    function closeMenuIfOpen() {
+      const nav = document.querySelector('.mobile-nav');
+      if (!nav || !nav.classList.contains('is-open')) return;
+      const burger = document.getElementById('hamburger-menu');
+      if (burger && typeof burger.click === 'function') burger.click();
+    }
+
+    function tapFx(link) {
+      try {
+        link.classList.add('is-tapped');
+        setTimeout(() => link.classList.remove('is-tapped'), 220);
+      } catch {}
+    }
+
+    document.addEventListener(
+      'click',
+      (e) => {
+        const a = e.target && e.target.closest ? e.target.closest('.mobile-social .social-link') : null;
+        if (!a) return;
+
+        // Provide quick visual feedback and close menu first.
+        tapFx(a);
+        closeMenuIfOpen();
+
+        const href = a.getAttribute('href') || '';
+        if (!href) return;
+
+        // Ensure navigation happens even if legacy handlers interfere.
+        // Use synchronous navigation to keep the user gesture.
+        if (href.startsWith('https://wa.me/')) {
+          e.preventDefault();
+          window.open(href, '_blank', 'noopener');
+          return;
+        }
+
+        if (href.startsWith('tel:') || href.startsWith('mailto:')) {
+          e.preventDefault();
+          window.location.href = href;
+        }
+      },
+      { capture: true }
+    );
+  }
+
   function ensureObserver() {
     if (observer) return;
 
@@ -49,6 +98,7 @@ export function initMobileMenuContacts(context) {
     // Try immediately; if menu isn't ready yet, observer will catch it later.
     applyLinks();
     ensureObserver();
+    bindTapToNavigate();
 
     // Also re-apply on viewport changes (legacy rebuilds menu on resize/orientationchange).
     const onResize = () => applyLinks();

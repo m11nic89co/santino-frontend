@@ -2389,6 +2389,12 @@ body.mobile-mode .mobile-nav {
   .mobile-social .social-link:active svg {
     transform: translateY(0) scale(0.94);
   }
+
+  /* Extra light tap feedback for mobile (paired with JS navigation) */
+  .mobile-social .social-link.is-tapped svg {
+    transform: translateY(-1px) scale(1.02);
+    opacity: 0.92;
+  }
   @media (hover: none) {
     .mobile-social .social-link:hover svg {
       transform: none;
