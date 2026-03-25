@@ -3251,7 +3251,7 @@ main.site-visible {
 
 .hero-subtle {
   font-size: 1.05rem;
-  color: #bdbdbd;
+  color: var(--accent);
   margin-bottom: 1.2rem;
   margin-top: -0.5em;
   letter-spacing: 0.04em;
