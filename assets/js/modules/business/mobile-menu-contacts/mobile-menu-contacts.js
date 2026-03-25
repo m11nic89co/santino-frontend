@@ -56,8 +56,6 @@ export function initMobileMenuContacts(context) {
 
         // Provide quick visual feedback and close menu first.
         tapFx(a);
-        // Prevent legacy from swallowing the gesture.
-        e.preventDefault();
 
         const isEmail = a.classList && a.classList.contains('social-email');
         const isPhone = a.classList && a.classList.contains('social-phone');
@@ -70,23 +68,26 @@ export function initMobileMenuContacts(context) {
         const telHref = `tel:${PHONE}`;
         const waHref = `https://wa.me/${waDigits}`;
 
-        // Close menu (will re-render DOM in legacy).
-        closeMenuIfOpen();
-
-        // Ensure navigation happens even if legacy handlers interfere.
-        // Use synchronous navigation to keep the user gesture.
         if (isWa) {
+          // WhatsApp: keep our "close -> open" chain reaction predictable.
+          e.preventDefault();
+          closeMenuIfOpen();
+          a.setAttribute('href', waHref);
           window.open(waHref, '_blank', 'noopener');
           return;
         }
 
         if (isEmail) {
-          window.location.href = mailtoHref;
+          // For mailto/tel it's best to let the browser handle navigation natively.
+          // We only patch href + close menu on the next tick.
+          a.setAttribute('href', mailtoHref);
+          setTimeout(closeMenuIfOpen, 0);
           return;
         }
 
         if (isPhone) {
-          window.location.href = telHref;
+          a.setAttribute('href', telHref);
+          setTimeout(closeMenuIfOpen, 0);
         }
       },
       { capture: true }
