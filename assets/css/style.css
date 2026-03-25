@@ -662,8 +662,9 @@ body::before {
    Mobile overlap hotfix for Contract (#section-2) and Contacts (#section-3)
    Keeps layout stable inside swiper slides without affecting desktop.
 ------------------------------------------------------------------- */
-/* Отступы от краёв экрана до прямоугольного фона mold-reveal (kinetic-blueprint-stand) */
-#section-2.contract-section {
+/* Отступы от краёв экрана до прямоугольных панелей: контракт (mold) и контакты (карточка) */
+#section-2.contract-section,
+#section-3 {
   --contract-rect-inset: clamp(12px, 2.4vw, 32px);
 }
 
@@ -1018,13 +1019,13 @@ body::before {
   overflow: hidden;
 }
 
-/* Desktop: под шапкой и снизу — одинаковый зазор от края экрана до контента с прямоугольником */
+/* Desktop: зазор под шапкой и над низом экрана до блока — одинаковый (--contract-rect-inset) */
 @media (min-width: 901px) {
   #section-2.contract-section .content-wrapper {
     padding-top: calc(var(--header-h, 120px) + var(--contract-rect-inset));
     padding-left: var(--contract-rect-inset);
     padding-right: var(--contract-rect-inset);
-    padding-bottom: calc(72px + var(--contract-rect-inset));
+    padding-bottom: var(--contract-rect-inset);
   }
 }
 
@@ -7830,10 +7831,14 @@ section#section-1 {
 
 @media (min-width: 901px) {
   #section-3 .contacts-static-content {
-    align-items: flex-start;
-    min-height: calc(100vh - var(--header-h, 84px));
-    padding-top: calc(var(--header-h, 120px) + 18px);
-    padding-bottom: 36px;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100dvh - var(--header-h, 120px));
+    padding-top: calc(var(--header-h, 120px) + var(--contract-rect-inset));
+    padding-bottom: var(--contract-rect-inset);
+    padding-left: var(--contract-rect-inset);
+    padding-right: var(--contract-rect-inset);
+    box-sizing: border-box;
   }
 
   /* Десктоп: размер текста как у кнопок hero (не крупнее) */
