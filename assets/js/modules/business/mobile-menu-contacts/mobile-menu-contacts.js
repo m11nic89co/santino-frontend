@@ -11,11 +11,40 @@ export function initMobileMenuContacts(context) {
     const root = document.querySelector('.mobile-nav');
     if (!root) return false;
 
-    const phoneLink = root.querySelector('.mobile-social .social-phone');
-    const emailLink = root.querySelector('.mobile-social .social-email');
-    const waLink = root.querySelector('.mobile-social .social-wa');
+    let phoneLink = root.querySelector('.mobile-social .social-phone');
+    let emailLink = root.querySelector('.mobile-social .social-email');
+    let waLink = root.querySelector('.mobile-social .social-wa');
+
+    // Fallback: legacy menu can rebuild markup without our classes.
+    if (!phoneLink || !emailLink || !waLink) {
+      const candidates = Array.from(root.querySelectorAll('.mobile-social a, .mobile-social .social-link')).filter(
+        (el) => el && el.tagName
+      );
+
+      // Try to resolve by href first.
+      for (const el of candidates) {
+        const href = (el.getAttribute('href') || '').toLowerCase();
+        if (!phoneLink && href.startsWith('tel:')) phoneLink = el;
+        if (!emailLink && href.startsWith('mailto:')) emailLink = el;
+        if (!waLink && (href.includes('wa.me') || href.includes('whatsapp'))) waLink = el;
+      }
+
+      // If still missing, assume conventional order: phone, email, whatsapp.
+      if ((!phoneLink || !emailLink || !waLink) && candidates.length >= 3) {
+        phoneLink = phoneLink || candidates[0];
+        emailLink = emailLink || candidates[1];
+        waLink = waLink || candidates[2];
+      }
+    }
 
     if (!phoneLink || !emailLink || !waLink) return false;
+
+    // Normalize classes so the click handler can recognize targets reliably.
+    try {
+      phoneLink.classList && phoneLink.classList.add('social-link', 'social-phone');
+      emailLink.classList && emailLink.classList.add('social-link', 'social-email');
+      waLink.classList && waLink.classList.add('social-link', 'social-wa');
+    } catch {}
 
     phoneLink.setAttribute('href', `tel:${PHONE}`);
 
@@ -69,7 +98,6 @@ export function initMobileMenuContacts(context) {
         const waHref = `https://wa.me/${waDigits}`;
 
         if (isWa) {
-          // WhatsApp: keep our "close -> open" chain reaction predictable.
           e.preventDefault();
           closeMenuIfOpen();
           a.setAttribute('href', waHref);
@@ -78,16 +106,19 @@ export function initMobileMenuContacts(context) {
         }
 
         if (isEmail) {
-          // For mailto/tel it's best to let the browser handle navigation natively.
-          // We only patch href + close menu on the next tick.
+          // запуск mailto строго синхронно под пользовательский жест
+          e.preventDefault();
           a.setAttribute('href', mailtoHref);
-          setTimeout(closeMenuIfOpen, 0);
+          window.location.href = mailtoHref;
+          setTimeout(closeMenuIfOpen, 150);
           return;
         }
 
         if (isPhone) {
+          e.preventDefault();
           a.setAttribute('href', telHref);
-          setTimeout(closeMenuIfOpen, 0);
+          window.location.href = telHref;
+          setTimeout(closeMenuIfOpen, 150);
         }
       },
       { capture: true }
