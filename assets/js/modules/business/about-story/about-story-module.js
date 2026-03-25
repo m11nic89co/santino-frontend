@@ -33,7 +33,7 @@ export function initAboutStory(context) {
 
   const prefersReducedMotion = Boolean(context.env && context.env.prefersReducedMotion);
 
-  // Create CTA container once (shown only on the last story frame).
+  // Create CTA container once (always visible during stories mode).
   const ctasEl = document.createElement('div');
   ctasEl.className = 'about-story-ctas';
   ctasEl.setAttribute('aria-hidden', 'true');
@@ -52,14 +52,8 @@ export function initAboutStory(context) {
   ctasEl.appendChild(ctaCalc);
   viewport.appendChild(ctasEl);
 
-  function hideCtas() {
-    ctasEl.classList.remove('is-visible');
-    ctasEl.setAttribute('aria-hidden', 'true');
-  }
-
-  function showCtas() {
-    ctasEl.classList.add('is-visible');
-    ctasEl.setAttribute('aria-hidden', 'false');
+  function setCtasVisible(visible) {
+    ctasEl.setAttribute('aria-hidden', visible ? 'false' : 'true');
   }
 
   function clearTimer() {
@@ -80,14 +74,7 @@ export function initAboutStory(context) {
       else p.setAttribute('aria-hidden', 'true');
     });
 
-    const isLast = clamped === frames.length - 1;
-    if (isLast) {
-      section.classList.add('about-story-last');
-      showCtas();
-    } else {
-      section.classList.remove('about-story-last');
-      hideCtas();
-    }
+    // CTA is visible for all frames while stories mode is active.
   }
 
   function getFrameDurationMs(frame) {
@@ -132,6 +119,7 @@ export function initAboutStory(context) {
 
     // Enable CSS story mode for positioning + marquee disabling.
     section.classList.add('about-story-active');
+    setCtasVisible(true);
 
     // Reset to the first paragraph on each entry.
     setFrame(0);
@@ -146,8 +134,7 @@ export function initAboutStory(context) {
     isRunning = false;
     awaitingClick = false;
     section.classList.remove('about-story-active');
-    section.classList.remove('about-story-last');
-    hideCtas();
+    setCtasVisible(false);
 
     // Make all frames available for reading when story is not active.
     frames.forEach((p) => {

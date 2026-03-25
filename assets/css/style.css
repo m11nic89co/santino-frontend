@@ -84,16 +84,18 @@
 
 #section-4.about-story-active .about-credits-block .about-story-frame.is-active {
   opacity: 1;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% - 26px));
   pointer-events: auto;
 }
 
-/* На последнем кадре (когда показываем CTA) чуть поднимаем текст */
-#section-4.about-story-active.about-story-last .about-credits-block .about-story-frame.is-active {
-  transform: translateY(calc(-50% - 26px));
+/* CTA всегда видны во время сторис: поднимаем текст чуть выше центра */
+
+/* CTA in section-4: hidden unless stories mode is active */
+#section-4 .about-story-ctas {
+  display: none;
 }
 
-/* CTA buttons shown only on the last story frame */
+/* CTA buttons in stories mode */
 #section-4.about-story-active .about-story-ctas {
   position: absolute;
   left: 0;
@@ -105,17 +107,10 @@
   align-items: center;
   gap: 10px;
   padding: 0 16px;
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
-  transition: opacity 240ms ease, transform 240ms ease;
-  z-index: 10;
-}
-
-#section-4.about-story-active .about-story-ctas.is-visible {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+  z-index: 10;
 }
 
 @media (max-width: 900px) {
@@ -129,7 +124,7 @@
     max-width: 340px;
   }
 
-  #section-4.about-story-active.about-story-last .about-credits-block .about-story-frame.is-active {
+  #section-4.about-story-active .about-credits-block .about-story-frame.is-active {
     transform: translateY(calc(-50% - 20px));
   }
 }
