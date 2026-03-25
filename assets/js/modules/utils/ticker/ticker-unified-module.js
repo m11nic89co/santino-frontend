@@ -101,11 +101,36 @@ class TickerModule {
     const baseDuration = this.isLowPower ? this.duration : this.duration * 0.5; // в 2 раза быстрее, чем main ticker
 
     document.querySelectorAll('.features-ticker-track').forEach((track) => {
-      // Однократно дублируем содержимое сегмента, чтобы линия не обрывалась
       const segment = track.querySelector('.features-ticker-segment');
-      if (segment && !track.dataset.tickerCloned) {
-        const html = segment.innerHTML;
-        segment.insertAdjacentHTML('beforeend', html);
+      if (!segment) return;
+
+      // Build a seamless loop:
+      // 1) Expand the first segment so it is at least as wide as the viewport.
+      // 2) Keep exactly two identical segments in the track.
+      if (!track.dataset.tickerCloned) {
+        const parent = track.parentElement || track.closest('.features-ticker') || track;
+        const parentWidth = parent ? parent.getBoundingClientRect().width : 0;
+
+        const originalItems = Array.from(segment.children).map((el) => el.cloneNode(true));
+        if (!originalItems.length) return;
+
+        // Reset to original items (in case markup was partially duplicated by other scripts).
+        segment.innerHTML = '';
+        originalItems.forEach((el) => segment.appendChild(el.cloneNode(true)));
+
+        // Expand until the segment fully covers its viewport (avoid gaps on small item counts).
+        let guard = 0;
+        while (parentWidth && segment.getBoundingClientRect().width < parentWidth + 1 && guard < 40) {
+          originalItems.forEach((el) => segment.appendChild(el.cloneNode(true)));
+          guard += 1;
+        }
+
+        // Ensure only one segment exists before cloning it.
+        Array.from(track.querySelectorAll('.features-ticker-segment')).forEach((el, idx) => {
+          if (idx > 0) el.remove();
+        });
+
+        track.appendChild(segment.cloneNode(true));
         track.dataset.tickerCloned = '1';
       }
 
@@ -113,6 +138,12 @@ class TickerModule {
       const animationName = reverse ? 'featuresTickerScrollReverse' : 'featuresTickerScroll';
       track.style.animation = `${animationName} ${baseDuration}s linear infinite`;
       track.style.animationPlayState = 'running';
+
+      // Performance/stability hints (mobile Safari can flicker without these).
+      track.style.transform = 'translateZ(0)';
+      track.style.backfaceVisibility = 'hidden';
+      track.style.perspective = '1000px';
+      track.style.willChange = 'transform';
     });
   }
 

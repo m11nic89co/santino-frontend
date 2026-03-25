@@ -5752,6 +5752,10 @@ body.mobile-mode {
   width: max-content;
   will-change: transform;
   animation: featuresTickerScroll var(--ticker-duration, 90s) linear infinite;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  contain: layout paint;
 }
 
 .features-ticker-segment {
