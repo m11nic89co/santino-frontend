@@ -5569,8 +5569,20 @@ body.mobile-mode {
   top: 0;
   left: 0;
   overflow: hidden;
-  touch-action: pan-y; /* lock to vertical gestures */
+  touch-action: pan-y;
   overscroll-behavior: contain; /* reduce page bounce on mobile */
+}
+
+/* Main vertical swiper: let Swiper own touch (avoids iOS/browser fighting pan-y).
+   Nested horizontal carousel in #section-1 needs pan-x, not pan-y. */
+@media (max-width: 900px) {
+  .main-swiper.swiper {
+    touch-action: none;
+  }
+
+  #section-1 .mySwiper.swiper {
+    touch-action: pan-x;
+  }
 }
 
 /* Глобальные оверлеи для единых градиентов на всех слайдах */
