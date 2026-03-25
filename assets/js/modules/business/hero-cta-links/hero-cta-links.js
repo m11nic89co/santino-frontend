@@ -4,7 +4,7 @@ export function initHeroCtaLinks(context) {
 
   function resolveHref(text) {
     const t = (text || '').trim();
-    if (t === 'Посмотреть каталог 2025') return CATALOG_URL;
+    if (t === 'Посмотреть Коллекцию 2026') return CATALOG_URL;
     return FORM_URL;
   }
 
