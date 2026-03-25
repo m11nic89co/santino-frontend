@@ -3249,6 +3249,16 @@ main.site-visible {
   backdrop-filter: blur(3px);
 }
 
+/* Desktop-only line break in hero description */
+.hero-desc .hero-desc-break {
+  display: inline;
+}
+@media (min-width: 901px) {
+  .hero-desc .hero-desc-break {
+    display: block;
+  }
+}
+
 .hero-subtle {
   font-size: 1.05rem;
   color: var(--accent);
