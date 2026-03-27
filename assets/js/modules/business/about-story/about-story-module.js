@@ -39,12 +39,16 @@ export function initAboutStory(context) {
   ctasEl.setAttribute('aria-hidden', 'true');
 
   const ctaPrice = document.createElement('a');
-  ctaPrice.href = '#contact';
+  ctaPrice.href = 'https://santino.market/#section5e17a03b7a5c0';
+  ctaPrice.target = '_blank';
+  ctaPrice.rel = 'noopener noreferrer';
   ctaPrice.className = 'btn ghost';
   ctaPrice.textContent = 'Запросить Прайс';
 
   const ctaCalc = document.createElement('a');
-  ctaCalc.href = '#contract';
+  ctaCalc.href = 'https://santino.market/#section5e17a03b7a5c0-8';
+  ctaCalc.target = '_blank';
+  ctaCalc.rel = 'noopener noreferrer';
   ctaCalc.className = 'btn ghost';
   ctaCalc.textContent = 'Расчитать Выпуск Собственного Изделия';
 
