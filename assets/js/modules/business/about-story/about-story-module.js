@@ -50,7 +50,7 @@ export function initAboutStory(context) {
   ctaCalc.target = '_blank';
   ctaCalc.rel = 'noopener noreferrer';
   ctaCalc.className = 'btn ghost';
-  ctaCalc.textContent = 'Расчитать Выпуск Собственного Изделия';
+  ctaCalc.textContent = 'Рассчитать выпуск собственного изделия';
 
   ctasEl.appendChild(ctaPrice);
   ctasEl.appendChild(ctaCalc);
