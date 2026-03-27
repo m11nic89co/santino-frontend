@@ -43,7 +43,7 @@ export function initAboutStory(context) {
   ctaPrice.target = '_blank';
   ctaPrice.rel = 'noopener noreferrer';
   ctaPrice.className = 'btn ghost';
-  ctaPrice.textContent = 'Запросить Прайс';
+  ctaPrice.textContent = 'Запросить прайс-лист';
 
   const ctaCalc = document.createElement('a');
   ctaCalc.href = 'https://santino.market/#section5e17a03b7a5c0-8';
