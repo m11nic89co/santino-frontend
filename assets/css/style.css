@@ -164,18 +164,24 @@
 }
 
 
-/* Static compact contacts block in section-3 */
+/* Static compact contacts block in section-3 (роль info: плотнее фон для длинного текста) */
 #section-3 .contacts-static-card {
-  max-width: 800px;
+  max-width: var(--ui-surface-info-max-w);
+  width: 100%;
   margin: 0 auto;
   color: #fff;
   text-align: left;
-  background: rgba(12, 12, 14, 0.72) !important;
-  padding: 2.5rem 3rem !important;
-  border-radius: 16px !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-sizing: border-box;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--ui-surface-info-bg) !important;
+  padding: var(--ui-surface-info-pad-y) var(--ui-surface-info-pad-x) !important;
+  border-radius: var(--ui-surface-info-radius) !important;
+  -webkit-backdrop-filter: blur(var(--ui-surface-info-blur)) !important;
+  backdrop-filter: blur(var(--ui-surface-info-blur)) !important;
+  border: var(--ui-surface-info-border) !important;
   box-shadow: none !important;
 }
 
@@ -203,6 +209,14 @@
   transform: scale(1);
   filter: grayscale(1) brightness(0.5) contrast(1.28);
   opacity: 0.16;
+}
+
+@media (min-width: 901px) {
+  /* Меньше шума карты за плотной info-панелью */
+  #section-3 .contacts-static-bg-map img {
+    opacity: 0.11;
+    filter: grayscale(1) brightness(0.42) contrast(1.22);
+  }
 }
 
 #section-3 .contacts-static-bg-grid {
@@ -288,6 +302,37 @@
   --btn-ghost-letter-spacing: 0.08em;
   --btn-ghost-font-size: clamp(0.9rem, 2.8vw, 1rem);
   --btn-ghost-blur: saturate(120%) blur(2px);
+  /*
+   * Поверхности по ролям (UI plan):
+   * hero — промо-первый экран; tech — стенд контракта / mold; info — карточка реквизитов (читаемость на карте).
+   */
+  --ui-surface-hero-bg: rgba(255, 255, 255, 0.035);
+  --ui-surface-hero-blur: 14px;
+  --ui-surface-hero-border: 1px solid rgba(255, 255, 255, 0.09);
+  --ui-surface-hero-radius: 16px;
+  --ui-surface-hero-pad-y: 2.5rem;
+  --ui-surface-hero-pad-x: 3rem;
+  --ui-surface-hero-max-w: 800px;
+
+  --ui-surface-tech-bg: rgba(255, 255, 255, 0.04);
+  --ui-surface-tech-blur: 10px;
+  --ui-surface-tech-border: 1px solid rgba(120, 210, 220, 0.14);
+  --ui-surface-tech-radius: 16px;
+  --ui-surface-tech-pad-y: 2.25rem;
+  --ui-surface-tech-pad-x: 1.75rem;
+  --ui-surface-tech-stand-min-h: 600px;
+
+  --ui-surface-info-bg: rgba(10, 14, 22, 0.58);
+  --ui-surface-info-blur: 16px;
+  --ui-surface-info-border: 1px solid rgba(255, 255, 255, 0.11);
+  --ui-surface-info-radius: 16px;
+  --ui-surface-info-pad-y: 2rem;
+  --ui-surface-info-pad-x: 2.5rem;
+  --ui-surface-info-max-w: 800px;
+
+  /* Hero: резерв снизу под тикер; лёгкий сдвиг блока вверх для оптического центра между шапкой и нижним хромом */
+  --hero-chrome-bottom: 96px;
+  --hero-optical-nudge: 14px;
   /* Force UA controls/scrollbars to dark scheme for consistent look */
   color-scheme: dark;
 }
@@ -398,18 +443,24 @@ body {
   color: #969696 !important;
 }
 
-/* Glassmorphism: центральный текстовый бокс */
+/* Glassmorphism: центральный текстовый бокс (роль hero — чуть воздушнее, без принудительной минимальной высоты) */
 .hero-text-container {
-  background: rgba(255, 255, 255, 0.02) !important;
-  padding: 2.5rem 3rem !important;
-  border-radius: 16px !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: var(--ui-surface-hero-bg) !important;
+  padding: var(--ui-surface-hero-pad-y) var(--ui-surface-hero-pad-x) !important;
+  border-radius: var(--ui-surface-hero-radius) !important;
+  -webkit-backdrop-filter: blur(var(--ui-surface-hero-blur)) !important;
+  backdrop-filter: blur(var(--ui-surface-hero-blur)) !important;
+  border: var(--ui-surface-hero-border) !important;
   margin: 0 auto 2rem !important;
   position: relative !important;
   z-index: 10 !important;
-  max-width: 800px;
+  max-width: var(--ui-surface-hero-max-w);
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 }
 
@@ -748,10 +799,13 @@ body::before {
     margin: 0 auto;
     padding: clamp(0.5rem, 2.2vw, 1rem) clamp(0.55rem, 2.8vw, 0.95rem) !important;
     border-radius: clamp(10px, 2.5vw, 14px) !important;
-    background: rgba(8, 9, 12, 0.68) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: var(--ui-surface-info-bg) !important;
+    -webkit-backdrop-filter: blur(var(--ui-surface-info-blur)) !important;
+    backdrop-filter: blur(var(--ui-surface-info-blur)) !important;
+    border: var(--ui-surface-info-border) !important;
     overflow: hidden;
     box-sizing: border-box;
+    justify-content: flex-start;
   }
 
   #section-3 .contacts-static-info {
@@ -1026,6 +1080,72 @@ body::before {
     padding-left: var(--contract-rect-inset);
     padding-right: var(--contract-rect-inset);
     padding-bottom: var(--contract-rect-inset);
+  }
+}
+
+/* Desktop: hero / контракт / контакты — контент по центру видимой области экрана */
+@media (min-width: 901px) {
+  #section-0.hero-section.fullscreen {
+    min-height: 100dvh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--header-h, 120px);
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: var(--hero-chrome-bottom, 96px);
+    box-sizing: border-box;
+  }
+
+  /* Оптический центр: геометрический центр flex-слайда слегка ниже визуального из‑за шапки/нижнего хрома */
+  #section-0 .hero-core {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 auto;
+    transform: translateY(calc(-1 * var(--hero-optical-nudge, 0px)));
+  }
+
+  #section-2.contract-section.swiper-slide {
+    min-height: 100dvh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  #section-2.contract-section .content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+
+  #section-3.swiper-slide {
+    min-height: 100dvh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  #section-3 .contacts-static-section {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  #section-3 .contacts-static-content {
+    flex: 1 1 auto;
+    min-height: 0;
   }
 }
 
@@ -7819,21 +7939,10 @@ section#section-1 {
   opacity: 0 !important;
 }
 
-/* Contacts: keep content centered inside rectangle on mobile */
-#section-3 #contacts .contacts-static-info {
-  width: 100%;
-  text-align: center;
-}
-
-#section-3 #contacts .contacts-static-info p {
-  text-align: center;
-}
-
 @media (min-width: 901px) {
   #section-3 .contacts-static-content {
     align-items: center;
     justify-content: center;
-    min-height: calc(100dvh - var(--header-h, 120px));
     padding-top: calc(var(--header-h, 120px) + var(--contract-rect-inset));
     padding-bottom: var(--contract-rect-inset);
     padding-left: var(--contract-rect-inset);
@@ -7841,10 +7950,36 @@ section#section-1 {
     box-sizing: border-box;
   }
 
-  /* Десктоп: размер текста как у кнопок hero (не крупнее) */
+  #section-3 .contacts-static-card {
+    max-height: min(88dvh, calc(100dvh - var(--header-h, 120px) - 2 * var(--contract-rect-inset, 24px)));
+  }
+
+  #section-3 #contacts .contacts-static-info {
+    flex: 1 1 auto;
+    width: 100%;
+    text-align: left;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Десктоп: название по центру, реквизиты — колонка слева (как единая сетка) */
   #section-3 #contacts .contacts-static-info p {
+    text-align: left;
     font-size: clamp(0.9rem, 1.1vw, 1rem);
     line-height: 1.34;
+  }
+
+  #section-3 #contacts .contacts-static-info p:first-of-type {
+    text-align: center;
+    font-size: clamp(1rem, 1.15vw, 1.12rem);
+    margin-bottom: 1.05rem;
+  }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  #section-0 .hero-core {
+    transform: none;
   }
 }
 
@@ -7888,6 +8023,7 @@ section#section-1 {
   #section-3 #contacts .contacts-static-info {
     width: 100%;
     max-width: 640px;
+    text-align: center;
   }
 
   #section-3 #contacts .contacts-static-info p {

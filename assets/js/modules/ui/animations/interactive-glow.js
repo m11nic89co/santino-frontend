@@ -28,11 +28,9 @@ export function initInteractiveGlow(context) {
   let activeSlide = slides.find((s) => s.classList.contains('swiper-slide-active')) || slides[0];
   let rafId = null;
   let idleTimer = null;
-  let isIdle = true;
   let lastPoint = { x: 0, y: 0 };
 
   function setIdle(idle) {
-    isIdle = idle;
     if (activeSlide) activeSlide.classList.toggle('interactive-glow-idle', idle);
   }
 

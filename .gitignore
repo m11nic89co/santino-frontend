@@ -29,3 +29,9 @@ Thumbs.db
 *.backup
 *.backup-*
 *.bak
+
+# Локальные автоскрины (артефакты проверки вёрстки)
+ScreenShots/auto-sections/*.png
+ScreenShots/auto-sections/*.json
+!ScreenShots/auto-sections/.gitkeep
+!ScreenShots/auto-sections/README.md

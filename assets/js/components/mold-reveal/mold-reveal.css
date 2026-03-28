@@ -18,12 +18,16 @@
 
 #section-2 .kinetic-blueprint-stand {
   position: relative;
+  isolation: isolate;
   width: 100%;
-  min-height: 600px;
+  min-height: var(--ui-surface-tech-stand-min-h, 600px);
   box-sizing: border-box;
-  padding: 2.25rem 1.5rem 2.4rem;
-  background: radial-gradient(circle at 50% 38%, #2a353b 0%, #1b252a 42%, #12181c 100%);
-  border-radius: 20px;
+  padding: var(--ui-surface-tech-pad-y) var(--ui-surface-tech-pad-x);
+  background: var(--ui-surface-tech-bg);
+  -webkit-backdrop-filter: blur(var(--ui-surface-tech-blur));
+  backdrop-filter: blur(var(--ui-surface-tech-blur));
+  border: var(--ui-surface-tech-border);
+  border-radius: var(--ui-surface-tech-radius);
   overflow: hidden;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   display: flex;
@@ -31,6 +35,22 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+/* Глубина сцены: затемняющий скрим под glass, HUD/SVG остаются выше (z-index слоёв) */
+#section-2 .kinetic-blueprint-stand::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 92% 78% at 50% 42%,
+    rgba(18, 30, 36, 0.82) 0%,
+    rgba(10, 18, 24, 0.55) 48%,
+    rgba(4, 10, 14, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 #section-2 .kinetic-blueprint-stand .ghost-layer {
@@ -127,7 +147,7 @@
   flex-shrink: 0;
 }
 
-/* Десктоп: как до вынесения кнопки в разметке — визуально внутри градиентного блока (абсолютно от низа .mold-reveal-app) */
+/* Десктоп: CTA у нижнего края приложения, визуально под стеклянным стендом (абсолютно от низа .mold-reveal-app) */
 @media (min-width: 901px) {
   #section-2 .mold-reveal-app {
     position: relative;
