@@ -8009,11 +8009,6 @@ section#section-1 {
 }
 
 @media (max-width: 900px) {
-  /* На слайде контактов не показываем верхний dock-заголовок, чтобы не "вылезал" над карточкой */
-  body:has(#section-3.swiper-slide-active) .section-subtitle-dock {
-    display: none !important;
-  }
-
   #section-3 #contacts .contacts-static-card {
     display: flex;
     flex-direction: column;
