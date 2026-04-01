@@ -19,6 +19,7 @@ import { initInteractiveGlow } from './modules/ui/animations/interactive-glow.js
 import { initTiltHover } from './modules/ui/animations/tilt-hover.js';
 import { initBlueprintsBg } from './modules/ui/animations/blueprints-bg.js';
 import { initSection2Grid } from './modules/ui/interactions/section2-grid.js';
+import { initCookieConsent } from './modules/ui/interactions/cookie-consent.js';
 import { initCollectionCtaPosition } from './modules/business/contracts/collection-cta-position.js';
 import { initAboutStory } from './modules/business/about-story/about-story-module.js';
 import { initMobileMenuContacts } from './modules/business/mobile-menu-contacts/mobile-menu-contacts.js';
@@ -42,6 +43,7 @@ const modules = [
   { name: 'tilt-hover', init: initTiltHover },
   { name: 'blueprints-bg', init: initBlueprintsBg },
   { name: 'section2-grid', init: initSection2Grid },
+  { name: 'cookie-consent', init: initCookieConsent },
   { name: 'collection-cta-position', init: initCollectionCtaPosition },
   { name: 'about-story', init: initAboutStory },
   { name: 'mobile-menu-contacts', init: initMobileMenuContacts },

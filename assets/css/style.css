@@ -2938,6 +2938,87 @@ body.fab-dimmed .hamburger-menu {
     drop-shadow(0 0 18px rgba(0, 173, 181, 0.16));
   transition: filter 200ms ease;
 }
+
+/* =============================================================
+   Cookie consent banner
+============================================================= */
+.cookie-consent-banner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 120;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cookie-consent-banner__inner {
+  pointer-events: auto;
+  max-width: 960px;
+  margin: 0 auto 12px;
+  padding: 0.9rem 1.4rem;
+  border-radius: 999px;
+  background: rgba(6, 10, 18, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(0, 173, 181, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  transform: translateY(24px);
+  opacity: 0;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.cookie-consent-banner__text {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cookie-consent-banner__btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cookie-consent-banner--no-motion .cookie-consent-banner__inner {
+  transition: none;
+}
+
+.cookie-consent-banner .cookie-consent-banner__inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.cookie-consent-banner--hidden .cookie-consent-banner__inner {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@media (max-width: 640px) {
+  .cookie-consent-banner__inner {
+    margin-inline: 10px;
+    padding: 0.85rem 1rem;
+    border-radius: 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+  }
+
+  .cookie-consent-banner__text {
+    font-size: 0.78rem;
+  }
+
+  .cookie-consent-banner__btn {
+    width: 100%;
+  }
+}
 .logo:hover img {
   filter: drop-shadow(0 0 14px rgba(0, 173, 181, 0.36))
     drop-shadow(0 0 26px rgba(0, 173, 181, 0.22));
