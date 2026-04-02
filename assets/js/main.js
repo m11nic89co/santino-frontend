@@ -25,6 +25,7 @@ import { initAboutStory } from './modules/business/about-story/about-story-modul
 import { initMobileMenuContacts } from './modules/business/mobile-menu-contacts/mobile-menu-contacts.js';
 import { initHeroCtaLinks } from './modules/business/hero-cta-links/hero-cta-links.js';
 import { initRequisitesModal } from './modules/business/requisites-modal/requisites-modal.js';
+import { initLegalModal } from './modules/business/legal-modal/legal-modal.js';
 
 const context = createRuntimeContext();
 
@@ -49,6 +50,7 @@ const modules = [
   { name: 'mobile-menu-contacts', init: initMobileMenuContacts },
   { name: 'hero-cta-links', init: initHeroCtaLinks },
   { name: 'requisites-modal', init: initRequisitesModal },
+  { name: 'legal-modal', init: initLegalModal },
   { name: 'legacy-health-check', init: initLegacyHealthChecks },
 ];
 
