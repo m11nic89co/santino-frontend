@@ -6391,10 +6391,18 @@ button,
 
   #section-4.about-section .about-section-footer {
     position: absolute;
-    left: 50%;
+    left: 0;
+    right: 0;
     bottom: 12px;
-    transform: translateX(-50%);
+    transform: none;
     margin-top: 0;
+    width: 100%;
+    max-width: none;
+    padding-inline: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
