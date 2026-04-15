@@ -6333,6 +6333,10 @@ button,
     white-space: normal;
   }
 
+  .about-section-footer__legal-sep {
+    display: none;
+  }
+
   .section-content .content-wrapper {
     padding: 24px 28px;
     max-width: 640px;
