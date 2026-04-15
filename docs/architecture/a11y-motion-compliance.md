@@ -9,7 +9,6 @@
    - `assets/js/runtime/reduced-motion-guard.js`
    - при `prefers-reduced-motion: reduce` выставляется `html.reduced-motion` и останавливается ticker (`window.TickerModule.pause()`).
 3. Добавлены module-level guards для motion-heavy модулей:
-   - `ui/animations/lightning-effect.js`
    - `ui/animations/pointer-crosshair.js`
    - `ui/animations/tilt-hover.js`
    - `ui/carousel/uii-carousel.js` (без постоянного rAF auto-rotate в reduced-motion)

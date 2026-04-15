@@ -171,9 +171,6 @@
   .header,
   .footer,
   .background-elements,
-  .lightning-effect {
-    display: none !important;
-  }
   
   .section {
     padding: 1rem 0;
@@ -237,10 +234,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  
-  .lightning-effect {
-    display: none !important;
   }
   
   /* При reduced motion показываем фоновые элементы, но без анимации */

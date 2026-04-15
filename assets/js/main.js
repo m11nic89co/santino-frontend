@@ -13,7 +13,6 @@ import { initLegacyChainLoader } from './runtime/legacy-chain-loader.js';
 import { initViewport } from './modules/core/viewport-utils.js';
 import { initPerformance } from './modules/core/utils/performance.js';
 import { initUiiCarousel } from './modules/ui/carousel/uii-carousel.js';
-import { initLightningEffect } from './modules/ui/animations/lightning-effect.js';
 import { initPointerCrosshair } from './modules/ui/animations/pointer-crosshair.js';
 import { initInteractiveGlow } from './modules/ui/animations/interactive-glow.js';
 import { initTiltHover } from './modules/ui/animations/tilt-hover.js';
@@ -38,7 +37,6 @@ const modules = [
   { name: 'legacy-chain-loader', init: initLegacyChainLoader },
   { name: 'performance', init: initPerformance },
   { name: 'uii-carousel', init: initUiiCarousel },
-  { name: 'lightning-effect', init: initLightningEffect },
   { name: 'pointer-crosshair', init: initPointerCrosshair },
   { name: 'interactive-glow', init: initInteractiveGlow },
   { name: 'tilt-hover', init: initTiltHover },

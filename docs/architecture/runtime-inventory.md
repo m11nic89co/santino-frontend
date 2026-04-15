@@ -62,7 +62,6 @@ swiperInit -->|CustomEvent swiperSlideChange| section1Stats
 | `window.swiper`            | `modules/ui/carousel/swiper-init.js`            | `modules/core/app.js`                |
 | `window.startBtnCycle`     | `modules/core/app.js`                           | `modules/ui/carousel/swiper-init.js` |
 | `window.stopBtnCycle`      | `modules/core/app.js`                           | `modules/ui/carousel/swiper-init.js` |
-| `window.activateLightning` | `modules/ui/animations/lightning-effect.js`     | нет обязательных consumers           |
 | `window.section1Carousel`  | `modules/ui/carousel/section1-carousel.js`      | нет обязательных consumers           |
 | `window.__section2Grid`    | `modules/ui/interactions/section2-grid.js`      | нет обязательных consumers           |
 | `window.TickerModule`      | `modules/utils/ticker/ticker-unified-module.js` | runtime side-effect                  |
@@ -78,7 +77,6 @@ swiperInit -->|CustomEvent swiperSlideChange| section1Stats
   - `modules/core/viewport-utils.js`
   - `modules/core/utils/performance.js`
   - `modules/ui/carousel/uii-carousel.js`
-  - `modules/ui/animations/lightning-effect.js`
   - `modules/ui/animations/pointer-crosshair.js`
   - `modules/ui/animations/tilt-hover.js`
   - `modules/ui/interactions/section2-grid.js`

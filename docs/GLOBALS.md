@@ -10,14 +10,8 @@
 | `window.startBtnCycle`      | `assets/js/modules/core/app.js`                           | `assets/js/modules/ui/carousel/swiper-init.js`    | legacy-контракт |
 | `window.stopBtnCycle`       | `assets/js/modules/core/app.js`                           | `assets/js/modules/ui/carousel/swiper-init.js`    | legacy-контракт |
 | `window.lampFlickerChange`  | `assets/js/modules/core/app.js`                           | нет жестких consumers                             | legacy          |
-| `window.activateLightning`  | `assets/js/modules/ui/animations/lightning-effect.js`     | нет жестких consumers                             | transitional    |
 | `window.boostBlueprintsNow` | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js` (self-use)        | legacy          |
 | `window.recalcMenuMM`       | `assets/js/modules/ui/carousel/swiper-init.js`            | нет жестких consumers                             | legacy          |
-| `window.__flashTimers`      | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`, `swiper-init.js` | internal        |
-| `window.__flashActive`      | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`                   | internal        |
-| `window.__flashHasPlayed`   | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`                   | internal        |
-| `window.__flashLastAt`      | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`                   | internal        |
-| `window.__flashSlideBound`  | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`                   | internal        |
 | `window.__mm_resize_raf`    | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`                   | internal        |
 | `window.__sectionBpTimer`   | `assets/js/modules/core/app.js`                           | `assets/js/modules/core/app.js`, `swiper-init.js` | internal        |
 | `window.__section2Grid`     | `assets/js/modules/ui/interactions/section2-grid.js`      | нет жестких consumers                             | transitional    |
