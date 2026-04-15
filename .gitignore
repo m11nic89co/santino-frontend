@@ -35,3 +35,6 @@ ScreenShots/auto-sections/*.png
 ScreenShots/auto-sections/*.json
 !ScreenShots/auto-sections/.gitkeep
 !ScreenShots/auto-sections/README.md
+
+# Vendor sourcemap stub
+assets/vendor/swiper/swiper-bundle.min.js.map
