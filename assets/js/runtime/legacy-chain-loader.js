@@ -16,11 +16,11 @@ const _base = (() => {
 
 const LEGACY_CHAIN = [
   'assets/js/modules/core/app.js',
+  'assets/js/modules/utils/ticker/ticker-unified-module.js',
   'assets/js/modules/ui/carousel/swiper-init.js',
   'assets/js/modules/ui/carousel/section1-carousel.js',
   'assets/js/modules/business/stats/section1-stats.js',
   'assets/js/modules/business/stats/section1-stats-size.js',
-  'assets/js/modules/utils/ticker/ticker-unified-module.js',
 ].map((p) => _base + p);
 
 let started = false;

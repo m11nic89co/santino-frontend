@@ -5254,8 +5254,8 @@ body.mobile-mode {
   display: flex;
   align-items: center;
   gap: 0; /* Убираем gap, используем margin-right в .ticker-item */
-  /* add trailing gap so the loop seam has the same spacing */
-  padding-right: 3rem; /* Одинаковое расстояние в конце */
+  /* Seam gap is already formed by .ticker-item margin-right on the last item. */
+  padding-right: 0;
 }
 
 .ticker-item {
@@ -5595,6 +5595,12 @@ body.mobile-mode {
 }
 
 .feature-icon {
+  display: inline-flex;
+  width: 1.2em;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 1;
   font-size: 0.96rem; /* уменьшено на 20% */
   filter: grayscale(100%) brightness(1.2) contrast(1.1); /* монохромные, но ярче */
   font-weight: 300; /* тонкий шрифт для элегантности */

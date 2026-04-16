@@ -2,8 +2,12 @@ class TickerModule {
   constructor() {
     this.isInitialized = false;
     this.observers = new Map();
-    this.duration = 60;
+    this.pixelsPerSecond = 30;
     this.isLowPower = this.detectLowPower();
+    this.resizeRaf = 0;
+    this.refreshRaf = 0;
+    this.handleResize = this.handleResize.bind(this);
+    this.scheduleRefresh = this.scheduleRefresh.bind(this);
   }
 
   detectLowPower() {
@@ -18,18 +22,7 @@ class TickerModule {
     if (this.isInitialized) return;
     const track = document.getElementById('ticker-track');
     if (!track) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !this.isInitialized) this.init();
-        });
-      },
-      { rootMargin: '50px', threshold: 0.1 }
-    );
-
-    observer.observe(track);
-    this.observers.set('main', observer);
+    this.init();
   }
 
   init() {
@@ -47,6 +40,7 @@ class TickerModule {
     this.setupMainTickerAnimation(track);
     this.setupFeaturesTickersAnimation();
     this.setupPerformanceOptimizations(track);
+    window.addEventListener('resize', this.handleResize, { passive: true });
 
     this.isInitialized = true;
   }
@@ -87,8 +81,26 @@ class TickerModule {
     track.appendChild(segment.cloneNode(true));
   }
 
+  getPixelsPerSecond() {
+    const rootValue = getComputedStyle(document.documentElement)
+      .getPropertyValue('--ticker-px-per-second')
+      .trim();
+    const parsedValue = Number.parseFloat(rootValue);
+    return parsedValue > 0 ? parsedValue : this.pixelsPerSecond;
+  }
+
+  calculateDuration(distance) {
+    const pixelsPerSecond = this.getPixelsPerSecond();
+    const safeDistance = Math.max(distance, pixelsPerSecond);
+    const baseDuration = safeDistance / pixelsPerSecond;
+    return this.isLowPower ? baseDuration * 1.5 : baseDuration;
+  }
+
   setupMainTickerAnimation(track) {
-    const effectiveDuration = this.isLowPower ? this.duration * 1.5 : this.duration;
+    const segment = track.querySelector('.ticker-segment');
+    if (!segment) return;
+
+    const effectiveDuration = this.calculateDuration(segment.getBoundingClientRect().width);
     document.documentElement.style.setProperty('--ticker-duration', `${effectiveDuration}s`);
     track.style.setProperty('--ticker-duration', `${effectiveDuration}s`);
     track.style.animation = `tickerScroll ${effectiveDuration}s linear infinite`;
@@ -96,10 +108,6 @@ class TickerModule {
   }
 
   setupFeaturesTickersAnimation() {
-    // Для инфо-линий в секции "Контрактное литьё" делаем скорость ближе к hero-такеру
-    // и гарантируем, что не будет "пустого" участка после последнего пункта.
-    const baseDuration = this.isLowPower ? this.duration : this.duration * 0.5; // в 2 раза быстрее, чем main ticker
-
     document.querySelectorAll('.features-ticker-track').forEach((track) => {
       const segment = track.querySelector('.features-ticker-segment');
       if (!segment) return;
@@ -136,7 +144,9 @@ class TickerModule {
 
       const reverse = track.closest('.features-ticker-mobile-second');
       const animationName = reverse ? 'featuresTickerScrollReverse' : 'featuresTickerScroll';
-      track.style.animation = `${animationName} ${baseDuration}s linear infinite`;
+      const duration = this.calculateDuration(segment.getBoundingClientRect().width);
+      track.style.setProperty('--ticker-duration', `${duration}s`);
+      track.style.animation = `${animationName} ${duration}s linear infinite`;
       track.style.animationPlayState = 'running';
 
       // Performance/stability hints (mobile Safari can flicker without these).
@@ -158,11 +168,15 @@ class TickerModule {
   setupImageOptimizations(track) {
     track.querySelectorAll('img').forEach((img) => {
       if ('loading' in img) img.loading = 'lazy';
+      if (!img.complete) {
+        img.addEventListener('load', this.scheduleRefresh, { once: true });
+      }
       img.addEventListener(
         'error',
         () => {
           const badge = img.closest('.logo-badge');
           if (badge) badge.classList.add('logo-missing');
+          this.scheduleRefresh();
         },
         { once: true }
       );
@@ -186,14 +200,42 @@ class TickerModule {
   }
 
   setSpeed(duration) {
-    this.duration = duration;
+    const parsedDuration = Number(duration);
+    if (parsedDuration > 0) {
+      this.pixelsPerSecond = parsedDuration;
+    }
 
     const mainTrack = document.getElementById('ticker-track');
     if (mainTrack) this.setupMainTickerAnimation(mainTrack);
     this.setupFeaturesTickersAnimation();
   }
 
+  handleResize() {
+    if (!this.isInitialized) return;
+    if (this.resizeRaf) cancelAnimationFrame(this.resizeRaf);
+    this.resizeRaf = window.requestAnimationFrame(() => {
+      this.resizeRaf = 0;
+      this.scheduleRefresh();
+    });
+  }
+
+  scheduleRefresh() {
+    if (!this.isInitialized) return;
+
+    if (this.refreshRaf) cancelAnimationFrame(this.refreshRaf);
+    this.refreshRaf = window.requestAnimationFrame(() => {
+      this.refreshRaf = 0;
+
+      const mainTrack = document.getElementById('ticker-track');
+      if (mainTrack) this.setupMainTickerAnimation(mainTrack);
+      this.setupFeaturesTickersAnimation();
+    });
+  }
+
   destroy() {
+    if (this.resizeRaf) cancelAnimationFrame(this.resizeRaf);
+    if (this.refreshRaf) cancelAnimationFrame(this.refreshRaf);
+    window.removeEventListener('resize', this.handleResize);
     this.observers.forEach((observer) => observer.disconnect());
     this.observers.clear();
     this.isInitialized = false;
