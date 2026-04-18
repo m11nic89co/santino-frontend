@@ -19,6 +19,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      # Стенд GitHub Pages: проект в подкаталоге репозитория
+      VITE_BASE: /santino-frontend/
     steps:
       - name: Checkout
         uses: actions/checkout@v4

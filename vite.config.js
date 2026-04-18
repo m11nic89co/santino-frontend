@@ -2,6 +2,16 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { copyFileSync, mkdirSync, readdirSync, statSync, existsSync } from 'fs';
 
+/** @param {string | undefined} raw */
+function normalizeViteBase(raw) {
+  const fallback = '/santino-frontend/';
+  if (raw == null || String(raw).trim() === '') return fallback;
+  let b = String(raw).trim();
+  if (!b.startsWith('/')) b = `/${b}`;
+  if (!b.endsWith('/')) b += '/';
+  return b;
+}
+
 function copyDirPlugin(src, dest) {
   return {
     name: `copy-dir:${src}`,
@@ -22,7 +32,7 @@ function copyDirPlugin(src, dest) {
 }
 
 export default defineConfig({
-  base: '/santino-frontend/',
+  base: normalizeViteBase(process.env.VITE_BASE),
   server: {
     port: 5173,
     host: true,

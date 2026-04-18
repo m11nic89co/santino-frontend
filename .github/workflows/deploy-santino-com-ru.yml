@@ -1,0 +1,46 @@
+# Продакшен: собирает сайт с base=/ и пушит только dist в репозиторий m11nic89co/santino.com.ru
+# (отдельный «чистый» репо под домен). Запуск вручную после проверки на staging.
+name: Deploy santino.com.ru (production)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-santino-com-ru
+  cancel-in-progress: true
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    env:
+      VITE_BASE: /
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production domain (root base)
+        run: npm run build
+
+      - name: Prepare static host files (CNAME, OG, nojekyll)
+        run: |
+          set -e
+          echo 'santino.com.ru' > dist/CNAME
+          touch dist/.nojekyll
+          sed -i 's|https://m11nic89co.github.io/santino.test/|https://santino.com.ru/|g' dist/index.html
+          sed -i 's|content="assets/img/santino_og.png"|content="https://santino.com.ru/assets/img/santino_og.png"|g' dist/index.html
+
+      - name: Push dist to santino.com.ru repository
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          repository-name: m11nic89co/santino.com.ru
+          branch: main
+          token: ${{ secrets.SANTINO_COM_RU_DEPLOY_TOKEN }}
+          commit-message: Deploy from santino-frontend ${{ github.sha }}
+          clean: true
