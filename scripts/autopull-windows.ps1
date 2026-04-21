@@ -1,4 +1,4 @@
-# Auto-pull for Santino_WebSite (Windows)
+# Auto-pull for santino-frontend (Windows)
 # Runs git pull every 30 seconds. Use with live-server so the browser auto-refreshes.
 # Press Ctrl+C to stop.
 
@@ -6,7 +6,7 @@ $repoRoot = $PSScriptRoot + "\.."
 $intervalSeconds = 30
 
 Set-Location $repoRoot
-Write-Host "Santino_WebSite: auto-pull every $intervalSeconds sec. Stop with Ctrl+C." -ForegroundColor Green
+Write-Host "santino-frontend: auto-pull every $intervalSeconds sec. Stop with Ctrl+C." -ForegroundColor Green
 Write-Host "Repo: $repoRoot" -ForegroundColor Gray
 
 while ($true) {

@@ -1,14 +1,14 @@
 # Просмотр сайта на другой машине (live + мониторы)
 
-Репозиторий: **https://github.com/m11nic89co/Santino_WebSite**
+Репозиторий: **https://github.com/m11nic89co/santino-frontend**
 
 ---
 
 ## 1. На второй машине — клонировать и запустить
 
 ```bash
-git clone https://github.com/m11nic89co/Santino_WebSite.git
-cd Santino_WebSite
+git clone https://github.com/m11nic89co/santino-frontend.git
+cd santino-frontend
 npm install
 ```
 
@@ -30,7 +30,7 @@ npm run dev
 
 На **машине разработки** (где правите код):
 ```bash
-cd /path/to/Santino_WebSite
+cd /path/to/santino-frontend
 git add .
 git commit -m "описание изменений"
 git push
@@ -38,7 +38,7 @@ git push
 
 На **второй машине** (где смотрите на мониторах):
 ```bash
-cd Santino_WebSite
+cd santino-frontend
 git pull
 # Перезапустить сервер (Ctrl+C, затем снова npm run start или npm run dev)
 ```

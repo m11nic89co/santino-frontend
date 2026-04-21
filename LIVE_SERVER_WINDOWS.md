@@ -1,6 +1,6 @@
 # Вторая машина (Windows): автоподтяжка после push и два экрана
 
-Репозиторий: **https://github.com/m11nic89co/Santino_WebSite**
+Репозиторий: **https://github.com/m11nic89co/santino-frontend**
 
 Инструкция для Windows: один раз настроил — после каждого `git push` с первой машины на втором экране сайт сам обновляется.
 
@@ -27,12 +27,12 @@ git --version
 
 ```powershell
 cd C:\
-git clone https://github.com/m11nic89co/Santino_WebSite.git
-cd Santino_WebSite
+git clone https://github.com/m11nic89co/santino-frontend.git
+cd santino-frontend
 npm install
 ```
 
-Папку можно выбрать свою, например `D:\Projects\Santino_WebSite` — тогда везде подставляйте свой путь.
+Папку можно выбрать свою, например `D:\Projects\santino-frontend` — тогда везде подставляйте свой путь.
 
 ---
 
@@ -45,7 +45,7 @@ npm install
 В папке проекта установите и запустите **live-server** (один раз установка, потом только запуск):
 
 ```powershell
-cd C:\Santino_WebSite
+cd C:\santino-frontend
 npx --yes live-server --port=3001 --open=/
 ```
 
@@ -60,7 +60,7 @@ npx --yes live-server --port=3001 --open=/
 Запуск (в **втором** окне PowerShell):
 
 ```powershell
-cd C:\Santino_WebSite
+cd C:\santino-frontend
 .\scripts\autopull-windows.ps1
 ```
 
